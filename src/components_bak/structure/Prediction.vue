@@ -53,7 +53,7 @@
           <el-form-item label="Platform" prop="platform">
             <el-checkbox-group v-model="ruleForm.platform">
               <el-checkbox label="AlphaFold 2" checked></el-checkbox>
-              <el-checkbox label="RoseTTAFold"></el-checkbox>
+              <el-checkbox v-show="false" label="RoseTTAFold"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
 
@@ -94,11 +94,80 @@
         </el-form>
       </el-col>
     </el-row>
+
+    <el-dialog
+      title="Warning: input sequence contain non-standard residues! Predition process may failed!"
+      :visible.sync="dialogVisible"
+      width="40%"
+    >
+      <span v-html="newseq"></span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- <el-button type="text" @click="dialogVisible = true"
+      >点击打开 Dialog</el-button
+    > -->
   </div>
 </template>
 
 <script>
 import BugReport from './components/bugReport.vue'
+const restypes = [
+  'A',
+  'R',
+  'N',
+  'D',
+  'C',
+  'Q',
+  'E',
+  'G',
+  'H',
+  'I',
+  'L',
+  'K',
+  'M',
+  'F',
+  'P',
+  'S',
+  'T',
+  'W',
+  'Y',
+  'V',
+]
+function colorSeq(seq) {
+  const fastaMatch = /\>/
+  let seq_arr = seq.split('\n')
+  if (fastaMatch.test(seq)) {
+    seq_arr = arr.slice(1)
+  }
+  let newseq = '<div class="sequence">'
+  let count = 0
+  seq_arr.forEach((m, i) => {
+    newseq += '<p>'
+
+    let residues = m.split('')
+    residues.forEach((v, i) => {
+      if (restypes.indexOf(v.toUpperCase()) === -1) {
+        console.log(v + ' ' + i)
+        newseq += '<span style="color:red">' + v + '</span>'
+        count += 1
+      } else {
+        newseq += v
+      }
+    })
+    newseq += '</p>'
+  })
+  newseq += '</div>'
+  let res = {
+    newseq: newseq,
+    count: count,
+  }
+  return res
+}
 
 export default {
   name: 'Structure_prediction',
@@ -107,18 +176,9 @@ export default {
   },
 
   data() {
-    var checkStar = function (rule, value, callback) {
-      const starMatch = /\*/
-      if (starMatch.test(value)) {
-        return callback(
-          new Error("' * ' is not allowed in the input sequence!")
-        )
-      } else {
-        return callback()
-      }
-    }
-
     return {
+      dialogVisible: false,
+      newseq: '',
       ruleForm: {
         proj_name: '',
         email: '',
@@ -148,7 +208,7 @@ export default {
             message: 'Please input protein sequence!',
             trigger: 'blur',
           },
-          { validator: checkStar, trigger: 'blur' },
+          { validator: this.checkStar, trigger: 'blur' },
         ],
 
         email: [
@@ -175,6 +235,28 @@ export default {
     // this.get_token()
   },
   methods: {
+    checkStar(rule, value, callback) {
+      const starMatch = /\*/
+
+      if (starMatch.test(value)) {
+        return callback(
+          new Error("' * ' is not allowed in the input sequence!")
+        )
+      } else {
+        let residues = value.split('')
+        let res = colorSeq(value)
+        if (res.count > 0) {
+          console.log('odd residues:' + res.count)
+          console.log(res.newseq)
+          this.dialogVisible = true
+          this.newseq = res.newseq
+        }
+
+        return callback()
+      }
+    },
+    openSeq() {},
+
     submitForm(formName) {
       this.ruleForm.protein_seq = this.ruleForm.protein_seq.toString().trim()
       this.ruleForm.proj_name = this.ruleForm.proj_name.toString().trim()
@@ -250,5 +332,9 @@ export default {
 .on_bottom {
   display: flex;
   align-items: flex-end;
+}
+.sequence {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(11px + 1vmin);
 }
 </style>

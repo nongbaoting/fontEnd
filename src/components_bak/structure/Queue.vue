@@ -237,7 +237,7 @@ export default {
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.fields.running_date && !row.fields.completed_date) {
-        return 'success-row'
+        return 'warning-row'
       }
       return ''
     },
@@ -280,7 +280,7 @@ export default {
 
 <style >
 .el-table .warning-row {
-  background: rgb(218, 235, 243);
+  background: oldlace;
 }
 
 .el-table .success-row {

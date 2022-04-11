@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="molstar_large"></div>
-   
   </div>
 </template>
 
@@ -9,7 +8,7 @@
 import { Viewer } from 'molstar/build/viewer/molstar'
 import 'molstar/build/viewer/molstar.css'
 export default {
-  name: 'Molstar', 
+  name: 'Molstar',
 
   data() {
     return {
@@ -19,26 +18,25 @@ export default {
   mounted() {
     this.molstar()
   },
+
   methods: {
-
-
-   getPDB(){
-     this.$http({
-       url:'http://222.200.186.47/outputs/testPDB/model_1.pdb',
-  // url: 'outputs/testPDB/model_1.pdb',
-  // url: '/static/protein/testPDB/AF-P04637-F1-model_v1.pdb.gz',
-  // http://222.200.186.47:8989/protein/static/protein/testPDB/AF-Q9NR63-F1-model_v1.pdb.gz
-  method: 'GET',
-  // responseType: 'blob', // important
-}).then((response) => {
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  // const link = document.createElement('a');
-  // link.href = url;
-  // link.setAttribute('download', 'file.pdf');
-  // document.body.appendChild(link);
-  // link.click();
-});
-   },
+    getPDB() {
+      this.$http({
+        url: 'http://222.200.186.47/outputs/testPDB/model_1.pdb',
+        // url: 'outputs/testPDB/model_1.pdb',
+        // url: '/static/protein/testPDB/AF-P04637-F1-model_v1.pdb.gz',
+        // http://222.200.186.47:8989/protein/static/protein/testPDB/AF-Q9NR63-F1-model_v1.pdb.gz
+        method: 'GET',
+        // responseType: 'blob', // important
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        // const link = document.createElement('a');
+        // link.href = url;
+        // link.setAttribute('download', 'file.pdf');
+        // document.body.appendChild(link);
+        // link.click();
+      })
+    },
 
     molstar(app_id) {
       this.$nextTick(function () {
@@ -78,7 +76,6 @@ export default {
 
 <style  scoped>
 #molstar_large {
-  
   width: 100%;
   height: 100%;
 }

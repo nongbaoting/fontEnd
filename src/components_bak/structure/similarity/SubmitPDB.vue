@@ -12,6 +12,7 @@
           class="demo-ruleForm"
           label-position="right"
         >
+          <!-- 文件 -->
           <el-form-item label="Upload Files" prop="upload_file">
             <el-upload
               class="upload-demo"
@@ -50,18 +51,40 @@
               </div>
             </el-upload>
           </el-form-item>
-
-          <!-- <el-form-item label="Job Name" prop="proj_name">
+          <!-- 程序选择 -->
+          <el-form-item>
+            <!-- <div style="margin: 15px 0"></div> -->
+            <el-checkbox
+              :indeterminate="isIndeterminate"
+              v-model="checkAll"
+              @change="handleCheckAllChange"
+              >All</el-checkbox
+            >
+            <el-checkbox-group
+              v-model="checkedCities"
+              @change="handleCheckedCitiesChange"
+            >
+              <el-checkbox
+                v-for="city in cities"
+                :label="city"
+                :key="city"
+                border
+                >{{ city }}</el-checkbox
+              >
+            </el-checkbox-group>
+          </el-form-item>
+          <!-- 项目名 -->
+          <el-form-item label="Job Name">
             <el-input v-model="ruleForm.proj_name"></el-input>
           </el-form-item>
-
+          <!-- email -->
           <el-form-item label="Email" prop="email">
             <el-input
               v-model="ruleForm.email"
               type="email"
               auto-complete="on"
             ></el-input>
-          </el-form-item> -->
+          </el-form-item>
 
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
@@ -99,10 +122,15 @@
 <script>
 import similarityTable from '../components/similarityTable.vue'
 import nglView from '../components/ngl_superpositon.vue'
+const cityOptions = ['SPalign NS', 'BioZernike']
 export default {
   name: 'Structure_prediction',
   data() {
     return {
+      checkAll: false,
+      checkedCities: ['SPalign NS', 'BioZernike'],
+      cities: cityOptions,
+      isIndeterminate: true,
       accept: '.pdb,.cif,.bcif,.pdb.gz,.cif.gz,.bcif.gz,',
       limit: 100,
       multiple: true,
@@ -118,11 +146,11 @@ export default {
 
       showResult: false,
       ruleForm: {
-        projName: '',
+        proj_name: '',
         email: '',
       },
       rules: {
-        projName: [
+        proj_name: [
           {
             // required: true,
             message: 'Please input a job name!',
@@ -149,6 +177,17 @@ export default {
   },
 
   methods: {
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length
+    },
+    // 文件
     handleRemove(file, fileList) {
       console.log(file, fileList)
       this.fileList = fileList

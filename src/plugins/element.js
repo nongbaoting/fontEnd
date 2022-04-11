@@ -7,11 +7,10 @@ Vue.use(ElementUI, { locale })
 
 import axios from 'axios'
 // 配置根路径
-// import qs from 'qs'
-// Vue.prototype.$qs = qs
-// axios.defaults.baseURL = 'http://localhost:8989/protein/'
-const apiUrl = 'http://222.200.186.47:8989/protein/' // 开发版本 dev
-// const apiUrl = 'http://222.200.186.47:9090/protein/' // 发布版本, vue.config.js 也要改
+axios.defaults.timeout =10* 60 * 1000; // 30s
+const apiUrl = 'http://222.200.186.124:9002/protein/' //   开发版本 dev 链接Django
+// const apiUrl = 'http://222.200.186.124:3389/protein/' // 发布版本
+// const apiUrl = 'http://biomed.nscc-gz.cn/server/PROTsim/' // 发布版本 超算
 
 Vue.prototype.API_URL = apiUrl
 Vue.prototype.DATA_URL = 'http://222.200.186.47/'

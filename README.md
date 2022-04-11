@@ -12,10 +12,13 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-
+### Compiles and minifies for production 编译发布
+更改链接Django: /training/nong/web/Dev/prot/src/plugins/element.js
+确定发布vue放在那台机: vue.config.js 
 ```
 npm run build
+rm -rf /training/nong/protein/db/web/protein
+cp -r /dat1/nbt2/server/PROTsim/prot/dist/ /training/nong/protein/db/web/protein
 ```
 
 ### Lints and fixes files
@@ -51,3 +54,7 @@ python manage.py runserver 222.200.186.47:8989
 ```
 vue ui
 ```
+
+
+# 找不到包
+# https://npmmirror.com/sync/phylotree#logid=624ec406115901000a70a3ce
