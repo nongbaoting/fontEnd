@@ -163,6 +163,7 @@ const pathDt = {
   blast: '/sequence/blast/res/',
   'Phylogenetic Analysis': '/phylogenetic/plot/',
   'CD Search': '/sequence/blast/cdd_searchSave_result',
+  'Structure Comparison': '/structure_similarity/results',
 }
 export default {
   name: 'Structure_queue',

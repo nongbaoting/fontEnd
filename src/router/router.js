@@ -19,7 +19,6 @@ import About from "../views/About.vue"
 import Help from "../views/Help.vue"
 import CDD from "../views/blast/cdd_submit.vue"
 
-
 Vue.use(VueRouter)
 
 // let head = document.getElementsByTagName('head');
@@ -68,46 +67,63 @@ const routes = [
         component: resolve =>
           require(['../views/structure/similarity/Search.vue'], resolve)
       },
-      
+
       {
         path: '/structure_similarity/DUF',
         component: DUF
       },
-      // 序列相似性 blast
       {
-        path: "/sequence/blast", component: Blast
-        
+        path: '/structure_similarity/results',
+        component: resolve => require(['../views/structure/similarity/Result.vue'], resolve)
       },
       {
-        path: "/sequence/blast/queue",component: BlastQueue
-        
+        name: "plotSimilarStructure",
+        path: '/structure_similarity/plot/',
+        component: resolve => require(['../views/structure/similarity/plot.vue'], resolve)
+      },
+
+      // 序列相似性 blast
+      { path: "/sequence/blast", component: Blast },
+      {
+        path: "/sequence/blast/queue", component: BlastQueue
+
       },
       { path: "/sequence/blast/res/", component: BlastRes },
       { path: "/sequence/blast/res/psiblast", component: PSIBlastRes },
       { path: "/sequence/blast/res/jackhmmer", component: JackhmmerRes },
-      { path: "/sequence/blast/cdd_submit",component: CDD },
-      {path: "/sequence/blast/cdd_searchSave", component: resolve => require(['../views/blast/cdd_searchSave.vue'], resolve)},
-      {path: "/sequence/blast/cdd_searchSave_result", component: resolve => require(['../views/blast/cdd_searchSave_Result.vue'], resolve)},
+      { path: "/sequence/blast/cdd_submit", component: CDD },
+      { path: "/sequence/blast/cdd_searchSave", component: resolve => require(['../views/blast/cdd_searchSave.vue'], resolve) },
+      { path: "/sequence/blast/cdd_searchSave_result", component: resolve => require(['../views/blast/cdd_searchSave_Result.vue'], resolve) },
       //phylogenetics
-      { path: "/phylogenetic/plot/", component: resolve =>require(['../views/blast/phylogenetic.vue'], resolve)},
+      { path: "/phylogenetic/plot/", component: resolve => require(['../views/blast/phylogenetic.vue'], resolve) },
 
 
-      {path:"/test/pdbe-molstar", component: pdbeMolstar },
-      { path: "/test/svg-msa", component: resolve =>
-      require(['../views/structure/Molstar.vue'], resolve)},
-        // 列队
-        { path: "/queue", component: resolve =>
-        require(['../views/Queue.vue'], resolve)},
+      { path: "/test/pdbe-molstar", component: pdbeMolstar },
+      {
+        path: "/test/svg-msa", component: resolve =>
+          require(['../views/structure/Molstar.vue'], resolve)
+      },
+      // 列队
+      {
+        path: "/queue", component: resolve =>
+          require(['../views/Queue.vue'], resolve)
+      },
       // help
-      {path: "/About", component: About},
-      {path: "/help", component: Help,
-    children:[
-      { path: '/sequence/blast/doc/psiblast', component: resolve =>
-      require(['../views/doc/doc_psiblastParams'], resolve)},
+      { path: "/About", component: About },
+      {
+        path: "/help", component: Help,
+        children: [
+          {
+            path: '/sequence/blast/doc/psiblast', component: resolve =>
+              require(['../views/doc/doc_psiblastParams'], resolve)
+          },
 
-      { path: '/sequence/blast/doc/jackhmmer', component: resolve =>
-      require(['../views/doc/doc_jackhmmer.vue'], resolve)},
-    ],}
+          {
+            path: '/sequence/blast/doc/jackhmmer', component: resolve =>
+              require(['../views/doc/doc_jackhmmer.vue'], resolve)
+          },
+        ],
+      }
     ]
 
   },

@@ -164,8 +164,12 @@ export default {
       tableKey: 'tableStruc',
     }
   },
+  beforeCreate() {
+    document.title = 'Queue'
+  },
   mounted() {
     this.queue()
+    document.title = 'Queue'
   },
 
   computed: {},

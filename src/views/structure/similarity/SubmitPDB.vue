@@ -75,7 +75,7 @@
           </el-form-item>
           <!-- 项目名 -->
           <el-form-item label="Job Name">
-            <el-input v-model="ruleForm.proj_name"></el-input>
+            <el-input v-model="ruleForm.job_name"></el-input>
           </el-form-item>
           <!-- email -->
           <el-form-item label="Email" prop="email">
@@ -93,27 +93,6 @@
             <el-button @click="resetForm('ruleForm')">Reset</el-button>
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
-
-    <!-- 结果  v-if="showResult" -->
-    <el-row style="margin-top: 10px" :gutter="20" v-if="showResult">
-      <!-- 表格 -->
-
-      <el-col :span="14" :offset="1">
-        <similarity-table
-          class=""
-          :tableData="tableData"
-          v-on:onRowClick="clickTableRow"
-        ></similarity-table
-      ></el-col>
-      <el-col :span="8">
-        <ngl-view
-          :input="input"
-          :target="target"
-          :input_file="input_file"
-          :target_file="target_file"
-        ></ngl-view>
       </el-col>
     </el-row>
   </div>
@@ -147,11 +126,11 @@ export default {
 
       showResult: false,
       ruleForm: {
-        proj_name: '',
+        job_name: 'test-SC',
         email: '',
       },
       rules: {
-        proj_name: [
+        job_name: [
           {
             // required: true,
             message: 'Please input a job name!',
@@ -239,7 +218,7 @@ export default {
         formData.append('file', file.raw)
       })
       // 添加自定义参数
-      formData.append('proj_name', this.ruleForm.projName)
+      formData.append('job_name', this.ruleForm.job_name)
       formData.append('email', this.ruleForm.email)
 
       this.$http({
@@ -292,7 +271,7 @@ export default {
     },
     async checkProName(rule, value, callback) {
       const { data: res } = await this.$http.get('/predict/structure/check/', {
-        params: { proj_name: value },
+        params: { job_name: value },
       })
 
       if (res.isExist == 1) {
