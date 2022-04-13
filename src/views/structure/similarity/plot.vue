@@ -7,7 +7,6 @@
             class="margin-top box"
             title="Target PDB Information"
             :column="3"
-            :size="size"
             border
           >
             <el-descriptions-item>
@@ -39,7 +38,7 @@
 
             <el-descriptions-item>
               <template slot="label"> TMscore 1 </template>
-              {{ item.tmscore_2 }}
+              {{ item.tmscore_1 }}
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label"> TMscore 2 </template>

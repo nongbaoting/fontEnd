@@ -229,25 +229,17 @@ export default {
         // console.log(res)
         if (res.status == 200) {
           this.$message.success('Uploads Success!')
-          this.tableData = res.data.data
-          this.showResult = true
-
-          this.input = this.tableData[0].input
-          this.target = this.tableData[0].target
-          this.input_file = this.tableData[0].input_file
-          this.target_file = this.tableData[0].target_file
-
-          if (this.tableData[0].source == 'PDB') {
-            this.target_source = 'data/pdb/'
-          } else {
-            this.target_source = 'alphafold/'
-          }
-
-          console.log(this.tableData[0].input)
-        } else {
-          this.$message.error('Upload failed!')
+          setTimeout(() => {
+            let routeData = this.$router.resolve({
+              path: '/queue',
+              query: {
+                job_name: this.job_name,
+                program: 'Structure Comparison',
+              },
+            })
+            window.open(routeData.href, '_blank')
+          }, 2500)
         }
-        this.fileList = []
       })
     },
 

@@ -1,18 +1,12 @@
 <template>
-  <div style="padding-top: 40px">
-    <el-button>Similar Structures:</el-button>
-    <!-- <el-button @click="resetDateFilter" style="margin-left: 20px"
-      >清除日期过滤器</el-button
-    > -->
-    <el-button @click="clearFilter" style="margin-left: 20px"
-      >Clear Filters</el-button
-    >
+  <div style="padding-top: 20px">
     <el-table
-      :data="
-        tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-      "
+      :data="tableData"
+      :key="'table' + currentPage + pageSize"
+      @sort-change="sortChange"
       style="width: 100%"
       :stripe="true"
+      v-loading="loading"
       element-loading-text="loading"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -62,7 +56,12 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="chain_2_pdb" label="PDB" sortable>
+      <el-table-column
+        prop="chain_2_pdb"
+        label="PDB"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
         <template slot-scope="scope">
           <el-link
             :href="'https://www.rcsb.org/structure/' + scope.row.chain_2_pdb"
@@ -73,16 +72,55 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="RMSD" label="RMSD" sortable> </el-table-column>
-      <el-table-column prop="tmscore_1" label="TMscore 1" sortable>
+      <el-table-column
+        prop="RMSD"
+        label="RMSD"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
       </el-table-column>
-      <el-table-column prop="tmscore_2" label="TMscore 2" sortable>
+      <el-table-column
+        prop="tmscore_1"
+        label="TMscore 1"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
       </el-table-column>
-      <el-table-column prop="cov_1" label="Cov 1" sortable> </el-table-column>
-      <el-table-column prop="cov_2" label="Cov. 2" sortable> </el-table-column>
-      <el-table-column prop="cov_2" label="Cov. 2" sortable> </el-table-column>
+      <el-table-column
+        prop="tmscore_2"
+        label="TMscore 2"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="cov_1"
+        label="Cov 1"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="cov_2"
+        label="Cov. 2"
+        sortable="custom"
+        :sort-orders="'ascending'"
+      >
+      </el-table-column>
+      <el-table-column prop="cov_2" label="Cov. 2" sortable="custom">
+      </el-table-column>
 
-      <el-table-column prop="align_len" label="align Len" sortable>
+      <el-table-column prop="align_len" label="align Len" sortable="custom">
+      </el-table-column>
+
+      <el-table-column prop="family" label="Scope Family" width="300px">
+      </el-table-column>
+
+      <el-table-column
+        prop="superfamily"
+        label="Scope Superfamily"
+        width="300px"
+      >
       </el-table-column>
     </el-table>
     <!--分页条 -->
@@ -96,8 +134,8 @@
             :current-page="currentPage"
             :page-sizes="[5, 10, 20, 50, 100]"
             :page-size="pageSize"
-            layout="total, sizes, prev, pager, next"
-            :total="tableData.length"
+            layout="total, sizes, prev, pager, next,jumper"
+            :total="totalCount"
             prev-text="Prev"
             next-text="Next"
             background
@@ -105,14 +143,6 @@
           </el-pagination>
         </div>
       </el-col>
-    </el-row>
-    <el-row style="padding-top: 20px">
-      <p>结构显示有些bug,看score值为准。</p>
-      <p>
-        <b> Geom score, CN score </b>were described in : Guzenko, D., Burley, S.
-        K. & Duarte, J. M. Real time structural search of the Protein Data Bank.
-        PLOS Comput. Biol. 16, e1007970 (2020).
-      </p>
     </el-row>
   </div>
 </template>
@@ -124,7 +154,12 @@ export default {
     return {
       currentPage: 1, //默认显示页面为1
       pageSize: 10, //    每页的数据条数
+      totalCount: 0, // 总数，返回得到
       tableData: [],
+      field: 'tmscore_2',
+      order: '',
+      loading: false,
+      isSort: false,
     }
   },
   mounted() {
@@ -154,20 +189,19 @@ export default {
         url: 'api/similarity/results/',
         params: {
           uuid: that.uuid,
+          currentPage: this.currentPage, //默认显示页面为1
+          pageSize: this.pageSize,
+          order: this.order,
+          isSort: this.isSort,
+          field: this.field,
         },
         method: 'get',
       }).then((response) => {
         console.log(response.data.data)
         this.tableData = response.data.data
+        this.totalCount = response.data.totalCount
+        this.isSort = false
       })
-    },
-
-    format_linkTarget(target, source) {
-      if (source == 'PDB') {
-        return 'https://www.rcsb.org/structure/' + target
-      } else {
-        return 'https://alphafold.ebi.ac.uk/entry/' + target
-      }
     },
 
     format_algin_code(seq_1, pairwise, seq_2) {
@@ -220,12 +254,27 @@ export default {
     //每页下拉显示数据
     handleSizeChange: function (size) {
       this.pageSize = size
+      this.currentPage = 1
+      this.getData()
       /*console.log(this.pageSize) */
     },
     //点击第几页
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
+      this.getData()
       /*console.log(this.currentPage) */
+    },
+
+    // sortchange
+    sortChange: function (column) {
+      console.log(column.column + '-' + column.prop + '-' + column.order)
+      this.loading = true
+      this.order = column.order
+      this.field = column.prop
+      this.currentPage = 1
+      this.isSort = true
+      this.getData(10, 1)
+      this.loading = false
     },
 
     clickRow({ row, rowIndex }) {

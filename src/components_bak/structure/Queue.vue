@@ -165,7 +165,7 @@ export default {
     }
   },
   beforeCreate() {
-    document.title = 'Queue'
+    htmlWebpackPlugin.options.title = 'Queue'
   },
   mounted() {
     this.queue()
