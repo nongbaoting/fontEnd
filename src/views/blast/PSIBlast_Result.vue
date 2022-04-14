@@ -400,7 +400,9 @@ export default {
       this.filterForm['dataset'] = this.$route.query.dataset
 
       this.$http
-        .post('api/blast/res/blast_jackhmmer/', this.filterForm)
+        .post('api/blast/res/blast_jackhmmer/', this.filterForm, {
+          timeout: 600 * 1000,
+        })
         .then((response) => {
           console.log(response.data.status)
           // console.log(response.data.data)

@@ -142,7 +142,8 @@ function colorSeq(seq) {
   const fastaMatch = /\>/
   let seq_arr = seq.split('\n')
   if (fastaMatch.test(seq)) {
-    seq_arr = arr.slice(1)
+    seq_arr = seq_arr.slice(1)
+    console.log('> slice' + seq_arr)
   }
   let newseq = '<div class="sequence">'
   let count = 0
