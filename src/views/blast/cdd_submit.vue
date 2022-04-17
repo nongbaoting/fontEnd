@@ -209,10 +209,15 @@
               :sort-orders="['descending', 'ascending']"
               prop="cdd_names"
               label="Conserved Domains"
-              width="800"
+              width="1200"
+              style="width: 800px"
             >
               <template slot-scope="scope">
-                <el-row>
+                <gene-body
+                  :dataset="scope.row.cdd_locs"
+                  :gene_length="scope.row.length"
+                ></gene-body>
+                <!-- <el-row>
                   <el-popover
                     trigger="hover"
                     placement="top"
@@ -234,7 +239,7 @@
                       >{{ item.cdd }}</el-button
                     >
                   </el-popover>
-                </el-row>
+                </el-row> -->
               </template>
             </el-table-column>
           </el-table>
@@ -292,11 +297,12 @@ const filterForm_ori = {
 }
 import phylotreedialog from './components/run_phylogenetic.vue'
 import download_fasta from './components/download_fasta.vue'
-
+import gene_body from './components/gene_body.vue'
 export default {
   components: {
     'run-phylotree': phylotreedialog,
     'download-fasta': download_fasta,
+    'gene-body': gene_body,
   },
   data() {
     return {
