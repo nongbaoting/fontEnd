@@ -60,8 +60,6 @@
       </el-col>
     </el-row>
 
-    <div id="EFC48526281_cdd_a"></div>
-
     <!-- 表格 -->
     <el-row :gutter="20">
       <el-col>
@@ -121,43 +119,22 @@
             :sort-orders="['descending', 'ascending']"
             prop="cdd_nameCat"
             label="Conserved Domains"
+            width="1200"
           >
             <template slot-scope="scope">
-              <div>
-                <!-- <div :id="scope.row.protin_id.split('.')[0]">
-                  {{
-                    GLOBAL.plot_gene_body(
-                      '#' + scope.row.protin_id.split('.')[0].toString(),
-                      dataset,
-                      1020,
-                      1020
-                    )
-                  }}
-                </div> -->
-                <el-popover
-                  trigger="hover"
-                  placement="top"
-                  width="500"
-                  v-for="(item, index) in parse_cdd(
-                    scope.row.cdd_nameCat,
-                    scope.row.cdd_noteCat
-                  )"
-                >
-                  <p>
-                    Description:
-                    {{ item.note }}
-                  </p>
-                  <el-button
-                    :key="scope.row.id + item.cdd + index"
-                    slot="reference"
-                    class="no_space_button"
-                    :style="'background-color:' + item.cdd_color"
-                    @click="showcell(scope.row)"
-                  >
-                    {{ item.cdd }}
-                  </el-button>
-                </el-popover>
-              </div>
+              <gene-body
+                :key="
+                  'gene_body_currentPage' +
+                  currentPage +
+                  'pageSize' +
+                  pageSize +
+                  order
+                "
+                :dataset="scope.row.cdd_locs"
+                :gene_length="scope.row.length"
+                :max="max_protein_length"
+                v-if="isgenebody"
+              ></gene-body>
             </template>
           </el-table-column>
         </el-table>
@@ -225,12 +202,14 @@ const filterForm_ori = {
 import filterForm from './components/filterForm_cddSearch.vue'
 import phylotree from './components/run_phylogenetic.vue'
 import download_fasta from './components/download_fasta.vue'
-
+import gene_body from './components/gene_body.vue'
+import * as d3 from 'd3'
 export default {
   components: {
     'filter-form-blast': filterForm,
     'run-phylotree': phylotree,
     'download-fasta': download_fasta,
+    'gene-body': gene_body,
   },
   data() {
     return {
@@ -240,7 +219,7 @@ export default {
       pageSize: 10, //    每页的数据条数
       totalCount: 0, // 总数，返回得到
       // order
-      field: 'cdd_nameCat',
+      field: 'length',
       order: 'descending',
       job_name: 'myJob',
       label_identity: 'identiy',
@@ -258,33 +237,23 @@ export default {
       colors: {},
       dialogVisible_phylotree: false,
 
-      dataset: [
-        [30, 238, 'cas3_1', '#8DD3C7'],
-        [305, 675, 'YlqF_related_GTPase', '#FFFFB3'],
-        [667, 993, 'Cas7_I-E', '#BEBADA'],
-      ],
-      gene_length: 1020,
-      max: 1020,
+      isgenebody: false,
+      max_protein_length: 0,
     }
   },
   watch: {
     tableData: function (newTableData, oldTableData) {
       this.pageAllprotin_id = newTableData.map((item) => item['protin_id'])
-      this.setColor()
+      this.max_protein_length = d3.max(newTableData, function (d) {
+        return d['length']
+      })
+      // this.setColor()
       this.pageHasSelected()
     },
   },
   mounted() {
     this.queue(this.filterForm)
     this.show_labels()
-    this.GLOBAL.plot_gene_body('#EFC48526281_cdd_a', this.dataset, 1020, 1020)
-  },
-
-  computed: {
-    plot_geneBody(name) {
-      console.log(name)
-      this.GLOBAL.plot_gene_body('#' + name, this.dataset, 1020, 1020)
-    },
   },
 
   methods: {
@@ -295,15 +264,6 @@ export default {
     setRowKey(row) {
       // console.log(row)
       return row.protin_id
-    },
-
-    plot_geneBody_in_table(dataTable, itemName) {
-      for (let i = 0; i < dataTable.length; i++) {
-        let id = '#' + dataTable[i][itemName].split('.')[0]
-        console.log(id)
-
-        this.GLOBAL.plot_gene_body(id, this.dataset, 1020, 1020)
-      }
     },
 
     show_labels() {
@@ -402,10 +362,11 @@ export default {
     },
     queue(data) {
       this.showTable = true
+
       this.loading = true
       this.filterForm['program'] = this.$route.query.program
       this.filterForm['uuid'] = this.uuid
-
+      this.isgenebody = false
       // // page
       this.filterForm['currentPage'] = this.currentPage
       this.filterForm['pageSize'] = this.pageSize
@@ -424,11 +385,12 @@ export default {
         },
         method: 'get',
       }).then((response) => {
-        console.log(response.data.status)
-        console.log(response.data.data)
+        // console.log(response.data.status)
+        // console.log(response.data.data)
         this.tableData = response.data.data
         this.totalCount = response.data.totalCount
         console.log(this.tableData)
+        this.isgenebody = true
         // this.plot_geneBody_in_table(this.tableData, 'protin_id')
         this.loading = false
       })
@@ -439,7 +401,7 @@ export default {
       console.log(this.filterForm)
       this.showTable = true
       this.loading = true
-
+      this.isgenebody = false
       this.$http
         .post('api/cdd/filter_cdd_save/', this.filterForm)
         .then((response) => {
@@ -452,6 +414,7 @@ export default {
           console.log(this.tableData)
           this.uuid = response.data.uuid
           this.filterForm.uuid = response.data.uuid
+          this.isgenebody = true
           this.loading = false
         })
     },

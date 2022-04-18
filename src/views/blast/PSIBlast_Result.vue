@@ -65,7 +65,7 @@
         <!-- 表格 -->
         <el-table
           ref="multipleTable"
-          :key="'table' + currentPage + pageSize"
+          :key="'table' + currentPage + pageSize + order"
           :data="tableData"
           :stripe="true"
           v-loading="loading"
@@ -106,6 +106,15 @@
               </el-link>
             </template>
           </el-table-column>
+
+          <!-- protein length -->
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            prop="target_len"
+            label="Length"
+          >
+          </el-table-column>
           <!-- Description -->
           <el-table-column
             sortable="custom"
@@ -115,57 +124,15 @@
             width="400"
           >
           </el-table-column>
-          <!-- CDD -->
-          <el-table-column
-            sortable="custom"
-            :sort-orders="['descending', 'ascending']"
-            prop="cdd_nameCat"
-            label="CD"
-            width="400"
-          >
-            <template slot-scope="scope">
-              <div>
-                <el-popover
-                  trigger="hover"
-                  placement="top"
-                  width="500"
-                  v-for="(item, index) in parse_cdd(
-                    scope.row.cdd_nameCat,
-                    scope.row.cdd_noteCat
-                  )"
-                >
-                  <p>
-                    Description:
-                    {{ item.note }}
-                  </p>
-                  <el-button
-                    :key="scope.row.id + item.cdd + index"
-                    slot="reference"
-                    class="no_space_button"
-                    :style="'background-color:' + item.cdd_color"
-                  >
-                    {{ item.cdd }}
-                  </el-button>
-                </el-popover>
-              </div>
-            </template>
-          </el-table-column>
-
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             prop="query_covery"
             label="Query cover"
+            v-if="this.$route.query.program == 'psiblast'"
           >
           </el-table-column>
-          <!-- protein length -->
-          <el-table-column
-            sortable="custom"
-            :sort-orders="['descending', 'ascending']"
-            prop="target_len"
-            label="Subject Length"
-          >
-          </el-table-column>
+
           <!-- identity -->
           <el-table-column
             sortable="custom"
@@ -173,6 +140,30 @@
             prop="acc"
             :label="label_identity"
           >
+          </el-table-column>
+          <!-- CDD -->
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            prop="cdd_nameCat"
+            label="CD"
+            width="1200"
+          >
+            <template slot-scope="scope">
+              <gene-body
+                :key="
+                  'gene_body_currentPage' +
+                  currentPage +
+                  'pageSize' +
+                  pageSize +
+                  order
+                "
+                :dataset="scope.row.cdd_locs"
+                :gene_length="scope.row.target_len"
+                :max="max_protein_length"
+                v-if="isgenebody"
+              ></gene-body>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>
@@ -198,6 +189,7 @@
         </div>
       </el-col>
     </el-row>
+    <div style="height: 800px"></div>
   </div>
 </template>
 
@@ -239,12 +231,14 @@ const filterForm_ori = {
 import filterForm from './components/filterForm_blast.vue'
 import phylotreedialog from './components/run_phylogenetic.vue'
 import download_fasta from './components/download_fasta.vue'
-
+import gene_body from './components/gene_body.vue'
+import * as d3 from 'd3'
 export default {
   components: {
     'filter-form-blast': filterForm,
     'run-phylotree': phylotreedialog,
     'download-fasta': download_fasta,
+    'gene-body': gene_body,
   },
   data() {
     return {
@@ -271,13 +265,19 @@ export default {
       select_num: 0,
       colors: {},
       dialogVisible_phylotree: false,
+
+      isgenebody: false,
+      max_protein_length: 0,
     }
   },
   watch: {
     tableData: function (newTableData, oldTableData) {
       this.pageAllprotin_id = newTableData.map((item) => item['target'])
-      this.setColor()
+      // this.setColor()
       this.pageHasSelected()
+      this.max_protein_length = d3.max(newTableData, function (d) {
+        return d['target_len']
+      })
     },
   },
   mounted() {
@@ -388,6 +388,8 @@ export default {
     queue(data) {
       this.showTable = true
       this.loading = true
+      this.isgenebody = false
+
       this.filterForm['program'] = this.$route.query.program
       this.filterForm['uuid'] = this.$route.query.uuid
 
@@ -409,7 +411,7 @@ export default {
           this.tableData = response.data.data
           this.totalCount = response.data.totalCount
           console.log(this.tableData)
-
+          this.isgenebody = true
           this.loading = false
         })
     },

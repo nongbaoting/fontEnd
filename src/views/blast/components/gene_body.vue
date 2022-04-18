@@ -1,30 +1,23 @@
-<template>
-  <div id="gene"></div>
-</template>
+<template></template>
 
 <script>
 import * as d3 from 'd3'
 export default {
-  props: ['dataset', 'gene_length'],
+  props: ['dataset', 'gene_length', 'max'],
   data() {
-    return {
-      data: [1, 2, 4, 5],
-      //   dataset: [
-      //     [30, 238, 'cas3_1', '#8DD3C7'],
-      //     [305, 675, 'YlqF_related_GTPase', '#FFFFB3'],
-      //     [667, 993, 'Cas7_I-E', '#BEBADA'],
-      //   ],
-      //   gene_length: 1020,
-      max: 1020,
-    }
+    return {}
   },
-  watch: {
-    dataset: function () {
-      this.plot_gene_body()
-    },
-  },
+  // watch: {
+  //   dataset: function () {
+  //     this.plot_gene_body()
+  //   },
+  // },
   mounted() {
-    this.plot_gene_body()
+    this.$nextTick(function () {
+      // Code that will run only after the
+      // entire view has been re-rendered
+      this.plot_gene_body()
+    })
   },
   methods: {
     plot_gene_body() {
@@ -32,48 +25,48 @@ export default {
       //   let max = d3.max(dataset, function (d) {
       //     return d[1]
       //   })
-      let max = this.gene_length
-
-      let width = 600
+      // console.log('this')
+      // console.log(this)
+      let max = this.max
+      let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1200])
+      console.log(width_linear(this.gene_length))
+      let width = width_linear(this.gene_length)
       let height = 80
       let box_height = 30
       let padding = { left: 10, right: 40, top: 20, bottom: 10 }
-      console.log(d3)
+      // console.log(d3)
       var linear = d3
         .scaleLinear()
-        .domain([0, max])
-        .range([0, width - padding.left - padding.right])
-
-      console.log(linear(993))
-      console.log(linear(675))
+        .domain([0, this.gene_length])
+        .range([1, width - padding.left - padding.right])
 
       var tooltip = d3
         .select('body')
-        .append('el-tooltip')
+        .append('div')
         .attr('class', 'tooltip')
         .style('opacity', 0.0)
-
+      // d3.select(this.$el).remove()
       let gene_svg = d3
         .select(this.$el)
         .append('svg')
         .attr('width', width)
         .attr('height', height)
+
       gene_svg
         .append('line')
         .attr('x1', padding.left)
         .attr('y1', padding.top)
-        .attr('x2', width - padding.left - padding.right)
+        .attr('x2', width - padding.left - padding.right + 1)
         .attr('y2', padding.top)
         .attr('stroke', 'red')
 
       gene_svg
         .selectAll('rect')
-
         .data(dataset)
         .enter()
         .append('rect')
         .attr('x', function (d) {
-          return linear(d[0])
+          return linear(d[0] + padding.left)
         })
         .attr('y', function (d, i) {
           if (i > 0) {
@@ -96,14 +89,15 @@ export default {
           d3.select(this).attr('stroke', 'salmon').attr('stroke-width', 3)
           tooltip.transition().duration(200)
           tooltip
-            .html('<p><b>Domain: </b> ' + d[2] + '</p>')
+            .html('<p><b>' + d[2] + ', </b> ' + d[3] + '</p>')
             .style('left', event.pageX + 'px')
             .style('top', event.pageY + 20 + 'px')
             .style('opacity', 1)
         })
         .on('mouseout', function (event, d, i) {
           d3.select(this).attr('stroke', 'black').attr('stroke-width', 1)
-          tooltip.transition().duration(500).style('opacity', 0.0)
+          tooltip.transition().duration(200).style('opacity', 0.0)
+          tooltip.selectAll('p').remove()
         })
 
       gene_svg
@@ -130,13 +124,14 @@ export default {
         .on('mouseover', function (event, d, i) {
           tooltip.transition().duration(200)
           tooltip
-            .html('<p><b>Domain: </b> ' + d[2] + '</p>')
+            .html('<p><b>' + d[2] + ', </b> ' + d[3] + '</p>')
             .style('left', event.pageX + 'px')
-            .style('top', event.pageY + 20 + 'px')
+            .style('top', event.pageY + 30 + 'px')
             .style('opacity', 1)
         })
         .on('mouseout', function (d, i) {
-          tooltip.transition().duration(500).style('opacity', 0.0)
+          tooltip.transition().duration(200).style('opacity', 0.0)
+          tooltip.selectAll('p').remove()
         })
 
       // 坐标轴
@@ -152,17 +147,10 @@ export default {
       }
       let tv = ticksValues(max, 7)
       console.log(tv)
-      // let axis = d3.svg
-      //   .axis()
-      //   .scale(linear) //指定比例尺
-      //   .ticks(7) //指定刻度的数量
-      //   .orient('bottom')
-      //   .tickSize(2, 6)
-      //   .tickValues(tv)
 
-      let axis = d3.axisBottom(linear).tickValues(tv).tickSize(2, 6)
-      console.log(axis)
-      gene_svg
+      let axis = d3.axisBottom(linear).ticks(7)
+      // console.log(axis)
+      const axis_plot = gene_svg
         .append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(10,45)')
@@ -173,4 +161,51 @@ export default {
 </script>
 
 <style>
+/* gene body */
+.tooltip {
+  position: absolute;
+  padding: 1px 5px;
+  width: 600px;
+  height: auto;
+  font-family: sans-serif;
+  font-size: calc(9px + 1vmin);
+  color: black;
+  border: 1px solid black;
+  background-color: rgb(255, 255, 255);
+  border-width: 2px solid rgb(255, 255, 255);
+  border-radius: 2px;
+  word-break: break-all;
+}
+
+.tooltip:after {
+  content: '';
+  position: absolute;
+  width: 700px;
+  bottom: 100%;
+  left: 20%;
+  margin-left: -80px;
+  width: 0;
+  height: 0;
+  border-bottom: 12px solid rgb(255, 255, 255);
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  word-break: break-all;
+}
+
+#gene text {
+  font-family: sans-serif;
+  font-size: calc(9px + 1vmin);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  stroke-width: 2;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: sans-serif;
+}
 </style>

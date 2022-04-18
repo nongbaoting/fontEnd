@@ -104,7 +104,7 @@
       </el-col>
     </el-row>
 
-    <div style="height: 800px">
+    <div>
       <!-- select + 分页条  -->
       <el-row
         :gutter="40"
@@ -156,7 +156,7 @@
           <!-- TODO 表格 -->
           <el-table
             ref="multipleTable"
-            :key="'table' + currentPage + pageSize"
+            :key="'table' + currentPage + pageSize + order"
             v-show="showTable"
             :data="tableData"
             :stripe="true"
@@ -214,8 +214,17 @@
             >
               <template slot-scope="scope">
                 <gene-body
+                  :key="
+                    'gene_body_currentPage' +
+                    currentPage +
+                    'pageSize' +
+                    pageSize +
+                    order
+                  "
                   :dataset="scope.row.cdd_locs"
                   :gene_length="scope.row.length"
+                  :max="max_protein_length"
+                  v-if="isgenebody"
                 ></gene-body>
                 <!-- <el-row>
                   <el-popover
@@ -294,10 +303,12 @@ const filterForm_ori = {
   uuid: '',
   field: 'length',
   order: 'descending',
+  max_protein_lenth: '0',
 }
 import phylotreedialog from './components/run_phylogenetic.vue'
 import download_fasta from './components/download_fasta.vue'
 import gene_body from './components/gene_body.vue'
+import * as d3 from 'd3'
 export default {
   components: {
     'run-phylotree': phylotreedialog,
@@ -324,11 +335,17 @@ export default {
       pageAllprotin_id: [],
       select_num: 0,
       phylo_job_name: 'my_phylo_job_name',
+      isgenebody: false,
+      max_protein_length: 0,
     }
   },
   watch: {
     tableData: function (newTableData, oldTableData) {
       this.pageAllprotin_id = newTableData.map((item) => item['protin_id'])
+      this.max_protein_length = d3.max(newTableData, function (d) {
+        return d['length']
+      })
+
       this.setColor()
       this.pageHasSelected()
     },
@@ -399,7 +416,7 @@ export default {
       console.log(this.filterForm)
       this.showTable = true
       this.loading = true
-
+      this.isgenebody = false
       this.$http.post('api/cdd/search/', this.filterForm).then((response) => {
         console.log(response.data.status)
         // console.log(response.data.data)
@@ -410,6 +427,7 @@ export default {
         console.log(this.tableData)
         this.uuid = response.data.uuid
         this.filterForm.uuid = response.data.uuid
+        this.isgenebody = true
         this.loading = false
       })
     },
@@ -489,6 +507,7 @@ export default {
     },
 
     pages() {
+      this.isgenebody = false
       this.$http
         .get('api/cdd/search/page/', {
           params: {
@@ -504,7 +523,7 @@ export default {
           this.totalCount = response.data.totalCount
           console.log(this.tableData)
           this.uuid = response.data.uuid
-
+          this.isgenebody = true
           this.loading = false
         })
     },
