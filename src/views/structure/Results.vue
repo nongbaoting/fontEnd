@@ -8,21 +8,32 @@
         }}
       </el-col>
     </el-row>
+
     <alphafold-view
       v-if="tools.indexOf('AlphaFold 2') !== -1"
       :proj_name="proj_name"
       title="AlphaFold 2"
       molstar_id="molstar_alphafold"
       :models="model_af"
-      :linkObj="af_link"
+      :tarFileName="proj_name + '_alphafold.tar.gz'"
+      program="alphafold"
     ></alphafold-view>
+    <div class="box">
+      If you do not find any results, it is likely that your input sequence
+      contains non-standard residues. Try:
+      <el-link type="primary" @click="use_unrelaxed">
+        Use unrelaxed model</el-link
+      >
+    </div>
+
     <rosettafold-view
       v-if="tools.indexOf('RoseTTAFold') !== -1"
       :proj_name="proj_name"
       title="RoseTTAFold"
       molstar_id="molstar_rosettafold"
       :models="model_rt"
-      :linkObj="rt_link"
+      :tarFileName="proj_name + '_roseTTAFold.tar.gz'"
+      program="roseTTAFold"
     ></rosettafold-view>
   </div>
 </template>
@@ -39,37 +50,22 @@ export default {
       proj_name: proj_name,
       tools: [],
       model_af: [
-        '/ranked_0.pdb',
-        '/ranked_1.pdb',
-        '/ranked_2.pdb',
-        '/ranked_3.pdb',
-        '/ranked_4.pdb',
+        'ranked_0.pdb',
+        'ranked_1.pdb',
+        'ranked_2.pdb',
+        'ranked_3.pdb',
+        'ranked_4.pdb',
       ],
-      af_link: {
-        baseURL:
-          'http://222.200.186.47/outputs/results/alphafold/' +
-          proj_name +
-          '/' +
-          proj_name,
-        outBase: 'alphafold/',
-        tar_suffix: '_alphafold.tar.gz',
-      },
+
+      model_af_unrelaxed: ['unrelaxed_model_1.pdb'],
+
       model_rt: [
-        '/model/model_1.pdb',
-        '/model/model_2.pdb',
-        '/model/model_3.pdb',
-        '/model/model_4.pdb',
-        '/model/model_5.pdb',
+        'model/model_1.pdb',
+        'model/model_2.pdb',
+        'model/model_3.pdb',
+        'model/model_4.pdb',
+        'model/model_5.pdb',
       ],
-      rt_link: {
-        baseURL:
-          'http://222.200.186.47/outputs/results/roseTTAFold/' +
-          proj_name +
-          '/' +
-          proj_name,
-        outBase: 'roseTTAFold/',
-        tar_suffix: '_roseTTAFold.tar.gz',
-      },
     }
   },
 
@@ -91,7 +87,6 @@ export default {
 
   mounted() {
     this.getJob()
-    this.notice_tmp()
   },
   methods: {
     getJob() {
@@ -115,13 +110,8 @@ export default {
           }
         })
     },
-    notice_tmp() {
-      this.$notify({
-        title: '注意',
-        message:
-          '目前此页面只显示Model 1, 其余model 可以通过ViewLarger链接过去',
-        type: 'warning',
-      })
+    use_unrelaxed() {
+      this.model_af = this.model_af_unrelaxed
     },
   },
   components: {
@@ -135,5 +125,9 @@ export default {
 .contianer {
   padding-top: 10px;
   padding-left: 10px;
+}
+.box {
+  padding-top: 20px;
+  font-size: calc(11px + 1vmin);
 }
 </style>

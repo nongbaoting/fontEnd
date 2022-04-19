@@ -12,29 +12,29 @@ export default {
 
   data() {
     return {
-      pdb: 'http://222.200.186.47/outputs/testPDB/model_1.pdb',
+      pdb: '',
     }
   },
   mounted() {
-    this.molstar()
+    this.getPDB()
   },
 
   methods: {
     getPDB() {
       this.$http({
-        url: 'http://222.200.186.47/outputs/testPDB/model_1.pdb',
-        // url: 'outputs/testPDB/model_1.pdb',
-        // url: '/static/protein/testPDB/AF-P04637-F1-model_v1.pdb.gz',
-        // http://222.200.186.47:8989/protein/static/protein/testPDB/AF-Q9NR63-F1-model_v1.pdb.gz
+        url: 'api/structure/getFile/',
+        params: {
+          filetype: 'file',
+          program: this.$route.query.program,
+          job_name: this.$route.query.job_name,
+          filename: this.$route.query.filename,
+        },
         method: 'GET',
-        // responseType: 'blob', // important
       }).then((response) => {
+        console.log(response)
         const url = window.URL.createObjectURL(new Blob([response.data]))
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.setAttribute('download', 'file.pdf');
-        // document.body.appendChild(link);
-        // link.click();
+        this.pdb = url
+        this.molstar()
       })
     },
 

@@ -28,7 +28,7 @@
           <el-col :span="3">
             <el-link
               class="download_link"
-              :href="linkObj.baseURL + linkObj.tar_suffix"
+              @click="Download(tarFileName)"
               type="success"
               >Download
             </el-link>
@@ -58,11 +58,19 @@ import { Viewer } from 'molstar/build/viewer/molstar'
 import 'molstar/build/viewer/molstar.css'
 
 export default {
-  props: ['title', 'proj_name', 'molstar_id', 'models', 'linkObj'],
+  props: [
+    'title',
+    'proj_name',
+    'molstar_id',
+    'models',
+    'program',
+    'tarFileName',
+  ],
   data() {
     return {
       activeTab: this.models[0],
       tools: [],
+      viewer: '',
     }
   },
   computed: {
@@ -72,9 +80,16 @@ export default {
   },
 
   mounted() {
+    this.notice_tmp()
     this.$nextTick(function () {
-      this.molstar()
+      this.getPDB(this.models[0])
     })
+  },
+
+  watch: {
+    models: function (newModel, oldModel) {
+      this.getPDB(this.models[0])
+    },
   },
 
   methods: {
@@ -83,47 +98,89 @@ export default {
         // Code that will run only after the
         // entire view has been re-rendered
         // this.molstar()
-        this.notice_tmp()
+        // this.notice_tmp(this.activeTab)
+        this.getPDB(this.activeTab)
+      })
+    },
+    getPDB(filename) {
+      this.$http({
+        url: 'api/structure/getFile/',
+        params: {
+          filetype: 'file',
+          program: this.program,
+          job_name: this.proj_name,
+          filename: filename,
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        console.log(response)
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        this.molstar(url)
+      })
+    },
+    Download(filename) {
+      this.$http({
+        url: 'api/structure/getFile/',
+        params: {
+          filetype: 'tar',
+          program: this.program,
+          job_name: this.proj_name,
+          filename: filename,
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(
+          new Blob([response.data], { type: 'application/gz' })
+        )
+        link.download = this.tarFileName
+        link.click()
+        link.remove()
+        window.URL.revokeObjectURL(link.href) //释放blob对象
       })
     },
     notice_tmp() {
       this.$notify({
-        title: '注意',
-        message:
-          '目前此页面只显示Model 1, 其余model 可以通过ViewLarger链接过去',
-        type: 'warning',
+        title: 'News',
+        message: 'ViewLarger and Tabs is working',
+        type: 'success',
+        duration: 20 * 1000,
       })
     },
-    molstar() {
-      var filename = this.linkObj.baseURL + this.activeTab
-      // filename = 'http://222.200.186.47/outputs/testPDB/model_1.pdb'
-      var viewer = new Viewer(this.molstar_id, {
-        layoutIsExpanded: false,
-        layoutShowControls: false,
-        layoutShowRemoteState: false,
-        layoutShowSequence: false,
-        layoutShowLog: false,
-        layoutShowLeftPanel: false,
-
-        viewportShowExpand: false,
-        viewportShowSettings: false,
-        // ViewportShowControl: false,
-        viewportShowSelectionMode: false,
-        viewportShowAnimation: false,
-
-        // 'http://222.200.186.47/outputs/testPDB/AF-P04637-F1-model_v1.pdb.gz',
-      })
-
-      viewer.loadStructureFromUrl(filename, 'pdb')
+    molstar(url) {
+      if (this.viewer) {
+        this.viewer.plugin.clear()
+        this.viewer.loadStructureFromUrl(url, 'pdb')
+      } else {
+        this.viewer = new Viewer(this.molstar_id, {
+          layoutIsExpanded: false,
+          layoutShowControls: false,
+          layoutShowRemoteState: false,
+          layoutShowSequence: false,
+          layoutShowLog: false,
+          layoutShowLeftPanel: false,
+          viewportShowExpand: false,
+          viewportShowSettings: false,
+          // ViewportShowControl: false,
+          viewportShowSelectionMode: false,
+          viewportShowAnimation: false,
+        })
+        this.viewer.loadStructureFromUrl(url, 'pdb')
+      }
     },
 
     viewLarger(command) {
       //   this.$message('click on item ' + command)
-      let pdb = this.linkObj.baseURL + command
-
       let routeData = this.$router.resolve({
         path: '/molstar/',
-        query: { pdb: pdb },
+        query: {
+          filetype: 'file',
+          program: this.program,
+          job_name: this.proj_name,
+          filename: command,
+        },
       })
       window.open(routeData.href, '_blank')
     },
@@ -161,7 +218,7 @@ export default {
 
 .view_3d {
   width: 100%;
-  height: 450px;
+  height: 600px;
   display: flex;
   justify-content: center;
   padding: 0;

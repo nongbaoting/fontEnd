@@ -2,6 +2,7 @@
   <div>
     <h1>HelloWorld</h1>
     <div id="mymsa"></div>
+    <div id="viewport" style="width: 400px; height: 300px"></div>
   </div>
 </template>
 

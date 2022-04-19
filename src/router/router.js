@@ -100,8 +100,7 @@ const routes = [
 
       { path: "/test/pdbe-molstar", component: pdbeMolstar },
       {
-        path: "/test/svg-msa", component: resolve =>
-          require(['../views/structure/Molstar.vue'], resolve)
+        path: "/test/svg-msa", component: t_query
       },
       // 列队
       {

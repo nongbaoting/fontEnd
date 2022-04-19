@@ -29,8 +29,9 @@ export default {
       // console.log(this)
       let max = this.max
       let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1200])
-      console.log(width_linear(this.gene_length))
-      let width = width_linear(this.gene_length)
+
+      // let width = width_linear(this.gene_length)
+      let width = 1200
       let height = 80
       let box_height = 30
       let padding = { left: 10, right: 40, top: 20, bottom: 10 }
@@ -192,7 +193,7 @@ export default {
   word-break: break-all;
 }
 
-#gene text {
+.svg_text {
   font-family: sans-serif;
   font-size: calc(9px + 1vmin);
 }
@@ -200,12 +201,13 @@ export default {
 .axis path,
 .axis line {
   fill: none;
-  stroke: black;
-  stroke-width: 2;
+  stroke: rgb(4, 4, 4);
+  stroke-width: 1;
   shape-rendering: crispEdges;
 }
 
-.axis text {
+.axis {
+  font-size: calc(11px + 1vmin);
   font-family: sans-serif;
 }
 </style>

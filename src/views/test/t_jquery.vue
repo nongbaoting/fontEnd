@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <div id="viewport" style="width: 400px; height: 300px"></div> -->
+    <div id="viewport" style="width: 400px; height: 300px"></div>
     <div style="height: 1200px; width: 800px" id="molstar"></div>
     <div style="height: 400px; width: 400px" id="molstar_1"></div>
     <div id="container-01" class="mol-container"></div>
@@ -18,7 +18,8 @@
 
 <script>
 // import $ from "jquery";
-
+import { Viewer } from 'molstar/build/viewer/molstar'
+import 'molstar/build/viewer/molstar.css'
 const NGL = require('ngl')
 export default {
   data() {
@@ -37,8 +38,8 @@ export default {
   mounted() {
     // this.test()
     this.molstar('molstar')
-    this.molstar('molstar_1')
-    this.add_colors()
+    // this.molstar('molstar_1')
+    // this.add_colors()
   },
   methods: {
     add_colors() {
@@ -63,7 +64,7 @@ export default {
       })
     },
     molstar(app_id) {
-      var viewer = new this.$molstar(app_id, {
+      var viewer = new Viewer(app_id, {
         layoutIsExpanded: false,
         layoutShowControls: false,
         layoutShowRemoteState: false,
@@ -75,10 +76,19 @@ export default {
         viewportShowSelectionMode: false,
         viewportShowAnimation: false,
 
-        pdbProvider: 'rcsb',
-        emdbProvider: 'rcsb',
+        // pdbProvider: 'rcsb',
+        // emdbProvider: 'rcsb',
       })
       viewer.loadPdb('7bv2')
+      const _options_ = {
+        type: 'ball-and-stick',
+        color: 'element-symbol',
+        typeParams: { alpha: 1, aromaticBonds: true },
+      }
+      viewer.plugin.builders.structure.representation.addRepresentation(
+        structure,
+        _options_
+      )
       // viewer.loadEmdb('EMD-30210', { detail: 6 });
     },
   },
