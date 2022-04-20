@@ -1,6 +1,6 @@
 <template>
   <div class="view_region">
-    <el-row class="panel_3d" :gutter="20">
+    <el-row class="panel_3d" :gutter="60">
       <el-col :span="16">
         <el-row>
           <span class="title">{{ title }}</span></el-row
@@ -20,8 +20,9 @@
             </el-tab-pane> </el-tabs
         ></el-row>
         <!-- 画图区 -->
-        <el-row
-          ><div :key="molstar_id" class="view_3d" :id="molstar_id"></div
+        <el-row>
+          <el-col></el-col>
+          <div :key="molstar_id" class="view_3d" :id="molstar_id"></div
         ></el-row>
         <el-row :gutter="20" class="view_link">
           <!-- 下载区 -->
@@ -50,6 +51,22 @@
           </el-col>
         </el-row>
       </el-col>
+      <el-col :span="6" style="padding-top: 50px">
+        <div>AlphaFold 2 Used templates!</div>
+        <ol>
+          <li v-for="item in templates">
+            <el-link
+              :href="
+                'https://www.rcsb.org/structure/' +
+                item.split('_')[0].toUpperCase()
+              "
+              target="_blank"
+              type="success"
+              >{{ item.toUpperCase() }}</el-link
+            >
+          </li>
+        </ol>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -71,6 +88,7 @@ export default {
       activeTab: this.models[0],
       tools: [],
       viewer: '',
+      templates: [],
     }
   },
   computed: {
@@ -81,6 +99,7 @@ export default {
 
   mounted() {
     this.notice_tmp()
+    this.getTemplate()
     this.$nextTick(function () {
       this.getPDB(this.models[0])
     })
@@ -102,6 +121,20 @@ export default {
         this.getPDB(this.activeTab)
       })
     },
+    getTemplate() {
+      this.$http({
+        url: 'api/structure/getTemplate/',
+        params: {
+          program: this.program,
+          job_name: this.proj_name,
+        },
+        method: 'GET',
+      }).then((response) => {
+        console.log(response)
+        this.templates = response.data.templates
+      })
+    },
+
     getPDB(filename) {
       this.$http({
         url: 'api/structure/getFile/',
@@ -161,7 +194,7 @@ export default {
           layoutShowSequence: false,
           layoutShowLog: false,
           layoutShowLeftPanel: false,
-          viewportShowExpand: false,
+          viewportShowExpand: true,
           viewportShowSettings: false,
           // ViewportShowControl: false,
           viewportShowSelectionMode: false,

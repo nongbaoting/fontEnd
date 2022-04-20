@@ -50,22 +50,14 @@ export default {
           layoutShowLog: false,
           layoutShowLeftPanel: true,
 
-          viewportShowExpand: false,
-          viewportShowSelectionMode: false,
+          viewportShowExpand: true,
+          viewportShowSelectionMode: true,
           viewportShowAnimation: true,
           // 'http://222.200.186.47/outputs/testPDB/AF-P04637-F1-model_v1.pdb.gz',
         })
         // viewer.loadPdb('7bv2')
         // viewer.loadEmdb('EMD-30210', { detail: 6 })
 
-        // this.$http
-        //   .get('/static/protein/testPDB/model_1.pdb', {
-        //     headers: { 'Access-Control-Allow-Origin': '*' },
-        //     crossdomain: true,
-        //   })
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
         viewer.loadStructureFromUrl(this.pdb, 'pdb')
         console.log(this.pdb)
       })

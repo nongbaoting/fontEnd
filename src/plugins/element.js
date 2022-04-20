@@ -8,8 +8,8 @@ Vue.use(ElementUI, { locale })
 import axios from 'axios'
 // 配置根路径
 axios.defaults.timeout = 10 * 60 * 1000; // 30s
-const apiUrl = 'http://222.200.186.124:9002/protein/' //   开发版本 dev 链接Django
-// const apiUrl = 'http://222.200.186.124:3389/protein/' // 发布版本
+// const apiUrl = 'http://222.200.186.124:9002/protein/' //   开发版本 dev 链接Django
+const apiUrl = 'http://222.200.186.124:3389/protein/' // 发布版本
 // const apiUrl = 'http://biomed.nscc-gz.cn/server/PROTsim/' // 发布版本 超算
 
 Vue.prototype.API_URL = apiUrl

@@ -30,8 +30,8 @@ export default {
       let max = this.max
       let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1200])
 
-      // let width = width_linear(this.gene_length)
-      let width = 1200
+      let width = width_linear(this.gene_length)
+      // let width = 1200
       let height = 80
       let box_height = 30
       let padding = { left: 10, right: 40, top: 20, bottom: 10 }
