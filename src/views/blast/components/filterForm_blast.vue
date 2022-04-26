@@ -111,6 +111,20 @@
                 ></el-col>
               </el-row>
             </el-form-item>
+            <!-- source -->
+            <el-form-item
+              label-width="120px"
+              label="CD Source:"
+              props="filterForm.anno_source"
+            >
+              <el-select v-model="filterForm.anno_source" style="width: 400px">
+                <el-option label="ALL (58235 PSSMs)" value="all"></el-option>
+                <el-option
+                  label="NCBI_Curated (17937 PSSMs)"
+                  value="ncbi"
+                ></el-option>
+              </el-select>
+            </el-form-item>
 
             <el-form-item>
               <el-button type="primary" @click="Submit()"

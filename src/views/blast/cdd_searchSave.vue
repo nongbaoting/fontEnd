@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 搜索框 -->
-    <el-row :gutter="20" style="height: 400px" class="align_text_center">
+    <el-row :gutter="20" style="height: 400px">
       <el-col :span="18" :offset="3">
         <el-card class="box-card">
           <el-form ref="filterForm_cdd" :model="filterForm">
@@ -62,8 +62,8 @@
                 >
               </el-row>
             </el-form-item>
-            <el-form-item label="Protein Length">
-              <el-row :gutter="10">
+            <el-form-item label="Protein Length" label-width="140px">
+              <el-row :gutter="0">
                 <!-- Target Length  -->
                 <!-- TODO  traget lenth-->
                 <el-col :span="16">
@@ -75,7 +75,9 @@
                       <el-button slot="prepend">Min:</el-button>
                     </el-input>
                   </el-col>
-                  <el-col :span="1" class="inline"><span>-</span></el-col>
+                  <el-col :span="1" class="inline" style="padding-left: 10px"
+                    ><span>-</span></el-col
+                  >
                   <el-col :span="10"
                     ><el-input
                       type="number"
@@ -87,7 +89,26 @@
                 >
               </el-row>
             </el-form-item>
-            <el-form-item label="Job Name" props="filterForm.job_name">
+            <!-- source -->
+            <el-form-item
+              label-width="140px"
+              label="CD Source:"
+              props="filterForm.anno_source"
+            >
+              <el-select v-model="filterForm.anno_source" style="width: 400px">
+                <el-option label="ALL (58235 PSSMs)" value="all"></el-option>
+                <el-option
+                  label="NCBI_Curated (17937 PSSMs)"
+                  value="ncbi"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item
+              label-width="140px"
+              label="Job Name"
+              props="filterForm.job_name"
+            >
               <el-input type="text" v-model="filterForm.job_name"></el-input>
             </el-form-item>
             <el-form-item>
@@ -130,11 +151,14 @@ const filterForm_ori = {
       exclude: false,
     },
   ],
+
+  anno_source: 'all',
   currentPage: 1,
   pageSize: 10,
   uuid: '',
   field: 'length',
   order: 'descending',
+
   job_name: 'test',
 }
 
@@ -204,7 +228,7 @@ export default {
 
 <style >
 .center {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .el-select {
