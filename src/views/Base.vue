@@ -148,6 +148,11 @@ export default {
               order: 1,
             },
             {
+              id: 221,
+              name: 'Pairwise Structure Alignment',
+              path: 'structure_similarity/pairwise_alignment',
+            },
+            {
               id: 22,
               name: 'DUF-SPalignNS',
               path: 'structure_similarity/DUF',

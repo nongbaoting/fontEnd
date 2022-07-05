@@ -19,6 +19,8 @@ import About from "../views/About.vue"
 import Help from "../views/Help.vue"
 import CDD from "../views/blast/cdd_submit.vue"
 
+import pairwiseAlignment from "../views/structure/similarity/pairwiseAlignment.vue"
+
 Vue.use(VueRouter)
 
 // let head = document.getElementsByTagName('head');
@@ -67,6 +69,7 @@ const routes = [
         component: resolve =>
           require(['../views/structure/similarity/Search.vue'], resolve)
       },
+      { path: "/structure_similarity/pairwise_alignment", component: pairwiseAlignment },
 
       {
         path: '/structure_similarity/DUF',
