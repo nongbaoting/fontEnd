@@ -125,6 +125,12 @@ const routes = [
               require(['../views/doc/doc_jackhmmer.vue'], resolve)
           },
         ],
+      },
+
+      // CRISPR/CAS
+      {
+        path: '/crispr/browse', component: resolve => require(['../views/crispr/browse.vue'], resolve)
+
       }
     ]
 

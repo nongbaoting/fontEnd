@@ -359,7 +359,7 @@ export default {
       //filter
 
       this.$http
-        .post('api/blast/res/blast_jackhmmer/', this.filterForm)
+        .post('/protein/api/blast/res/blast_jackhmmer/', this.filterForm)
         .then((response) => {
           console.log(response.data.status)
           // console.log(response.data.data)
@@ -490,7 +490,7 @@ export default {
     //   console.log(this.$route.query.program)
     //   let that = this
     //   this.$http
-    //     .post('api/blast/res/blast_jackhmmer/', {
+    //     .post('/protein/api/blast/res/blast_jackhmmer/', {
     //       params: {
     //         uuid: this.$route.query.uuid,
     //         program: this.$route.query.program,

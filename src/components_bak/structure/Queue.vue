@@ -182,7 +182,7 @@ export default {
     queryJob(searchType) {
       this.loading = true
       this.$http
-        .get('api/structure/search/', {
+        .get('protein/api/structure/search/', {
           params: {
             searchType: searchType,
           },
@@ -200,7 +200,7 @@ export default {
         return
       }
       this.$http
-        .get('api/structure/search/', {
+        .get('protein/api/structure/search/', {
           params: {
             searchType: this.searchType,
             searchContent: this.searchContent,
@@ -223,7 +223,7 @@ export default {
     },
     queue() {
       this.loading = true
-      this.$http.get('api/structure/queue/').then((response) => {
+      this.$http.get('protein/api/structure/queue/').then((response) => {
         this.tableData = JSON.parse(response.data)
         this.loading = false
         // console.log(this.tableData)

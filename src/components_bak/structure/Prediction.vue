@@ -274,7 +274,7 @@ export default {
     getFormResponse() {
       this.$http
         .post(
-          '/predict/structure_submit/',
+          '/protein/predict/structure_submit/',
           //headers: { 'X-CSRFToken': window.sessionStorage.getItem('X-CSRFToken') },
           this.ruleForm
         )
@@ -303,9 +303,12 @@ export default {
     },
 
     async checkProName(rule, value, callback) {
-      const { data: res } = await this.$http.get('/predict/structure/check/', {
-        params: { proj_name: value },
-      })
+      const { data: res } = await this.$http.get(
+        '/protein/predict/structure/check/',
+        {
+          params: { proj_name: value },
+        }
+      )
 
       if (res.isExist == 1) {
         return callback(new Error('Job name exists !'))
@@ -315,7 +318,7 @@ export default {
     },
 
     async get_token() {
-      const { data: res } = await this.$http.get('get_token')
+      const { data: res } = await this.$http.get('/protein/get_token')
 
       window.sessionStorage.setItem('X-CSRFToken', res.token)
     },

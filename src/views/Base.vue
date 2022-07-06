@@ -200,6 +200,12 @@ export default {
         },
 
         {
+          //CRISPR/CAS
+          name: 'CRISPR/CAS',
+          children: [{ id: 41, name: 'Browse', path: 'crispr/browse' }],
+        },
+
+        {
           //test，// 一级菜单
           id: 30,
           name: 'Test',
@@ -269,7 +275,7 @@ export default {
       window.sessionStorage.setItem('activePath', activePath)
     },
     async get_token() {
-      const { data: res } = await this.$http.get('get_token')
+      const { data: res } = await this.$http.get('/protein/get_token')
       // console.log(res)
       window.sessionStorage.setItem('X-CSRFToken', res.token)
     },

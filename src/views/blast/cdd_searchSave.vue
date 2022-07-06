@@ -174,7 +174,7 @@ export default {
     Submit() {
       console.log(this.filterForm)
       this.$http
-        .post('api/cdd/search_save/', this.filterForm)
+        .post('/protein/api/cdd/search_save/', this.filterForm)
         .then((response) => {
           console.log(response.status)
           if (response.status === 200) {

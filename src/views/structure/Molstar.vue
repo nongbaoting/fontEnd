@@ -22,7 +22,7 @@ export default {
   methods: {
     getPDB() {
       this.$http({
-        url: 'api/structure/getFile/',
+        url: '/protein/api/structure/getFile/',
         params: {
           filetype: 'file',
           program: this.$route.query.program,

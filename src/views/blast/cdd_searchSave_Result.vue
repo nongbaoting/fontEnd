@@ -305,7 +305,7 @@ export default {
     getAllID() {
       this.totalSelect = []
       this.$http
-        .get('api/cdd/search/get_all_protin_ids/', {
+        .get('/protein/api/cdd/search/get_all_protin_ids/', {
           params: { uuid: this.uuid },
         })
         .then((response) => {
@@ -375,7 +375,7 @@ export default {
       this.filterForm['order'] = this.order
 
       this.$http({
-        url: 'api/cdd/retrieve_save/',
+        url: '/protein/api/cdd/retrieve_save/',
         params: {
           currentPage: this.currentPage,
           pageSize: this.pageSize,
@@ -403,7 +403,7 @@ export default {
       this.loading = true
       this.isgenebody = false
       this.$http
-        .post('api/cdd/filter_cdd_save/', this.filterForm)
+        .post('/protein/api/cdd/filter_cdd_save/', this.filterForm)
         .then((response) => {
           console.log(response.data.status)
           // console.log(response.data.data)

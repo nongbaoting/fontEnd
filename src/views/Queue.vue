@@ -195,7 +195,7 @@ export default {
       // subset
       this.loading = true
       this.$http
-        .get('api/blast/queue/search/', {
+        .get('/protein/api/blast/queue/search/', {
           params: {
             searchType: searchType,
             searchContent: this.searchContent,
@@ -216,7 +216,7 @@ export default {
         return
       }
       this.$http
-        .get('api/blast/queue/search/', {
+        .get('/protein/api/blast/queue/search/', {
           params: {
             searchType: this.searchType,
             searchContent: this.searchContent,
@@ -249,7 +249,7 @@ export default {
     queue(pageSize, currentPage) {
       this.loading = true
       this.$http
-        .get('api/Queue/', {
+        .get('/protein/api/Queue/', {
           params: {
             pageSize: pageSize,
             currentPage: currentPage,

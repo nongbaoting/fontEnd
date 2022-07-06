@@ -256,7 +256,7 @@ export default {
   methods: {
     logout() {
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('login')
     },
 
     saveNavState(activePath) {
@@ -264,7 +264,7 @@ export default {
       window.sessionStorage.setItem('activePath', activePath)
     },
     async get_token() {
-      const { data: res } = await this.$http.get('get_token')
+      const { data: res } = await this.$http.('get_token')
       // console.log(res)
       window.sessionStorage.setItem('X-CSRFToken', res.token)
     },

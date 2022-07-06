@@ -407,7 +407,7 @@ export default {
     getAllID() {
       this.totalSelect = []
       this.$http
-        .get('api/cdd/search/get_all_protin_ids/', {
+        .get('/protein/api/cdd/search/get_all_protin_ids/', {
           params: { uuid: this.uuid },
         })
         .then((response) => {
@@ -420,7 +420,7 @@ export default {
     DownloadFasta() {},
     Run_phylogenetic() {
       this.$http
-        .post('api/phylo/run/', {
+        .post('/protein/api/phylo/run/', {
           seqIDs: this.totalSelect,
           job_name: this.phylo_job_name,
         })
@@ -433,19 +433,21 @@ export default {
       this.showTable = true
       this.loading = true
       this.isgenebody = false
-      this.$http.post('api/cdd/search/', this.filterForm).then((response) => {
-        console.log(response.data.status)
-        // console.log(response.data.data)
-        // this.tableData = JSON.parse(response.data.data)
-        this.tableData = response.data.data
-        this.currentPage = 1
-        this.totalCount = response.data.totalCount
-        console.log(this.tableData)
-        this.uuid = response.data.uuid
-        this.filterForm.uuid = response.data.uuid
-        this.isgenebody = true
-        this.loading = false
-      })
+      this.$http
+        .post('/protein/api/cdd/search/', this.filterForm)
+        .then((response) => {
+          console.log(response.data.status)
+          // console.log(response.data.data)
+          // this.tableData = JSON.parse(response.data.data)
+          this.tableData = response.data.data
+          this.currentPage = 1
+          this.totalCount = response.data.totalCount
+          console.log(this.tableData)
+          this.uuid = response.data.uuid
+          this.filterForm.uuid = response.data.uuid
+          this.isgenebody = true
+          this.loading = false
+        })
     },
 
     removeDomain(item) {
@@ -525,7 +527,7 @@ export default {
     pages() {
       this.isgenebody = false
       this.$http
-        .get('api/cdd/search/page/', {
+        .get('/protein/api/cdd/search/page/', {
           params: {
             currentPage: this.currentPage,
             pageSize: this.pageSize,

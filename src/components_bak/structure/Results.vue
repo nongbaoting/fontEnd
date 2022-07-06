@@ -97,7 +97,7 @@ export default {
     getJob() {
       console.log(this.proj_name)
       this.$http
-        .get('api/structure/search/', {
+        .get('protein/api/structure/search/', {
           params: {
             searchType: 'job_name_id',
             searchContent: this.proj_name,

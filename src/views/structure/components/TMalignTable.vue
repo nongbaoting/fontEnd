@@ -186,7 +186,7 @@ export default {
     getData() {
       let that = this
       this.$http({
-        url: 'api/similarity/results/',
+        url: '/protein/api/similarity/results/',
         params: {
           uuid: that.uuid,
           currentPage: this.currentPage, //默认显示页面为1

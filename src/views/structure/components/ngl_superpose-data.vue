@@ -113,7 +113,7 @@ export default {
       let that = this
       return new Promise((resolve, reject) => {
         this.$http({
-          url: 'api/similarity/getOneItem/',
+          url: '/protein/api/similarity/getOneItem/',
           params: {
             dataType: dataType,
             fileName: fileName,

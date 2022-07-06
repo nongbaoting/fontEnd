@@ -63,7 +63,7 @@ export default {
       // if (!data.isRun) return
       this.dialogVisible = false
       this.$http
-        .post('api/phylo/run/', {
+        .post('/protein/api/phylo/run/', {
           seqIDs: this.seqIDs,
           job_name: this.ruleForm.job_name,
           email: this.ruleForm.email,

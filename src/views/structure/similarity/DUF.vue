@@ -422,7 +422,7 @@ export default {
 
       let that = this
       this.$http
-        .get('api/similarity/DUF_SPalign/', {
+        .get('/protein/api/similarity/DUF_SPalign/', {
           params: { uuid: that.$route.query.uuid, program: 'jackhmmer' },
         })
         .then((response) => {

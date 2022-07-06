@@ -123,7 +123,7 @@ export default {
     },
     getTemplate() {
       this.$http({
-        url: 'api/structure/getTemplate/',
+        url: '/protein/api/structure/getTemplate/',
         params: {
           program: this.program,
           job_name: this.proj_name,
@@ -137,7 +137,7 @@ export default {
 
     getPDB(filename) {
       this.$http({
-        url: 'api/structure/getFile/',
+        url: '/protein/api/structure/getFile/',
         params: {
           filetype: 'file',
           program: this.program,
@@ -154,7 +154,7 @@ export default {
     },
     Download(filename) {
       this.$http({
-        url: 'api/structure/getFile/',
+        url: '/protein/api/structure/getFile/',
         params: {
           filetype: 'tar',
           program: this.program,

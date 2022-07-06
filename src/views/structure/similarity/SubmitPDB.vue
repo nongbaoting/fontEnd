@@ -222,7 +222,7 @@ export default {
       formData.append('email', this.ruleForm.email)
 
       this.$http({
-        url: 'api/similarity/upload_pdb/',
+        url: '/protein/api/similarity/upload_pdb/',
         method: 'POST',
         data: formData,
       }).then((res) => {
@@ -262,9 +262,12 @@ export default {
       this.accept = '.pdb,.cif,.bcif,.pdb.gz,.cif.gz,.bcif.gz,'
     },
     async checkProName(rule, value, callback) {
-      const { data: res } = await this.$http.get('/predict/structure/check/', {
-        params: { job_name: value },
-      })
+      const { data: res } = await this.$http.get(
+        '/protein/predict/structure/check/',
+        {
+          params: { job_name: value },
+        }
+      )
 
       if (res.isExist == 1) {
         return callback(new Error('Job name exists !'))
@@ -274,7 +277,7 @@ export default {
     },
 
     async get_token() {
-      const { data: res } = await this.$http.get('get_token')
+      const { data: res } = await this.$http.get('/protein/get_token')
 
       window.sessionStorage.setItem('X-CSRFToken', res.token)
     },

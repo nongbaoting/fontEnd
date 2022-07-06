@@ -80,7 +80,10 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return
-        let { data: res } = await this.$http.post('login', this.loginForm)
+        let { data: res } = await this.$http.post(
+          '/protein/login',
+          this.loginForm
+        )
         console.log(res)
         if (res.status !== 200)
           return this.$message({
@@ -100,7 +103,7 @@ export default {
         // 保存token
         window.sessionStorage.setItem('token', res.token)
         //  跳转
-        this.$router.push('/home')
+        this.$router.push('home')
       })
     },
   },

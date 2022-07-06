@@ -219,7 +219,7 @@ const filterForm_ori = {
     },
   ],
   anno_source: 'all',
-  
+
   uuid: '',
   program: '',
   // page
@@ -331,7 +331,7 @@ export default {
     getAllID() {
       this.totalSelect = []
       this.$http
-        .get('api/cdd/search/get_all_protin_ids/', {
+        .get('/protein/api/cdd/search/get_all_protin_ids/', {
           params: { uuid: this.uuid },
         })
         .then((response) => {
@@ -403,7 +403,7 @@ export default {
       this.filterForm['dataset'] = this.$route.query.dataset
 
       this.$http
-        .post('api/blast/res/blast_jackhmmer/', this.filterForm, {
+        .post('/protein/api/blast/res/blast_jackhmmer/', this.filterForm, {
           timeout: 600 * 1000,
         })
         .then((response) => {
@@ -435,7 +435,7 @@ export default {
       this.dialogVisible_phylotree = data.dialogVisible
       // if (!data.isRun) return
       this.$http
-        .post('api/phylo/run/', {
+        .post('/protein/api/phylo/run/', {
           seqIDs: this.totalSelect,
           job_name: data.job_name,
           email: data.email,

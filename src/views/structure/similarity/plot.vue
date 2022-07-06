@@ -111,7 +111,7 @@ export default {
   methods: {
     getOneInfo() {
       this.$http({
-        url: 'api/similarity/getOneItem/',
+        url: '/protein/api/similarity/getOneItem/',
         params: {
           dataType: 'info',
           input_pdb: this.input_pdb,

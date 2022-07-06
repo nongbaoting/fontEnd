@@ -131,7 +131,7 @@ export default {
   methods: {
     getJob() {
       this.$http
-        .get('api/structure/search/', {
+        .get('protein/api/structure/search/', {
           params: {
             searchType: 'job_name_id',
             searchContent: this.$route.query.proj_name,

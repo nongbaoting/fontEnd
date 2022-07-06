@@ -93,7 +93,7 @@ descFilter() {
     //   console.log(this.$route.query.program)
     //   let that = this
     //   this.$http
-    //     .post('api/blast/res/blast_jackhmmer/', {
+    //     .post('/protein/api/blast/res/blast_jackhmmer/', {
     //       params: {
     //         uuid: this.$route.query.uuid,
     //         program: this.$route.query.program,

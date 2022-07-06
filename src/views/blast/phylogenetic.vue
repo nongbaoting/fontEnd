@@ -85,7 +85,7 @@ export default {
     previewDownFile(wantedType) {
       return new Promise((resolve, reject) => {
         this.$http({
-          url: `api/phylo/tree_files/`,
+          url: `/protein/api/phylo/tree_files/`,
           params: {
             wantedType: wantedType,
             uuid: this.$route.query.uuid,

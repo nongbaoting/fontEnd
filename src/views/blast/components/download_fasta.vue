@@ -52,7 +52,7 @@ export default {
     previewDownFile(wantedType) {
       return new Promise((resolve, reject) => {
         this.$http({
-          url: `api/phylo/get_fasta/`,
+          url: `/protein/api/phylo/get_fasta/`,
           data: {
             wantedType: wantedType,
             uuid: this.$route.query.uuid,

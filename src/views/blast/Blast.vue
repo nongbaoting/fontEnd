@@ -328,7 +328,7 @@ export default {
     getFormResponse() {
       this.$http
         .post(
-          'api/blast/psijackhmmer/',
+          '/protein/api/blast/psijackhmmer/',
           //headers: { 'X-CSRFToken': window.sessionStorage.getItem('X-CSRFToken') },
           this.ruleForm
         )
