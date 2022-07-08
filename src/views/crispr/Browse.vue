@@ -33,7 +33,28 @@
           label="Length"
           prop="sequence_length"
         ></el-table-column>
-        <el-table-column label="Structure"></el-table-column>
+        <el-table-column label="Structure">
+          <template slot-scope="scope">
+            <!-- 如果出现完completed_date就现实连接 -->
+            <!-- 跳转链接 -->
+            <el-link
+              v-if="scope.row.pdb"
+              type="success"
+              @click="toMolstar(scope.row.accession)"
+              >PDB</el-link
+            >
+            <el-popover v-else trigger="click" placement="top">
+              <p>
+                Structure prediction of
+                <span style="color: red">{{ scope.row.accession }}</span>
+                is not completed
+              </p>
+              <div slot="reference" class="name-wrapper">
+                <el-link type="info" disabled> pdb </el-link>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
       </el-table>
     </el-row>
 
@@ -76,6 +97,15 @@ export default {
     this.getData(10, 1)
   },
   methods: {
+    toMolstar(accession) {
+      let routeData = this.$router.resolve({
+        path: '/crispr/molstar/',
+        query: {
+          filename: accession,
+        },
+      })
+      window.open(routeData.href, '_blank')
+    },
     getData(pageSize, currentPage) {
       this.loading = true
       this.$http

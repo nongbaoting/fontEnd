@@ -35,10 +35,36 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         this.pdb = url
         this.molstar()
+        // this.pdbe()
       })
     },
+    pdbe() {
+      //Create plugin instance
+      var viewerInstance = new PDBeMolstarPlugin()
 
-    molstar(app_id) {
+      //Set options (Checkout available options list in the documentation)
+      var options = {
+        customData: {
+          url: this.pdb,
+          format: 'pdb',
+        },
+        alphafoldView: true,
+        bgColor: { r: 255, g: 255, b: 255 },
+        hideCanvasControls: [
+          'selection',
+          'animation',
+          'controlToggle',
+          'controlInfo',
+        ],
+      }
+
+      //Get element from HTML/Template to place the viewer
+      var viewerContainer = document.getElementById('molstar_large')
+
+      //Call render method to display the 3D view
+      viewerInstance.render(viewerContainer, options)
+    },
+    molstar() {
       this.$nextTick(function () {
         // Code that will run only after the
         // entire view has been re-rendered
@@ -48,7 +74,7 @@ export default {
           layoutShowRemoteState: false,
           layoutShowSequence: true,
           layoutShowLog: false,
-          layoutShowLeftPanel: true,
+          layoutShowLeftPanel: false,
 
           viewportShowExpand: true,
           viewportShowSelectionMode: true,

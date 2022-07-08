@@ -129,17 +129,19 @@ const routes = [
 
       // CRISPR/CAS
       {
-        path: '/crispr/browse', component: resolve => require(['../views/crispr/browse.vue'], resolve)
+        path: '/crispr/browse', component: resolve => require(['../views/crispr/Browse.vue'], resolve)
 
-      }
+      },
+
+
     ]
-
   },
   {
     path: '/molstar',
     component: resolve =>
       require(['../views/structure/Molstar.vue'], resolve)
-  }
+  },
+  { path: '/crispr/molstar/', component: resolve => require(['../views/crispr/common/Molstar.vue'], resolve) }
 ]
 
 const router = new VueRouter({

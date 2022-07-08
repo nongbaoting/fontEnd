@@ -174,9 +174,9 @@ export default {
   },
 
   mounted() {
-    // this.pdbe()
-    plot_gene_body('#gene', this.dataset, 1020, 1020)
-    this.vue_plot_geneBody()
+    this.pdbe()
+    // plot_gene_body('#gene', this.dataset, 1020, 1020)
+    // this.vue_plot_geneBody()
   },
 
   methods: {

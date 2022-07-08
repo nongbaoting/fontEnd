@@ -178,7 +178,7 @@ export default {
     queryJob(searchType) {
       this.loading = true
       this.$http
-        .get('/protein/api/structure/search/', {
+        .get('protein/api/structure/search/', {
           params: {
             searchType: searchType,
           },
