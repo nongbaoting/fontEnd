@@ -202,7 +202,10 @@ export default {
         {
           //CRISPR/CAS
           name: 'CRISPR/CAS',
-          children: [{ id: 41, name: 'Browse', path: 'crispr/browse' }],
+          children: [
+            { id: 41, name: 'Browse', path: 'crispr/browse' },
+            { id: 42, name: 'Aignment Score', path: 'crispr/alginScore' },
+          ],
         },
 
         {

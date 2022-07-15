@@ -81,7 +81,7 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return
         let { data: res } = await this.$http.post(
-          '/protein/login',
+          'protein/login',
           this.loginForm
         )
         console.log(res)

@@ -129,11 +129,13 @@ const routes = [
 
       // CRISPR/CAS
       {
-        path: '/crispr/browse', component: resolve => require(['../views/crispr/Browse.vue'], resolve)
-
+        path: '/crispr/browse',
+        component: resolve => require(['../views/crispr/Browse.vue'], resolve)
       },
-
-
+      {
+        path: '/crispr/alginScore',
+        component: resolve => require(['../views/crispr/AlignScore.vue'], resolve)
+      },
     ]
   },
   {
