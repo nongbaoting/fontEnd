@@ -132,16 +132,18 @@ const routes = [
         path: '/crispr/browse',
         component: resolve => require(['../views/crispr/Browse.vue'], resolve)
       },
+
+      // Score page
       {
         path: '/crispr/alginScore',
         component: resolve => require(['../views/crispr/AlignScore.vue'], resolve)
       },
+      { path: '/crispr/superposed', component: resolve => require(['../views/crispr/Superposed.vue'], resolve) },
     ]
   },
   {
     path: '/molstar',
-    component: resolve =>
-      require(['../views/structure/Molstar.vue'], resolve)
+    component: resolve => require(['../views/structure/Molstar.vue'], resolve)
   },
   { path: '/crispr/molstar/', component: resolve => require(['../views/crispr/common/Molstar.vue'], resolve) }
 ]
