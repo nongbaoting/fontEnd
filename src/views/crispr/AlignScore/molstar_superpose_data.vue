@@ -31,7 +31,6 @@
 </template>
 
 <script>
-const NGL = require('ngl')
 export default {
   props: ['input_filename', 'target_filename', 'input_name', 'target_name'],
   data() {
@@ -45,7 +44,7 @@ export default {
   },
 
   mounted() {
-    this.load_ngl()
+    // this.load_ngl()
     this.create_input_url('input_pdb', this.input_filename)
     this.create_target_url('db_pdb', this.target_filename)
   },
@@ -132,81 +131,6 @@ export default {
           .catch(() => {
             resolve(false)
           })
-      })
-    },
-
-    load_ngl() {
-      var that = this
-      var stage = new NGL.Stage('ngl_viewpoit', { backgroundColor: 'white' })
-      // load a PDB structure and consume the returned `Promise`
-      stage.removeAllComponents()
-      Promise.all([
-        stage
-          .loadFile(that.input_url, { ext: 'pdb' })
-          .then(function (component) {
-            // add a "cartoon" representation to the structure component
-            component.addRepresentation('cartoon', { color: that.input_color })
-            // provide a "good" view of the structure
-            component.autoView()
-            return component
-          }),
-
-        stage
-          .loadFile(that.target_url, { ext: 'pdb' })
-          .then(function (component) {
-            // add a "cartoon" representation to the structure component
-            component.addRepresentation('cartoon', { color: that.target_color })
-            // provide a "good" view of the structure
-            component.autoView()
-            return component
-          }),
-      ]).then(function (ol) {
-        let s1 = ol[0].structure
-        let s2 = ol[1].structure
-        NGL.superpose(s1, s2, true)
-        ol[0].updateRepresentations({ position: true })
-        ol[0].autoView()
-      })
-      // Handle window resizing
-
-      window.addEventListener(
-        'resize',
-        function (event) {
-          stage.handleResize()
-        },
-        false
-      )
-      that.stage = stage
-    },
-
-    load_ngl_stage() {
-      var that = this
-      Promise.all([
-        this.stage
-          .loadFile(that.input_url, { ext: 'pdb' })
-          .then(function (component) {
-            // add a "cartoon" representation to the structure component
-            component.addRepresentation('cartoon', { color: that.input_color })
-            // provide a "good" view of the structure
-            component.autoView()
-            return component
-          }),
-
-        this.stage
-          .loadFile(that.target_url, { ext: 'pdb' })
-          .then(function (component) {
-            // add a "cartoon" representation to the structure component
-            component.addRepresentation('cartoon', { color: that.target_color })
-            // provide a "good" view of the structure
-            component.autoView()
-            return component
-          }),
-      ]).then(function (ol) {
-        let s1 = ol[0].structure
-        let s2 = ol[1].structure
-        // NGL.superpose(s1, s2, true)
-        ol[0].updateRepresentations({ position: true })
-        ol[0].autoView()
       })
     },
   },
