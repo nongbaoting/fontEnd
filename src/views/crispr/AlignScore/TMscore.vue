@@ -65,7 +65,7 @@
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="Sequence Ident"
+            label="SI"
             prop="fields.seq_ID"
           ></el-table-column>
         </el-table>
@@ -97,6 +97,7 @@
 
 <script>
 export default {
+  props: ['filters', 'isfilter'],
   data() {
     return {
       activePath: '',
@@ -110,7 +111,12 @@ export default {
       order: '',
     }
   },
-
+  watch: {
+    isfilter: function () {
+      console.log('filters')
+      this.getData(10, 1)
+    },
+  },
   mounted() {
     this.getData(10, 1)
   },
@@ -125,6 +131,7 @@ export default {
             currentPage: currentPage,
             field: this.field,
             order: this.order,
+            filters: this.filters,
           },
         })
         .then((response) => {

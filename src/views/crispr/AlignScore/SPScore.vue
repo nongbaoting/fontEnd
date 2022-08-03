@@ -58,12 +58,12 @@
           ></el-table-column>
 
           <el-table-column label="RMSD" prop="fields.RMSD"></el-table-column>
-          <!-- <el-table-column
+          <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="Sequence Ident"
+            label="SI"
             prop="fields.seq_ID"
-          ></el-table-column> -->
+          ></el-table-column>
         </el-table>
         <!--分页条 -->
         <el-row :gutter="40" justify="end" style="padding: 10px">
@@ -93,7 +93,7 @@
 
 <script>
 export default {
-  props: ['tool'],
+  props: ['tool', 'filters', 'isfilter'],
   data() {
     return {
       activePath: '',
@@ -112,6 +112,13 @@ export default {
     this.getData(10, 1)
   },
 
+  watch: {
+    isfilter: function () {
+      console.log('filters')
+      this.getData(10, 1)
+    },
+  },
+
   methods: {
     getData(pageSize, currentPage) {
       this.loading = true
@@ -124,6 +131,7 @@ export default {
             field: this.field,
             order: this.order,
             tool: this.tool,
+            filters: this.filters,
           },
         })
         .then((response) => {
