@@ -98,7 +98,7 @@ export default {
   },
 
   mounted() {
-    this.notice_tmp()
+    // this.notice_tmp()
     this.getTemplate()
     this.$nextTick(function () {
       this.getPDB(this.models[0])

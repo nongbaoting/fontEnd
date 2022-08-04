@@ -25,8 +25,9 @@
             <!-- 蛋白 -->
             <el-form-item label="Choose Cas9">
               <el-select v-model="formInline.protein" @change="chooseProtein()">
-                <el-option label="spCas9" value="spCas9"></el-option>
-                <el-option label="cjCas9" value="cjCas9"></el-option>
+                <el-option label="spCas9" value="spCas9-3"></el-option>
+                <el-option label="cjCas9" value="cjCas9-3"></el-option>
+                <el-option label="Nme1Cas9" value="Nme1Cas9-3"></el-option>
               </el-select>
             </el-form-item>
             <!-- 长度 -->
@@ -135,7 +136,7 @@ export default {
         max_len: 1400,
         min_SI: 0,
         max_SI: 1,
-        protein: 'spCas9',
+        protein: 'spCas9-3',
       },
     }
   },
@@ -144,14 +145,19 @@ export default {
     chooseProtein() {
       console.log(this.formInline.protein)
       switch (this.formInline.protein) {
-        case 'spCas9':
+        case 'spCas9-3':
           this.formInline.min_len = 1200
           this.formInline.max_len = 1400
           break
-        case 'cjCas9':
+        case 'cjCas9-3':
           this.formInline.min_len = 900
           this.formInline.max_len = 1100
           break
+        case 'Nme1Cas9-3':
+          this.formInline.min_len = 900
+          this.formInline.max_len = 1100
+          break
+
         default:
           this.formInline.min_len = 0
           this.formInline.max_len = 2000
