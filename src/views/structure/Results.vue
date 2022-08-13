@@ -18,13 +18,6 @@
       :tarFileName="proj_name + '_alphafold.tar.gz'"
       program="alphafold"
     ></alphafold-view>
-    <div class="box">
-      If you do not find any results, it is likely that your input sequence
-      contains non-standard residues. Try:
-      <el-link type="primary" @click="use_unrelaxed">
-        Use unrelaxed model</el-link
-      >
-    </div>
 
     <rosettafold-view
       v-if="tools.indexOf('RoseTTAFold') !== -1"
@@ -56,8 +49,6 @@ export default {
         'ranked_3.pdb',
         'ranked_4.pdb',
       ],
-
-      model_af_unrelaxed: ['unrelaxed_model_1.pdb'],
 
       model_rt: [
         'model/model_1.pdb',
@@ -109,9 +100,6 @@ export default {
             this.model_rt = ['/t000_.e2e.pdb']
           }
         })
-    },
-    use_unrelaxed() {
-      this.model_af = this.model_af_unrelaxed
     },
   },
   components: {

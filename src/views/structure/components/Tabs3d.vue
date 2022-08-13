@@ -1,7 +1,7 @@
 <template>
   <div class="view_region">
     <el-row class="panel_3d" :gutter="60">
-      <el-col :span="16">
+      <el-col :span="14">
         <el-row>
           <span class="title">{{ title }}</span></el-row
         >
@@ -50,19 +50,26 @@
             </el-dropdown>
           </el-col>
         </el-row>
+        <div class="box">
+          If you do not find any results, it is likely that your input sequence
+          contains non-standard residues. Try:
+          <el-link type="primary" @click="use_unrelaxed">
+            Use unrelaxed model</el-link
+          >
+        </div>
       </el-col>
-      <el-col :span="6" style="padding-top: 50px">
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="10" style="padding: 30px">
         <div>AlphaFold 2 Used templates!</div>
         <ol>
-          <li v-for="item in templates">
+          <li v-for="item in templates" style="padding: 3px">
             <el-link
-              :href="
-                'https://www.rcsb.org/structure/' +
-                item.split('_')[0].toUpperCase()
-              "
+              :href="'https://www.rcsb.org/structure/' + item[0].toUpperCase()"
               target="_blank"
-              type="success"
-              >{{ item.toUpperCase() }}</el-link
+              type="primary"
+              style="font-size: 18px"
+              >{{ item[2] }}</el-link
             >
           </li>
         </ol>
@@ -89,6 +96,7 @@ export default {
       tools: [],
       viewer: '',
       templates: [],
+      model_af_unrelaxed: ['unrelaxed_model_1.pdb'],
     }
   },
   computed: {
@@ -121,6 +129,10 @@ export default {
         this.getPDB(this.activeTab)
       })
     },
+    use_unrelaxed() {
+      this.models = this.model_af_unrelaxed
+    },
+
     getTemplate() {
       this.$http({
         url: '/protein/api/structure/getTemplate/',
