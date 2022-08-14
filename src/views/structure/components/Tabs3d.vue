@@ -51,28 +51,48 @@
           </el-col>
         </el-row>
         <div class="box">
-          If you do not find any results, it is likely that your input sequence
-          contains non-standard residues. Try:
+          If you do not find any results, it is likely that your input sequences
+          contain non-standard residues. Try:
           <el-link type="primary" @click="use_unrelaxed">
             Use unrelaxed model</el-link
           >
         </div>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="10" style="padding: 30px">
-        <div>AlphaFold 2 Used templates!</div>
-        <ol>
-          <li v-for="item in templates" style="padding: 3px">
-            <el-link
-              :href="'https://www.rcsb.org/structure/' + item[0].toUpperCase()"
-              target="_blank"
-              type="primary"
-              style="font-size: 18px"
-              >{{ item[2] }}</el-link
-            >
-          </li>
-        </ol>
+    <el-row :gutter="20" style="margin-top: 20px">
+      <h3>AlphaFold 2 Used templates!</h3>
+      <el-col :span="20" style="padding: 30px">
+        <el-table :data="template_data">
+          <el-table-column type="index"></el-table-column>
+          <el-table-column prop="CODEID" label="ID" width="100">
+            <template slot-scope="scope">
+              <el-link
+                :href="'https://www.rcsb.org/structure/' + scope.row.CODEID"
+                target="_blank"
+                type="primary"
+                style="font-size: 18px"
+                >{{ scope.row.CODEID }}</el-link
+              >
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="HEADER"
+            label="HEADER"
+            width="200"
+          ></el-table-column>
+          <el-table-column prop="COMPOUND" label="COMPOUND"></el-table-column>
+          <el-table-column label="Alignment" width="150">
+            <template slot-scope="scope">
+              <el-link
+                @click="toAlignment(scope.row.CODEID, scope.row.Chain)"
+                target="_blank"
+                type="success"
+              >
+                Alignment
+              </el-link>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-col>
     </el-row>
   </div>
@@ -97,6 +117,7 @@ export default {
       viewer: '',
       templates: [],
       model_af_unrelaxed: ['unrelaxed_model_1.pdb'],
+      template_data: [],
     }
   },
   computed: {
@@ -143,7 +164,7 @@ export default {
         method: 'GET',
       }).then((response) => {
         console.log(response)
-        this.templates = response.data.templates
+        this.template_data = response.data.data
       })
     },
 
@@ -227,6 +248,19 @@ export default {
           filename: command,
         },
       })
+      window.open(routeData.href, '_blank')
+    },
+
+    toAlignment(pdbid, chain) {
+      let routeData = this.$router.resolve({
+        path: '/predict/structure/result/alignment',
+        query: {
+          pdbid: pdbid,
+          chain: chain,
+          proj_name: this.proj_name,
+        },
+      })
+
       window.open(routeData.href, '_blank')
     },
   },

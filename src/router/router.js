@@ -52,6 +52,11 @@ const routes = [
           require(['../views/structure/Results.vue'], resolve)
       },
       {
+        path: '/predict/structure/result/alignment',
+        component: resolve =>
+          require(['../views/structure/similarity/aligment_res.vue'], resolve)
+      },
+      {
         path: '/predict/structure/queue/',
         component: resolve =>
           require(['../views/structure/Queue.vue'], resolve)
