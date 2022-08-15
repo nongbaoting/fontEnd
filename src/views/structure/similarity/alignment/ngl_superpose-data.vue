@@ -32,8 +32,7 @@
 
 <script>
 const NGL = require('ngl')
-import { Viewer } from 'molstar/build/viewer/molstar'
-import 'molstar/build/viewer/molstar.css'
+
 export default {
   props: ['input_filename', 'target_filename', 'input_name', 'target_name'],
   data() {

@@ -65,7 +65,7 @@
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="SI"
+            label="Identity"
             prop="fields.seq_ID"
           ></el-table-column>
         </el-table>

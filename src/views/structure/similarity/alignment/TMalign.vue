@@ -66,7 +66,7 @@
           <div v-html="html"></div>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="14">
         <molstar-view-data
           v-if="item"
           :input_filename="input_pdb"

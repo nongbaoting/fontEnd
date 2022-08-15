@@ -8,13 +8,17 @@
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalign</span>
           </el-menu-item>
-          <el-menu-item index="SPalignNS">
+          <!-- <el-menu-item index="SPalignNS">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalignNS</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-menu-item index="TMalign">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">TMalgin</span>
+          </el-menu-item>
+          <el-menu-item index="FATCAT">
+            <i class="el-icon-location"></i>
+            <span class="headtext" slot="title">FATCAT</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -31,7 +35,7 @@
               </el-select>
             </el-form-item>
             <!-- 长度 -->
-            <el-form-item label="Length Range">
+            <el-form-item label="Length 2 Range">
               <div class="block">
                 <el-row :gutter="0">
                   <!-- Target Length  -->
@@ -63,7 +67,7 @@
             </el-form-item>
 
             <!-- idnetity -->
-            <el-form-item label="SI Range">
+            <el-form-item label="Identity Range">
               <div class="block">
                 <el-row :gutter="0">
                   <!-- Target Length  -->
@@ -116,6 +120,11 @@
           :filters="formInline"
           :isfilter="isfilter"
         ></TMScore>
+        <fatcat-score-view
+          v-if="activePath === 'FATCAT'"
+          :filters="formInline"
+          :isfilter="isfilter"
+        ></fatcat-score-view>
       </el-col>
     </el-row>
   </div>
@@ -124,6 +133,8 @@
 <script>
 import SPScore from './AlignScore/SPScore.vue'
 import TMScore from './AlignScore/TMscore.vue'
+import FatcatScore from './AlignScore/FatcatScore.vue'
+
 export default {
   data() {
     return {
@@ -174,6 +185,7 @@ export default {
     SPScore,
     TMScore,
     SPScoreNS: SPScore,
+    'fatcat-score-view': FatcatScore,
   },
 }
 </script>

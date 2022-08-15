@@ -34,27 +34,33 @@
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="effect Length"
-            prop="fields.eff_len"
+            label="Cov 1"
+            prop="fields.cov1"
           ></el-table-column>
 
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="SPe"
-            prop="fields.SPe"
+            label="Cov 2"
+            prop="fields.cov2"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="SPa"
-            prop="fields.SPa"
+            label="alignScore"
+            prop="fields.alignScore"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
-            label="SPb"
-            prop="fields.SPb"
+            label="Similarity"
+            prop="fields.similar"
+          ></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="TMScore"
+            prop="fields.tmScore"
           ></el-table-column>
 
           <el-table-column label="RMSD" prop="fields.RMSD"></el-table-column>
@@ -124,7 +130,7 @@ export default {
       this.loading = true
       console.log(this.$route.path)
       this.$http
-        .get('crispr/api/structure/alignScore/SPScore/', {
+        .get('crispr/api/structure/alignScore/FatcatScore/', {
           params: {
             pageSize: pageSize,
             currentPage: currentPage,
@@ -138,6 +144,7 @@ export default {
           console.log(response.data)
           let data = JSON.parse(response.data.data)
           this.tableData = data
+          console.log(data)
           this.totalCount = response.data.totalCount
           this.loading = false
         })

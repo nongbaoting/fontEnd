@@ -7,7 +7,7 @@
       align="top"
       class="head_row"
     >
-      <el-col class="c_text" :span="8" :offset="1">
+      <el-col class="c_text" :offset="1">
         <!-- <span>{{ input_name }}: </span>
         <el-color-picker
           class="demonstration"

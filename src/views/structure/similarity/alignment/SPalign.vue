@@ -5,7 +5,7 @@
         <div>
           <el-descriptions
             class="margin-top box"
-            title="TMalign Result"
+            title="SPalign Result"
             :column="3"
             border
           >
@@ -45,7 +45,7 @@
               <template slot="label"> RMSD </template>
               {{ item.RMSD }}
             </el-descriptions-item>
-            <el-descriptions-item>
+            <!-- <el-descriptions-item>
               <template slot="label"> Coverage 1 </template>
               {{ item.cov_1 }}
             </el-descriptions-item>
@@ -56,7 +56,7 @@
             <el-descriptions-item>
               <template slot="label">Align Length</template>
               {{ item.align_len }}
-            </el-descriptions-item>
+            </el-descriptions-item> -->
             <el-descriptions-item>
               <template slot="label">Sequence Identity </template>
               {{ item.ali_ident }}
@@ -70,7 +70,7 @@
           <div v-html="html"></div>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="14">
         <molstar-view-data
           v-if="item"
           :input_filename="input_pdb"
@@ -124,7 +124,8 @@ export default {
         this.format_algin_code(
           this.item.seq_1,
           this.item.pairwise,
-          this.item.seq_2
+          this.item.seq_2,
+          this.item
         )
         // this.input_name = this.item.chain_1.split('.pdb')[0]
         // this.target_name = this.item.chain_2
@@ -133,7 +134,7 @@ export default {
       })
     },
 
-    format_algin_code(seq_1, pairwise, seq_2) {
+    format_algin_code(seq_1, pairwise, seq_2, item) {
       console.log(seq_1)
       let arr_1 = seq_1.split('')
       let arr_2 = seq_2.split('')
