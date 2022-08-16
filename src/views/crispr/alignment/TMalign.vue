@@ -1,5 +1,5 @@
 <template>
-  <div class="container-flow">
+  <div class="container-flow" v-loading="loading">
     <el-row :gutter="20">
       <el-col :span="10">
         <div>
@@ -98,7 +98,8 @@ export default {
       html: '',
       input_name: '',
       target_name: '',
-      align_url: '/protein/api/similarity/aligment/TMalign',
+      loading: true,
+      align_url: '/crispr/api/similarity/aligment/TMalign',
     }
   },
   mounted() {
@@ -110,10 +111,8 @@ export default {
         url: this.align_url,
         params: {
           dataType: 'info',
-          input_pdb_proj: this.input_pdb_proj,
-          db_pdbid: this.$route.query.pdbid,
-          db_chain: this.$route.query.chain,
-          uuid: this.$route.query.proj_name,
+          input_pdb_id: this.$route.query.input_id,
+          target_pdb_id: this.$route.query.target_id,
         },
       }).then((response) => {
         console.log(response)
@@ -123,6 +122,7 @@ export default {
           this.item.pairwise,
           this.item.seq_2
         )
+        this.loading = false
         // this.input_name = this.item.chain_1.split('.pdb')[0]
         // this.target_name = this.item.chain_2
         this.input_name = this.$route.query.proj_name

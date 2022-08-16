@@ -126,13 +126,8 @@ export default {
           url: this.align_url,
           params: {
             dataType: dataType,
-            fileName: fileName,
-            db_pdbid: this.$route.query.pdbid,
-            db_chain: this.$route.query.chain,
-            input_pdb: this.input_filename,
-            db_pdb: this.target_filename,
-            uuid: this.$route.query.proj_name,
-            viewer: '',
+            input_pdb_id: this.$route.query.input_id,
+            target_pdb_id: this.$route.query.target_id,
           },
           timeout: 0,
           method: 'get',
@@ -163,8 +158,8 @@ export default {
           viewportShowExpand: true,
           viewportShowSettings: true,
           ViewportShowControl: false,
-          viewportShowSelectionMode: false,
-          viewportShowAnimation: false,
+          viewportShowSelectionMode: true,
+          viewportShowAnimation: true,
         })
         this.viewer.loadStructureFromUrl(url, 'pdb')
       }

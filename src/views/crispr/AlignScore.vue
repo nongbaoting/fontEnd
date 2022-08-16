@@ -1,9 +1,14 @@
 <template>
   <div>
     <el-row class="tac" :gutter="20">
-      <el-col :span="4">
+      <el-col :span="2">
         <h5 class="subhead">Alignment Score</h5>
         <el-menu :default-active="activePath" @select="chooseScore">
+          <el-menu-item index="TMalign">
+            <i class="el-icon-location"></i>
+            <span class="headtext" slot="title">TMalgin</span>
+          </el-menu-item>
+
           <el-menu-item index="SPalign">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalign</span>
@@ -12,10 +17,7 @@
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalignNS</span>
           </el-menu-item> -->
-          <el-menu-item index="TMalign">
-            <i class="el-icon-location"></i>
-            <span class="headtext" slot="title">TMalgin</span>
-          </el-menu-item>
+
           <el-menu-item index="FATCAT">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">FATCAT</span>
@@ -23,7 +25,7 @@
         </el-menu>
       </el-col>
 
-      <el-col :span="18">
+      <el-col :span="20">
         <el-row style="padding-top: 20px">
           <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <!-- 蛋白 -->
@@ -103,6 +105,12 @@
             </el-form-item>
           </el-form>
         </el-row>
+        <TMScore
+          v-if="activePath === 'TMalign'"
+          :filters="formInline"
+          :isfilter="isfilter"
+        ></TMScore>
+
         <SPScore
           v-if="activePath === 'SPalign'"
           :tool="activePath"
@@ -115,16 +123,12 @@
           :filters="formInline"
           :isfilter="isfilter"
         ></SPScoreNS>
-        <TMScore
-          v-if="activePath === 'TMalign'"
-          :filters="formInline"
-          :isfilter="isfilter"
-        ></TMScore>
-        <fatcat-score-view
+
+        <Fatcat-score-view
           v-if="activePath === 'FATCAT'"
           :filters="formInline"
           :isfilter="isfilter"
-        ></fatcat-score-view>
+        ></Fatcat-score-view>
       </el-col>
     </el-row>
   </div>
@@ -146,7 +150,7 @@ export default {
         min_len: 1200,
         max_len: 1400,
         min_SI: 0,
-        max_SI: 1,
+        max_SI: 0.5,
         protein: 'spCas9-3',
       },
     }
@@ -185,7 +189,7 @@ export default {
     SPScore,
     TMScore,
     SPScoreNS: SPScore,
-    'fatcat-score-view': FatcatScore,
+    'Fatcat-score-view': FatcatScore,
   },
 }
 </script>

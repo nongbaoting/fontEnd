@@ -1,15 +1,10 @@
 <template>
   <div class="container-flow">
     <el-row :gutter="20">
-      <el-col :span="10">
+      <el-col :span="12">
         <div>
-          <el-descriptions
-            class="margin-top box"
-            title="TMalign Result"
-            :column="3"
-            border
-          >
-            <el-descriptions-item>
+          <el-descriptions class="margin-top box" :column="3" border>
+            <!-- <el-descriptions-item>
               <template slot="label"> AlphaFold </template>
               {{ input_pdb}}
             </el-descriptions-item>
@@ -21,27 +16,31 @@
             <el-descriptions-item>
               <template slot="label"> Length 1 </template>
               
-                {{ item.chain_1_len }}
+                {{ item.len_1 }}
               </el-link>
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label"> Length 2 </template>
-                {{ item.chain_2_len }}
+                {{ item.len_2 }}
             </el-descriptions-item>
 
-            <el-descriptions-item>
-              <template slot="label"> TMscore 1 </template>
-              {{ item.tmscore_1 }}
+                 <el-descriptions-item>
+              <template slot="label"> SPa  </template>
+              {{ item.SPa }}
             </el-descriptions-item>
             <el-descriptions-item>
-              <template slot="label"> TMscore 2 </template>
-              {{ item.tmscore_2 }}
+              <template slot="label"> SPb </template>
+              {{ item.SPb }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template slot="label"> SPe </template>
+              {{ item.SPb }}
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label"> RMSD </template>
               {{ item.RMSD }}
-            </el-descriptions-item>
-            <el-descriptions-item>
+            </el-descriptions-item> -->
+            <!-- <el-descriptions-item>
               <template slot="label"> Coverage 1 </template>
               {{ item.cov_1 }}
             </el-descriptions-item>
@@ -52,21 +51,25 @@
             <el-descriptions-item>
               <template slot="label">Align Length</template>
               {{ item.align_len }}
-            </el-descriptions-item>
-            <el-descriptions-item>
+            </el-descriptions-item> -->
+            <!-- <el-descriptions-item>
               <template slot="label">Sequence Identity </template>
-              {{ item.Seq_ID }}
-            </el-descriptions-item>
+              {{ item.ali_ident }}
+            </el-descriptions-item> -->
           </el-descriptions>
         </div>
-        <div class="box">
-          (":" denotes residue pairs of d &lt 5.0 Angstrom, "." denotes other
-          aligned residues)
+        <!-- <div class="box">
+          (':' denotes the residue pairs of distance <= 4A, and '.' denotes
+          <=8A)
 
           <div v-html="html"></div>
-        </div>
+        </div> -->
+        <pre class="code">
+          {{ log }}
+        </pre>
       </el-col>
-      <el-col :span="14">
+      <el-col :span="11">
+        <div></div>
         <molstar-view-data
           v-if="item"
           :input_filename="input_pdb"
@@ -74,7 +77,8 @@
           :input_name="input_name"
           :target_name="target_name"
           :align_url="align_url"
-          tool="TMalign"
+          tool="FATCAT"
+          style="margin-top: 150px"
         ></molstar-view-data>
       </el-col>
     </el-row>
@@ -98,7 +102,8 @@ export default {
       html: '',
       input_name: '',
       target_name: '',
-      align_url: '/protein/api/similarity/aligment/TMalign',
+      align_url: '/protein/api/similarity/aligment/Fatcat',
+      log: '',
     }
   },
   mounted() {
@@ -118,11 +123,13 @@ export default {
       }).then((response) => {
         console.log(response)
         this.item = response.data
-        this.format_algin_code(
-          this.item.seq_1,
-          this.item.pairwise,
-          this.item.seq_2
-        )
+        this.log = response.data.log
+        // this.format_algin_code(
+        //   this.item.seq_1,
+        //   this.item.pairwise,
+        //   this.item.seq_2,
+        //   this.item
+        // )
         // this.input_name = this.item.chain_1.split('.pdb')[0]
         // this.target_name = this.item.chain_2
         this.input_name = this.$route.query.proj_name
@@ -130,7 +137,7 @@ export default {
       })
     },
 
-    format_algin_code(seq_1, pairwise, seq_2) {
+    format_algin_code(seq_1, pairwise, seq_2, item) {
       console.log(seq_1)
       let arr_1 = seq_1.split('')
       let arr_2 = seq_2.split('')

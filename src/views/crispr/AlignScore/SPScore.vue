@@ -11,58 +11,86 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           @sort-change="sortChange"
         >
+          <el-table-column label="Align" width="80">
+            <template slot-scope="scope">
+              <el-link
+                type="success"
+                @click="toAlignment(scope.row.chain1, scope.row.chain2_acc)"
+                >align
+              </el-link>
+            </template>
+          </el-table-column>
+
           <el-table-column
             label="Chain 1"
-            prop="fields.chain1"
+            prop="chain1"
+            width="80"
           ></el-table-column>
+
+          <el-table-column label="Protein 2" prop="protein_name" width="300">
+            <template slot-scope="scope">
+              <el-link
+                :href="
+                  'https://www.uniprot.org/uniprotkb/' +
+                  scope.row.chain2_acc +
+                  '/entry'
+                "
+                target="_blank"
+                type="primary"
+                style="font-size: 18px"
+                >{{ scope.row.protein_name }}</el-link
+              >
+            </template>
+          </el-table-column>
           <el-table-column
-            label="Chain 2"
-            prop="fields.chain2_acc"
+            label="Organism "
+            prop="organism"
+            width="300"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="Length 1"
-            prop="fields.chain1_len"
+            prop="chain1_len"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="Length 2"
-            prop="fields.chain2_len"
+            prop="chain2_len"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="effect Length"
-            prop="fields.eff_len"
+            prop="eff_len"
           ></el-table-column>
 
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="SPe"
-            prop="fields.SPe"
+            prop="SPe"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="SPa"
-            prop="fields.SPa"
+            prop="SPa"
           ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="SPb"
-            prop="fields.SPb"
+            prop="SPb"
           ></el-table-column>
 
-          <el-table-column label="RMSD" prop="fields.RMSD"></el-table-column>
+          <el-table-column label="RMSD" prop="RMSD"></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
             label="Identity"
-            prop="fields.seq_ID"
+            prop="seq_ID"
           ></el-table-column>
         </el-table>
         <!--分页条 -->
@@ -120,6 +148,17 @@ export default {
   },
 
   methods: {
+    toAlignment(input_id, target_id) {
+      let routeData = this.$router.resolve({
+        path: '/crispr/alginScore/alignment',
+        query: {
+          target_id: target_id,
+          input_id: input_id,
+        },
+      })
+      window.open(routeData.href, '_blank')
+    },
+
     getData(pageSize, currentPage) {
       this.loading = true
       console.log(this.$route.path)
@@ -136,7 +175,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data)
-          let data = JSON.parse(response.data.data)
+          let data = response.data.data
           this.tableData = data
           this.totalCount = response.data.totalCount
           this.loading = false

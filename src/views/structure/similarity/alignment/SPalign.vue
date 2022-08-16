@@ -78,6 +78,7 @@
           :input_name="input_name"
           :target_name="target_name"
           :align_url="align_url"
+           tool="SPalign"
         ></molstar-view-data>
       </el-col>
     </el-row>

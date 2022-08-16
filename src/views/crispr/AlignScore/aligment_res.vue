@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import TMalign from './alignment/TMalign.vue'
-import SPalign from './alignment/SPalign.vue'
-import Fatcat from './alignment/Fatcat.vue'
+import TMalign from '../alignment/TMalign.vue'
+import SPalign from '../alignment/SPalign.vue'
+import Fatcat from '../alignment/Fatcat.vue'
 export default {
   data() {
     return {
-      activeName: 'FATCAT',
+      activeName: 'TMalign',
     }
   },
   components: {
