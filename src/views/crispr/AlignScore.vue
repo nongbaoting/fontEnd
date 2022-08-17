@@ -147,8 +147,8 @@ export default {
 
       isfilter: false,
       formInline: {
-        min_len: 1200,
-        max_len: 1400,
+        min_len: 1250,
+        max_len: 1450,
         min_SI: 0,
         max_SI: 0.5,
         protein: 'spCas9-3',
@@ -161,16 +161,16 @@ export default {
       console.log(this.formInline.protein)
       switch (this.formInline.protein) {
         case 'spCas9-3':
-          this.formInline.min_len = 1200
-          this.formInline.max_len = 1400
+          this.formInline.min_len = 1250
+          this.formInline.max_len = 1450
           break
         case 'cjCas9-3':
           this.formInline.min_len = 900
           this.formInline.max_len = 1100
           break
         case 'Nme1Cas9-3':
-          this.formInline.min_len = 900
-          this.formInline.max_len = 1100
+          this.formInline.min_len = 950
+          this.formInline.max_len = 1200
           break
 
         default:

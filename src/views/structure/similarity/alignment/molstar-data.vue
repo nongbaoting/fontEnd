@@ -163,7 +163,7 @@ export default {
           viewportShowExpand: true,
           viewportShowSettings: true,
           ViewportShowControl: false,
-          viewportShowSelectionMode: false,
+          viewportShowSelectionMode: true,
           viewportShowAnimation: false,
         })
         this.viewer.loadStructureFromUrl(url, 'pdb')

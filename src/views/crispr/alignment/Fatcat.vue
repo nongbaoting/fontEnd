@@ -1,7 +1,7 @@
 <template>
   <div class="container-flow" v-loading="loading">
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :span="14">
         <div>
           <el-descriptions class="margin-top box" :column="3" border>
             <!-- <el-descriptions-item>
@@ -68,7 +68,7 @@
           {{ log }}
         </pre>
       </el-col>
-      <el-col :span="11">
+      <el-col :span="10">
         <div></div>
         <molstar-view-data
           v-if="item"

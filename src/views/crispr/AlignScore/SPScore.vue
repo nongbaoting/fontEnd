@@ -21,11 +21,17 @@
             </template>
           </el-table-column>
 
-          <el-table-column
-            label="Chain 1"
-            prop="chain1"
-            width="80"
-          ></el-table-column>
+          <el-table-column label="Chain 1" prop="chain1" width="80">
+            <template slot-scope="scope">
+              <el-link
+                :href="'https://www.rcsb.org/structure/' + scope.row.chain1"
+                target="_blank"
+                type="primary"
+                style="font-size: 18px"
+                >{{ scope.row.chain1 }}</el-link
+              >
+            </template>
+          </el-table-column>
 
           <el-table-column label="Protein 2" prop="protein_name" width="300">
             <template slot-scope="scope">
