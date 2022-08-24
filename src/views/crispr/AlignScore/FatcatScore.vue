@@ -148,13 +148,13 @@ export default {
   },
 
   mounted() {
-    this.getData(10, 1)
+    this.getData(this.pageSize, 1)
   },
 
   watch: {
     isfilter: function () {
       console.log('filters')
-      this.getData(10, 1)
+      this.getData(this.pageSize, 1)
     },
   },
 
@@ -201,7 +201,7 @@ export default {
       this.order = column.order
       this.field = column.prop
       this.currentPage = 1
-      this.getData(10, 1)
+      this.getData(this.pageSize, 1)
       this.loading = false
     },
 

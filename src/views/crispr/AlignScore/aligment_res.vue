@@ -25,7 +25,7 @@ import Fatcat from '../alignment/Fatcat.vue'
 export default {
   data() {
     return {
-      activeName: 'TMalign',
+      activeName: 'FATCAT',
     }
   },
   components: {

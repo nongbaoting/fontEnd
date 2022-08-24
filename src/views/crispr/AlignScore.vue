@@ -99,6 +99,11 @@
                 </el-row>
               </div>
             </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="formInline.exclude_knownCas"
+                >Exclude Known Cas9</el-checkbox
+              >
+            </el-form-item>
 
             <el-form-item>
               <el-button type="primary" @click="onFilter">Search</el-button>
@@ -142,7 +147,7 @@ import FatcatScore from './AlignScore/FatcatScore.vue'
 export default {
   data() {
     return {
-      activePath: 'SPalign',
+      activePath: 'FATCAT',
       showTools: 'SPalign',
 
       isfilter: false,
@@ -150,8 +155,9 @@ export default {
         min_len: 1250,
         max_len: 1450,
         min_SI: 0,
-        max_SI: 0.5,
+        max_SI: 1,
         protein: 'spCas9-3',
+        exclude_knownCas: true,
       },
     }
   },
@@ -175,7 +181,7 @@ export default {
 
         default:
           this.formInline.min_len = 0
-          this.formInline.max_len = 2000
+          this.formInline.max_len = 10000
       }
     },
     chooseScore(index) {
