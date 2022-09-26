@@ -96,7 +96,12 @@
             label="TMScore"
             prop="tmScore"
           ></el-table-column>
-          <el-table-column label="RMSD" prop="RMSD"></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="RMSD"
+            prop="RMSD"
+          ></el-table-column>
           <el-table-column
             sortable="custom"
             :sort-orders="['descending', 'ascending']"
