@@ -104,6 +104,11 @@
                 >Exclude Known Cas9</el-checkbox
               >
             </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="formInline.candidates"
+                >Candidates</el-checkbox
+              >
+            </el-form-item>
 
             <el-form-item>
               <el-button type="primary" @click="onFilter">Search</el-button>
@@ -158,6 +163,7 @@ export default {
         max_SI: 1,
         protein: 'spCas9-3',
         exclude_knownCas: true,
+        candidates: false,
       },
     }
   },
