@@ -48,6 +48,28 @@
               >
             </template>
           </el-table-column>
+
+          <el-table-column label="Genbank" prop="genome_genbank" width="120">
+            <template slot-scope="scope">
+              <el-link
+                :href="
+                  'https://www.ncbi.nlm.nih.gov/nuccore/' +
+                  scope.row.genome_genbank +
+                  '/entry'
+                "
+                target="_blank"
+                type="primary"
+                style="font-size: 18px"
+                >{{ scope.row.genome_genbank }}</el-link
+              >
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="NCBI ID"
+            prop="protein_genebankID"
+            width="120"
+          >
+          </el-table-column>
           <el-table-column
             label="Organism "
             prop="organism"
