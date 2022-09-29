@@ -130,6 +130,32 @@
             label="Identity"
             prop="seq_ID"
           ></el-table-column>
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <div>
+                <div :key="'ex' + props.row.repeatinfo"></div>
+                <el-form
+                  label-position="center"
+                  inline
+                  class="demo-table-expand"
+                  v-for="item in props.row.repeatinfo"
+                >
+                  <el-form-item label="Repeat">
+                    <span>{{ item[3] }}</span>
+                  </el-form-item>
+                  <el-form-item label="Repeat position">
+                    <span>{{ item[1] }} .. {{ item[2] }}</span>
+                  </el-form-item>
+                  <el-form-item label="Anti-repeat">
+                    <span>{{ item[6] }}</span>
+                  </el-form-item>
+                  <el-form-item label="Anti-repeat position">
+                    <span>{{ item[4] }} .. {{ item[5] }}</span>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </template>
+          </el-table-column>
         </el-table>
         <!--分页条 -->
         <el-row :gutter="40" justify="end" style="padding: 10px">

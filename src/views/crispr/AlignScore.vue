@@ -25,7 +25,7 @@
         </el-menu>
       </el-col>
 
-      <el-col :span="20">
+      <el-col :span="22">
         <el-row style="padding-top: 20px">
           <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <!-- 蛋白 -->
