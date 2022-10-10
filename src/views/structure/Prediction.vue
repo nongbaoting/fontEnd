@@ -45,7 +45,7 @@
             <el-input
               type="textarea"
               v-model="ruleForm.protein_seq"
-              :autosize="{ minRows: 4, maxRows: 20 }"
+              :autosize="{ minRows: 4, maxRows: 40 }"
               clearable
             ></el-input>
           </el-form-item>
@@ -196,8 +196,8 @@ export default {
           },
           {
             min: 3,
-            max: 20,
-            message: 'length 3 to 20 characters',
+            max: 40,
+            message: 'length 3 to 40 characters',
             trigger: 'blur',
           },
           { validator: this.checkProName, trigger: 'blur' },
