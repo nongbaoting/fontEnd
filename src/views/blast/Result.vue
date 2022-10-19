@@ -4,7 +4,7 @@
       ><el-col :span="12" :offset="3">
         <div>
           <h2 style="padding: 20px 0px">Job: {{ job_name }}</h2>
-          <p>using CDD NCBI curated 17937 pssm</p>
+          <p>using CDD All curated 58235 pssm</p>
         </div>
         <div>
           <h2>BLASTP</h2>
