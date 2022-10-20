@@ -1,17 +1,34 @@
 <template></template>
 
 <script>
+var BrowserText = (function () {
+  var canvas = document.createElement('canvas'),
+    context = canvas.getContext('2d')
+
+  /**
+   * Measures the rendered width of arbitrary text given the font size and font face
+   * @param {string} text The text to measure
+   * @param {number} fontSize The font size in pixels
+   * @param {string} fontFace The font face ("Arial", "Helvetica", etc.)
+   * @returns {number} The width of the text
+   **/
+  function getWidth(text, fontSize, fontFace) {
+    context.font = fontSize + 'px ' + fontFace
+    return context.measureText(text).width
+  }
+
+  return {
+    getWidth: getWidth,
+  }
+})()
+
 import * as d3 from 'd3'
 export default {
   props: ['dataset', 'gene_length', 'max'],
   data() {
     return {}
   },
-  // watch: {
-  //   dataset: function () {
-  //     this.plot_gene_body()
-  //   },
-  // },
+
   mounted() {
     this.$nextTick(function () {
       // Code that will run only after the
@@ -118,10 +135,23 @@ export default {
           }
           return 30
         })
+
         .text(function (d) {
-          return d[2]
+          let letters = d[2].split('')
+          let textWidth = linear(BrowserText.getWidth(d[2], 22, 'sans-serif'))
+          let rectWidth = linear(d[1] - d[0])
+          let num = Math.ceil((rectWidth / textWidth) * letters.length)
+          //   console.log(rectWidth)
+          //   console.log(BrowserText.getWidth(d, 22, 'sans-serif')) // 105.166015625
+          if (num > letters.length) {
+            num = letters.length
+          }
+
+          return letters.slice(0, num).join('')
+          //   return d[2]
         })
-        .style('text-anchor', 'middle')
+
+        .style('text-anchor', 'start')
         .on('mouseover', function (event, d, i) {
           tooltip.transition().duration(200)
           tooltip
@@ -147,7 +177,7 @@ export default {
         return arr
       }
       let tv = ticksValues(max, 7)
-      console.log(tv)
+      //   console.log(tv)
 
       let axis = d3.axisBottom(linear).ticks(7)
       // console.log(axis)
@@ -195,7 +225,8 @@ export default {
 
 .svg_text {
   font-family: sans-serif;
-  font-size: calc(9px + 1vmin);
+  /* font-size: calc(9px + 1vmin); */
+  font-size: 22px;
 }
 
 .axis path,

@@ -98,6 +98,8 @@ const routes = [
       { path: "/sequence/blast/res/", component: BlastRes },
       { path: "/sequence/blast/res/psiblast", component: PSIBlastRes },
       { path: "/sequence/blast/res/jackhmmer", component: JackhmmerRes },
+      { path: "/sequence/blast/res/architectures", component: resolve => require(['../views/blast/components/architectures.vue'], resolve) },
+
       { path: "/sequence/blast/cdd_submit", component: CDD },
       { path: "/sequence/blast/cdd_searchSave", component: resolve => require(['../views/blast/cdd_searchSave.vue'], resolve) },
       { path: "/sequence/blast/cdd_searchSave_result", component: resolve => require(['../views/blast/cdd_searchSave_Result.vue'], resolve) },
