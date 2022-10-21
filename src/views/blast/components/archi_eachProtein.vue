@@ -1,38 +1,38 @@
 <template>
-  <div>
+  <div class="container_eachProtein"  v-loading="loading" element-loading-text="loading"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)">
 
-    <el-row v-for="(item,index) in tableData" :gutter="10">
+    <el-row v-for="(item,index) in tableData" :gutter="0" class="eachProtein_row" >
 
-      <el-col :offset="1" :span="5">
-        <el-descriptions
-          :column="2"
-          size="large"
-          labelClassName="desc_content"
-          contentClassName="desc_content"
-        >
-          <el-descriptions-item label="ID" :span="2">{{
-            item.target
-          }}</el-descriptions-item>
-          <el-descriptions-item label="Description">{{
-            item.desc
-          }}</el-descriptions-item>
-       
-        </el-descriptions>
+      <el-col :key="item.target + 'desc'" :span="6">
+          <el-row>
+              <p>ID: <el-link 
+              class="em_title"
+               :href="'https://www.ncbi.nlm.nih.gov/protein/' + item.target"
+                target="_blank"
+                type="success" >{{ item.target}}</el-link>  </p>
+          </el-row>
+          <el-row >
+              <p>{{item.desc}}</p>
+          </el-row>
+     
       </el-col>
-      <el-col :span="18">
+      <el-col :span="18" >
         <gene-body
-          :key="item.cdd_nameCat"
+          :key="item.target + 'gene_body'"
           :dataset="item.cdd_locs"
           :gene_length="item.target_len"
           :max="max_protein_length"
+          :show_len="true"
         >
         </gene-body>
       </el-col>
     </el-row>
-      <el-row :gutter="40" justify="end">
+      <el-row :gutter="40" justify="end" class="bar">
       <!--分页条 -->
       <!-- 分页 -->
-      <el-col :span="12">
+      <el-col :offset="6" :span="12">
         <div>
           <el-pagination
             class="pagination"
@@ -59,8 +59,8 @@
 <script>
 const filterForm_ori = {
   target_len: {
-    min: 400,
-    max: 3000,
+    min: 0,
+    max: 300000,
   },
   ident: {
     min: 0,
@@ -89,8 +89,8 @@ const filterForm_ori = {
   currentPage: 1,
   pageSize: 10,
   // order
-  field: 'cdd_nameCat',
-  order: 'descending',
+  field: 'target_len',
+  order: 'ascending',
 }
 import gene_body from './archi_genebody.vue'
 import * as d3 from 'd3'
@@ -98,7 +98,7 @@ export default {
   components: {
     'gene-body': gene_body,
   },
-  props: ['cdd_nameCat'],
+  props: ['cdd_nameCat', 'dataset_main', 'uuid', 'program'],
   data() {
     return {
       tableData: [],
@@ -110,6 +110,7 @@ export default {
       isgenebody: false,
       field: 'target_len',
       order: 'ascending',
+      loading: true,
     }
   },
   mounted() {
@@ -121,9 +122,9 @@ export default {
       this.loading = true
       this.isgenebody = false
 
-      this.filterForm['program'] = 'jackhmmer'
+      this.filterForm['program'] = this.program
 
-      this.filterForm['uuid'] = 'd4cbc25c-11da-490d-b059-2d3ff9554a0f'
+      this.filterForm['uuid'] = this.uuid
       this.filterForm['cdd_nameCat'] = this.cdd_nameCat
       // // page
       this.filterForm['currentPage'] = this.currentPage
@@ -138,7 +139,26 @@ export default {
         })
         .then((response) => {
           //   console.log(response.data)
-          this.tableData = response.data.data
+          console.log(response.data.data)
+          let data = response.data.data
+          let newColor_data = new Array()
+          //   console.log(data)
+          for (let item of data) {
+            let cdd_locs = item['cdd_locs']
+            console.log(cdd_locs)
+            let newColor_locs = new Array()
+            for (let i = 0; i < cdd_locs.length; i++) {
+              let domain = cdd_locs[i]
+              let domain_main = this.dataset_main[i]
+              domain[4] = domain_main[4]
+              newColor_locs.push(domain)
+            }
+            item['cdd_locs'] = newColor_locs
+            newColor_data.push(item)
+          }
+          this.tableData = newColor_data
+          //   this.tableData = response.data.data
+          console.log(this.tableData)
 
           this.totalCount = response.data.totalCount
           this.max_protein_length = d3.max(this.tableData, function (d) {
@@ -177,5 +197,25 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.container_eachProtein {
+  background-color: #f1f1ef;
+  padding: 0px;
+  font-size: calc(8px + 1vmin);
+}
+.eachProtein_row {
+  padding-top: 10px;
+  border: 1px solid #fff;
+}
+.pagination {
+  font-size: calc(16px + 1vmin);
+  color: #e2e2a6;
+}
+
+.my-content {
+  font-size: calc(11px + 1vmin);
+}
+.em_title {
+  font-size: calc(9px + 1vmin);
+}
 </style>

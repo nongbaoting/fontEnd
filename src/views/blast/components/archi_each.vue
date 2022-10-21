@@ -1,34 +1,39 @@
 <template>
-  <div>
+  <div class="container_archi_each">
     <el-row :gutter="10">
-      <el-col :span="1">
-        <i
-          class="el-icon-folder-add"
-          v-on:click="
-            show_proteins = !show_proteins
-            open_archi(item.cdd_nameCat)
-          "
-        ></i>
-      </el-col>
-      <el-col :span="5">
-        <el-descriptions
-          :title="item.commonDesc"
-          :column="2"
-          size="large"
-          labelClassName="desc_content"
-          contentClassName="desc_content"
+      <el-col :span="6">
+        <el-row :gutter="10">
+          <el-col :span="2">
+            <i
+              style="height: 20px; width: 20px"
+              :class="add_icon ? 'el-icon-folder-add' : 'el-icon-folder-remove'"
+              v-on:click="
+                show_proteins = !show_proteins
+                add_icon = !add_icon
+                open_archi(item.cdd_nameCat)
+              "
+            ></i>
+          </el-col>
+          <el-col :span="22">
+            <p class="em_title">{{ item.commonDesc }}</p>
+          </el-col>
+        </el-row>
+        <el-row
+          ><p>
+            Total sequences:<span class="em_font"> {{ item.count }}</span>
+          </p></el-row
         >
-          <el-descriptions-item label="Total sequences" :span="2">{{
-            item.count
-          }}</el-descriptions-item>
-          <el-descriptions-item label="Min Length">{{
-            item.min_tlen
-          }}</el-descriptions-item>
-          <el-descriptions-item label="Max Length">{{
-            item.max_tlen
-          }}</el-descriptions-item>
-        </el-descriptions>
+        <el-row
+          ><span>
+            Min Length:
+            <span class="em_font"> {{ item.min_tlen }}</span></span
+          ><span>
+            Max Length:
+            <span class="em_font"> {{ item.max_tlen }}</span></span
+          ></el-row
+        >
       </el-col>
+
       <el-col :span="18">
         <gene-body
           :key="item.cdd_nameCat"
@@ -40,8 +45,12 @@
       </el-col>
     </el-row>
     <archi-each-protein
+      :key="item.cdd_nameCat"
       :cdd_nameCat="item.cdd_nameCat"
+      :dataset_main="item.cdd_locs"
       v-if="show_proteins"
+      :uuid="uuid"
+      :program="program"
     ></archi-each-protein>
   </div>
 </template>
@@ -55,10 +64,11 @@ export default {
     'gene-body': gene_body,
     'archi-each-protein': archi_eachProtein,
   },
-  props: ['item', 'max_protein_length'],
+  props: ['item', 'max_protein_length', 'uuid', 'program'],
   data() {
     return {
       show_proteins: false,
+      add_icon: true,
     }
   },
   methods: {
@@ -69,5 +79,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="less" >
+.container_archi_each {
+  background-color: #eceecf;
+  padding: 5px;
+  margin: 0px;
+  font-size: calc(6px + 1vmin);
+}
+.em_font {
+  font-weight: bold;
+}
+.em_title {
+  font-weight: bold;
+  font-size: calc(11px + 1vmin);
+}
+.el-icon-folder-add,
+.el-icon-folder-remove {
+  background-color: yellow;
+}
 </style>

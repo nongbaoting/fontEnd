@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <el-row
       ><el-col :span="12" :offset="3">
         <div>
@@ -16,6 +16,13 @@
             :disabled="BLASTP_status != 0"
             >BLASTP</el-link
           >
+          <el-link
+            style="padding-left: 20px"
+            type="primary"
+            @click="to_architechures('BLASTP')"
+            :disabled="BLASTP_status != 0"
+            >Architechures</el-link
+          >
         </div>
         <div>
           <h2>PSI-BLAST</h2>
@@ -31,6 +38,13 @@
             :disabled="psiblast_status != 0"
             >PSI-BLAST</el-link
           >
+          <el-link
+            style="padding-left: 20px"
+            type="primary"
+            @click="to_architechures('psiblast')"
+            :disabled="psiblast_status != 0"
+            >Architechures</el-link
+          >
         </div>
         <div>
           <h2>jackhmmer</h2>
@@ -45,6 +59,13 @@
             "
             :disabled="jackhmmer_status != 0"
             >jackhmmer</el-link
+          >
+          <el-link
+            style="padding-left: 20px"
+            type="primary"
+            @click="to_architechures('jackhmmer')"
+            :disabled="jackhmmer_status != 0"
+            >Architechures</el-link
           >
         </div>
       </el-col></el-row
@@ -137,6 +158,17 @@ export default {
 
       // window.open(routeData.href, '_blank')
     },
+    to_architechures(program) {
+      let routeData = this.$router.resolve({
+        path: '/sequence/blast/res/architectures/',
+        query: {
+          uuid: this.uuid,
+          program: program,
+          job_name: this.job_name,
+        },
+      })
+      window.open(routeData.href, '_blank')
+    },
 
     check_date() {
       let timeline = new Date('2022-04-04T20:40:22.550')
@@ -159,5 +191,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.el-container {
+  font-size: calc(11px + 1vmin);
+  font-family: sans-serif;
+}
+
+/deep/ .el-link {
+  font-size: calc(11px + 1vmin);
+  font-family: sans-serif;
+}
 </style>

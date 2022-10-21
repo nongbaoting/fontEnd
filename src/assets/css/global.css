@@ -23,7 +23,7 @@ body,
 
 .el-pagination {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: calc(16px + 1vmin);
+  font-size: calc(16 + 1vmin);
 }
 
 .container {

@@ -1,6 +1,28 @@
 <template>
   <div class="container">
-    <p style="padding: 20px">Total Architechures: {{ totalCount }}</p>
+    <el-row class="myrow" :gutter="20">
+      <el-col :span="6">
+        Project Name:
+        <span class="em_font">{{ this.$route.query.job_name }}</span>
+      </el-col>
+      <el-col :span="4">
+        Program:
+        <span class="em_font">{{ this.$route.query.program }}</span>
+      </el-col>
+      <el-col :span="4"
+        >Total Architechures:
+        <span class="em_font">{{ totalCount }}</span></el-col
+      >
+      <el-col :span="4"
+        >Total Sequences:
+        <span class="em_font">{{ totalSequence }}</span></el-col
+      >
+      <!-- <el-col :span="6"
+        >Sequences with annotations:
+        <span class="em_font">{{ seqWithAnnotate }}</span></el-col
+      > -->
+      <!-- <el-col :span="6">Sequences annotated by CDD with 58235 PSSMs </el-col> -->
+    </el-row>
     <el-row :gutter="40" justify="end">
       <!--分页条 -->
       <!-- 分页 -->
@@ -22,76 +44,39 @@
           </el-pagination>
         </div>
       </el-col>
-      <el-col :span="12">
-        <el-button type="success" class="button_content"
+      <el-col :span="12" class="button_content">
+        <el-button type="success" @click="sortChange('count')"
           >Sort by Sequences Number</el-button
         >
-        <el-button type="primary" class="button_content"
+        <el-button type="primary" @click="sortChange('target_len')"
           >Sort by Sequences Length</el-button
         >
       </el-col>
     </el-row>
 
+    <!-- archi clusters -->
     <div
       :id="'archi' + index"
       v-for="(item, index) in tableData"
       class="archi_row"
     >
-      <!-- <el-row :gutter="10">
-        <el-col :span="1">
-          <i
-            class="el-icon-folder-add"
-            v-on:click="open_archi(item.cdd_nameCat, index)"
-          ></i>
-        </el-col>
-        <el-col :span="5">
-          <el-descriptions
-            :title="item.commonDesc"
-            :column="2"
-            size="large"
-            labelClassName="desc_content"
-            contentClassName="desc_content"
-          >
-            <el-descriptions-item label="Total sequences" :span="2">{{
-              item.count
-            }}</el-descriptions-item>
-            <el-descriptions-item label="Min Length">{{
-              item.min_tlen
-            }}</el-descriptions-item>
-            <el-descriptions-item label="Max Length">{{
-              item.max_tlen
-            }}</el-descriptions-item>
-          </el-descriptions>
-        </el-col>
-        <el-col :span="18">
-          <gene-body
-            :key="
-              'gene_body_currentPage' +
-              currentPage +
-              'pageSize' +
-              pageSize +
-              item.cdd_nameCat
-            "
-            :dataset="item.cdd_locs"
-            :gene_length="item.target_len"
-            :max="max_protein_length"
-          >
-          </gene-body>
-        </el-col>
-      </el-row> -->
       <archi-each
-        :key="'archi_each' + index"
+        :key="'archi_each' + currentPage + pageSize + index"
         :item="item"
         :index="index"
         :max_protein_length="max_protein_length"
+        :uuid="uuid"
+        :program="program"
+        :show_len="false"
       ></archi-each>
     </div>
     <!--分页条 -->
     <el-row :gutter="40" justify="end">
       <!-- 分页 -->
       <el-col>
-        <div class="pagination">
+        <div>
           <el-pagination
+            class="pagination"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
@@ -121,14 +106,18 @@ export default {
   data() {
     return {
       tableData: [],
-
+      totalSequence: 0,
+      seqWithAnnotate: 0,
       currentPage: 1, //默认显示页面为1
       pageSize: 10, //    每页的数据条数
       totalCount: 0, // 总数，返回得到
       max_protein_length: 0,
       isgenebody: false,
-      field: 'target_len',
-      order: 'ascending',
+      field: 'count',
+      order: 'descending',
+      order_toggle: false,
+      program: this.$route.query.program,
+      uuid: this.$route.query.uuid,
     }
   },
   mounted() {
@@ -154,8 +143,8 @@ export default {
           params: {
             pageSize: this.pageSize,
             currentPage: this.currentPage,
-            program: 'jackhmmer',
-            uuid: 'd4cbc25c-11da-490d-b059-2d3ff9554a0f',
+            program: this.$route.query.program,
+            uuid: this.$route.query.uuid,
             field: this.field,
             order: this.order,
           },
@@ -165,22 +154,24 @@ export default {
           this.tableData = response.data.data
 
           this.totalCount = response.data.totalCount
+          this.totalSequence = response.data.totalSequence
+          this.seqWithAnnotate = response.data.seqWithAnnotate
           this.max_protein_length = d3.max(this.tableData, function (d) {
             return d['target_len']
           })
 
-          console.log(this.archiOpen)
+          console.log(this.tableData)
           this.isgenebody = true
           this.loading = false
         })
     },
 
     // sortchange
-    sortChange: function (column) {
-      console.log(column.column + '-' + column.prop + '-' + column.order)
+    sortChange: function (field) {
       this.loading = true
-      this.order = column.order
-      this.field = column.prop
+      this.order_toggle = !this.order_toggle
+      this.order = this.order_toggle ? 'ascending' : 'descending'
+      this.field = field
       this.currentPage = 1
       this.getData(this.pageSize, 1)
       this.loading = false
@@ -201,29 +192,33 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 .container {
   padding: 20px;
-}
-.desc_content {
-  font-weight: bold;
-  font-family: sans-serif;
-  font-size: calc(9px + 1vmin);
-}
-.button_content,
-.pagination {
-  font-weight: bold;
-  font-family: sans-serif;
   font-size: calc(11px + 1vmin);
 }
-.el-descriptions {
-  font-weight: bold;
-  font-family: sans-serif;
+.myrow {
+  padding: 10px 0px;
+}
+.pagination {
   font-size: calc(16px + 1vmin);
 }
 .archi_row {
-  padding-top: 20px;
+  margin-top: 10px;
   padding-left: 5px;
-  border: 1px solid;
+
+  border-top: 1px solid;
+  background-color: #eceecf;
+}
+
+.button_content .el-button {
+  font-size: calc(8px + 1vmin);
+}
+</style>
+
+<style >
+.em_font {
+  font-weight: bold;
+  font-size: calc(11px + 1vmin);
 }
 </style>

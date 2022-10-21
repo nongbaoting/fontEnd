@@ -24,7 +24,7 @@ var BrowserText = (function () {
 
 import * as d3 from 'd3'
 export default {
-  props: ['dataset', 'gene_length', 'max'],
+  props: ['dataset', 'gene_length', 'max', 'show_len'],
   data() {
     return {}
   },
@@ -45,13 +45,14 @@ export default {
       // console.log('this')
       // console.log(this)
       let max = this.max
-      let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1600])
+      let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1200])
 
       let width = width_linear(this.gene_length)
       // let width = 1200
-      let height = 80
-      let box_height = 30
-      let padding = { left: 10, right: 40, top: 20, bottom: 10 }
+      let height = 100
+      let box_height = 35
+      let padding = { left: 10, right: 40, top: 35, bottom: 10 }
+      let stroke_width = 35
       // console.log(d3)
       var linear = d3
         .scaleLinear()
@@ -73,10 +74,12 @@ export default {
       gene_svg
         .append('line')
         .attr('x1', padding.left)
-        .attr('y1', padding.top)
-        .attr('x2', width - padding.left - padding.right + 1)
-        .attr('y2', padding.top)
-        .attr('stroke', 'red')
+        .attr('y1', padding.top + stroke_width / 2)
+        .attr('x2', width - padding.right)
+        .attr('y2', padding.top + stroke_width / 2)
+        .attr('stroke', 'gray')
+        .attr('stroke-width', stroke_width)
+        .attr('stroke-opacity', 0.5)
 
       gene_svg
         .selectAll('rect')
@@ -89,10 +92,10 @@ export default {
         .attr('y', function (d, i) {
           if (i > 0) {
             if (dataset[i - 1][1] > d[0]) {
-              return 15
+              return padding.top + 10
             }
           }
-          return 10
+          return padding.top
         })
         .attr('width', function (d) {
           return linear(d[1] - d[0])
@@ -124,23 +127,29 @@ export default {
         .enter()
         .append('text')
         .attr('class', 'svg_text')
-        .attr('x', function (d) {
-          return linear(d[0] + (d[1] - d[0]) / 2)
+        .attr('x', function (d, i) {
+          if (i > 0) {
+            if (dataset[i - 1][1] > d[0]) {
+              return linear(d[0] + (d[1] - d[0]) * 0.6)
+            }
+          }
+
+          return linear(d[0] + (d[1] - d[0]) * 0.3)
         })
         .attr('y', function (d, i) {
           if (i > 0) {
             if (dataset[i - 1][1] > d[0]) {
-              return 35
+              return padding.top + box_height * 0.66 + 10
             }
           }
-          return 30
+          return padding.top + box_height * 0.66
         })
 
         .text(function (d) {
           let letters = d[2].split('')
-          let textWidth = linear(BrowserText.getWidth(d[2], 22, 'sans-serif'))
+          let textWidth = linear(BrowserText.getWidth(d[2], 40, 'sans-serif'))
           let rectWidth = linear(d[1] - d[0])
-          let num = Math.ceil((rectWidth / textWidth) * letters.length)
+          let num = Math.ceil((rectWidth / 100) * letters.length)
           //   console.log(rectWidth)
           //   console.log(BrowserText.getWidth(d, 22, 'sans-serif')) // 105.166015625
           if (num > letters.length) {
@@ -166,26 +175,41 @@ export default {
         })
 
       // 坐标轴
-      let ticksValues = function (value, num) {
-        let span = value / num
-        let arr = []
-        for (let i = 0; i < num; i++) {
-          let v = i * span
-          arr.push(Math.ceil(v / 50) * 50)
-        }
-        arr.push(value)
-        return arr
-      }
-      let tv = ticksValues(max, 7)
-      //   console.log(tv)
+      // let ticksValues = function (value, num) {
+      //   let span = value / num
+      //   let arr = []
+      //   for (let i = 0; i < num; i++) {
+      //     let v = i * span
+      //     arr.push(Math.ceil(v / 50) * 50)
+      //   }
+      //   arr.push(value)
+      //   return arr
+      // }
+      // let tv = ticksValues(max, 6)
+      // //   console.log(tv)
 
-      let axis = d3.axisBottom(linear).ticks(7)
+      let axis = d3.axisTop(linear).ticks(7)
       // console.log(axis)
       const axis_plot = gene_svg
         .append('g')
         .attr('class', 'axis')
-        .attr('transform', 'translate(10,45)')
+        .attr('transform', 'translate(10,' + padding.top + ')')
         .call(axis)
+
+      // add gene length text
+      if (this.show_len) {
+        let gene_svg2 = d3
+          .select(this.$el)
+          .append('svg')
+          .attr('width', 100)
+          .attr('height', height)
+        gene_svg2
+          .append('g')
+          .append('text')
+          .attr('x', 2)
+          .attr('y', padding.top + box_height * 0.66)
+          .text(this.gene_length + ' AA')
+      }
     },
   },
 }
@@ -224,21 +248,21 @@ export default {
 }
 
 .svg_text {
-  font-family: sans-serif;
+  font-family: -sansserif;
   /* font-size: calc(9px + 1vmin); */
-  font-size: 22px;
+  font-size: calc(9px + 1vmin);
 }
 
 .axis path,
 .axis line {
   fill: none;
-  stroke: rgb(4, 4, 4);
-  stroke-width: 1;
+  stroke: rgb(44, 39, 39);
+  stroke-width: 2;
   shape-rendering: crispEdges;
 }
 
 .axis {
-  font-size: calc(11px + 1vmin);
+  font-size: calc(9px + 1vmin);
   font-family: sans-serif;
 }
 </style>

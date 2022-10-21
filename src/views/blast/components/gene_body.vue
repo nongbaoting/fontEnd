@@ -28,7 +28,7 @@ export default {
       // console.log('this')
       // console.log(this)
       let max = this.max
-      let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1600])
+      let width_linear = d3.scaleLinear().domain([0, this.max]).range([0, 1200])
 
       let width = width_linear(this.gene_length)
       // let width = 1200
