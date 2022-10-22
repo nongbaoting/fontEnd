@@ -197,19 +197,19 @@ export default {
         .call(axis)
 
       // add gene length text
-      if (this.show_len) {
-        let gene_svg2 = d3
-          .select(this.$el)
-          .append('svg')
-          .attr('width', 100)
-          .attr('height', height)
-        gene_svg2
-          .append('g')
-          .append('text')
-          .attr('x', 2)
-          .attr('y', padding.top + box_height * 0.66)
-          .text(this.gene_length + ' AA')
-      }
+      // if (this.show_len) {
+      //   let gene_svg2 = d3
+      //     .select(this.$el)
+      //     .append('svg')
+      //     .attr('width', 100)
+      //     .attr('height', height)
+      //   gene_svg2
+      //     .append('g')
+      //     .append('text')
+      //     .attr('x', 2)
+      //     .attr('y', padding.top + box_height * 0.66)
+      //     .text(this.gene_length + ' AA')
+      // }
     },
   },
 }
