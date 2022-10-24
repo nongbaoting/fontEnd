@@ -196,6 +196,7 @@ export default {
 .container {
   padding: 20px;
   font-size: calc(11px + 1vmin);
+  
 }
 .myrow {
   padding: 10px 0px;
