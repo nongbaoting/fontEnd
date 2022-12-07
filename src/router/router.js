@@ -144,6 +144,10 @@ const routes = [
         path: '/crispr/alginScore',
         component: resolve => require(['../views/crispr/AlignScore.vue'], resolve)
       },
+      {
+        path: '/crispr/cas12f1',
+        component: resolve => require(['../views/crispr/Cas12f1.vue'], resolve)
+      },
       { path: '/crispr/superposed', component: resolve => require(['../views/crispr/Superposed.vue'], resolve) },
       {
         path: '/crispr/alginScore/alignment',

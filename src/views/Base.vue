@@ -209,6 +209,11 @@ export default {
               name: 'Aignment Score',
               path: 'crispr/alginscore/',
             },
+            {
+              id: 43,
+              name: 'Cas12f1',
+              path: 'crispr/cas12f1/',
+            },
           ],
         },
 
