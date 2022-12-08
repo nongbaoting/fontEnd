@@ -13,10 +13,10 @@
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalign</span>
           </el-menu-item> -->
-          <el-menu-item index="SPalignNS">
+          <!-- <el-menu-item index="SPalignNS">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">SPalignNS</span>
-          </el-menu-item>
+          </el-menu-item> -->
 
           <el-menu-item index="FATCAT">
             <i class="el-icon-location"></i>
@@ -97,7 +97,8 @@
                 </el-row>
               </div>
             </el-form-item>
-            <el-form-item>
+
+            <!-- <el-form-item>
               <el-checkbox v-model="formInline.exclude_knownCas"
                 >Exclude Known Cas12f1</el-checkbox
               >
@@ -106,8 +107,11 @@
               <el-checkbox v-model="formInline.candidates"
                 >Candidates</el-checkbox
               >
+            </el-form-item> -->
+            <el-form-item label="Organism">
+              <el-input type="text" v-model="formInline.organism"></el-input>
             </el-form-item>
-
+            <!-- search bar -->
             <el-form-item>
               <el-button type="primary" @click="onFilter">Search</el-button>
             </el-form-item>
@@ -151,7 +155,7 @@ export default {
   data() {
     return {
       activePath: 'FATCAT',
-      showTools: 'SPalignNS',
+      showTools: 'FATCAT',
 
       isfilter: false,
       formInline: {
@@ -160,6 +164,7 @@ export default {
         min_SI: 0,
         max_SI: 1,
         protein: 'asCas12f1',
+        organism: '',
         exclude_knownCas: true,
         candidates: false,
       },

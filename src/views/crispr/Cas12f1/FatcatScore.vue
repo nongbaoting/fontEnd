@@ -33,23 +33,10 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="Protein 2" prop="protein_name" width="300">
-            <template slot-scope="scope">
-              <el-link
-                :href="
-                  'https://www.uniprot.org/uniprotkb/' +
-                  scope.row.chain2_acc +
-                  '/entry'
-                "
-                target="_blank"
-                type="primary"
-                style="font-size: 18px"
-                >{{ scope.row.protein_name }}</el-link
-              >
-            </template>
+          <el-table-column label="Protein 2" prop="chain2_acc" width="300">
           </el-table-column>
 
-          <el-table-column label="Genome" prop="genome_genbank" width="120">
+          <!-- <el-table-column label="Genome" prop="genome_genbank" width="120">
             <template slot-scope="scope">
               <el-link
                 :href="
@@ -63,13 +50,7 @@
                 >{{ scope.row.genome_genbank }}</el-link
               >
             </template>
-          </el-table-column>
-          <el-table-column
-            label="NCBI ID"
-            prop="protein_genebankID"
-            width="120"
-          >
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="Organism "
             prop="organism"
@@ -130,6 +111,32 @@
             label="Identity"
             prop="seq_ID"
           ></el-table-column>
+
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="UpPAM"
+            prop="upPam"
+          ></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="UpScore"
+            prop="upScore"
+          ></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="DownPAM"
+            prop="downPam"
+          ></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="DownScore"
+            prop="downScore"
+          ></el-table-column>
+
           <el-table-column type="expand">
             <template slot-scope="props">
               <div>
@@ -206,7 +213,7 @@ export default {
 
   watch: {
     isfilter: function () {
-      console.log('filters')
+      console.log(this.filters)
       this.getData(this.pageSize, 1)
     },
   },
