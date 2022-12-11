@@ -32,6 +32,7 @@
             <el-form-item label="Choose Cas12f1">
               <el-select v-model="formInline.protein" @change="chooseProtein()">
                 <el-option label="asCas12f1" value="asCas12f1"></el-option>
+                <el-option label="un1Cas12f1-7c7l" value="7c7l"></el-option>
               </el-select>
             </el-form-item>
             <!-- 长度 -->
