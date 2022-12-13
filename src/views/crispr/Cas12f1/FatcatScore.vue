@@ -136,6 +136,12 @@
             label="DownScore"
             prop="downScore"
           ></el-table-column>
+          <el-table-column
+            sortable="custom"
+            :sort-orders="['descending', 'ascending']"
+            label="tracer"
+            prop="tracer"
+          ></el-table-column>
 
           <el-table-column type="expand">
             <template slot-scope="props">
