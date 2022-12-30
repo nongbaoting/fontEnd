@@ -161,7 +161,7 @@ export default {
       isfilter: false,
       formInline: {
         min_len: 349,
-        max_len: 450,
+        max_len: 500,
         min_SI: 0,
         max_SI: 1,
         protein: 'asCas12f1',
@@ -178,7 +178,7 @@ export default {
       switch (this.formInline.protein) {
         case 'asCas12f1':
           this.formInline.min_len = 349
-          this.formInline.max_len = 450
+          this.formInline.max_len = 500
           break
 
         default:
