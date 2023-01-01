@@ -17,11 +17,15 @@
         >Total Sequences:
         <span class="em_font">{{ totalSequence }}</span></el-col
       >
-      <!-- <el-col :span="6"
-        >Sequences with annotations:
-        <span class="em_font">{{ seqWithAnnotate }}</span></el-col
-      > -->
-      <!-- <el-col :span="6">Sequences annotated by CDD with 58235 PSSMs </el-col> -->
+    </el-row>
+    <el-row>
+      <el-col :span="16">
+        <filter-from-archi
+          @filter_result="queue()"
+          :filterForm="filterForm"
+          :refName="'filterForm'"
+        ></filter-from-archi>
+      </el-col>
     </el-row>
     <el-row :gutter="40" justify="end">
       <!--分页条 -->
@@ -96,15 +100,53 @@
 </template>
 
 <script>
+const filterForm_ori = {
+  target_len: {
+    min: 400,
+    max: 3000,
+  },
+  ident: {
+    min: 0,
+    max: 100,
+  },
+
+  domains: [
+    {
+      type: 'cdd_nameCat',
+      value: '',
+      count: 1,
+      exclude: false,
+    },
+    {
+      type: 'cdd_nameCat',
+      value: '',
+      count: 1,
+      exclude: false,
+    },
+  ],
+  anno_source: 'all',
+
+  uuid: '',
+  program: '',
+  // page
+  currentPage: 1,
+  pageSize: 10,
+  // order
+  field: 'cdd_nameCat',
+  order: 'descending',
+}
 import gene_body from './archi_genebody.vue'
+import FilterFormArchi from './archi_filterForm.vue'
 import archi_each from './archi_each.vue'
 import * as d3 from 'd3'
 export default {
   components: {
     'archi-each': archi_each,
+    'filter-from-archi': FilterFormArchi,
   },
   data() {
     return {
+      filterForm: JSON.parse(JSON.stringify(filterForm_ori)),
       tableData: [],
       totalSequence: 0,
       seqWithAnnotate: 0,
@@ -118,6 +160,7 @@ export default {
       order_toggle: false,
       program: this.$route.query.program,
       uuid: this.$route.query.uuid,
+      filterForm: JSON.parse(JSON.stringify(filterForm_ori)),
     }
   },
   mounted() {
@@ -196,7 +239,6 @@ export default {
 .container {
   padding: 20px;
   font-size: calc(11px + 1vmin);
-  
 }
 .myrow {
   padding: 10px 0px;

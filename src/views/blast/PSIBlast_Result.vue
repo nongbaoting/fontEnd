@@ -243,7 +243,41 @@ export default {
   },
   data() {
     return {
-      filterForm: JSON.parse(JSON.stringify(filterForm_ori)),
+      filterForm: {
+        target_len: {
+          min: 400,
+          max: 3000,
+        },
+        ident: {
+          min: 0,
+          max: 100,
+        },
+
+        domains: [
+          {
+            type: 'cdd_nameCat',
+            value: '',
+            count: 1,
+            exclude: false,
+          },
+          {
+            type: 'cdd_nameCat',
+            value: '',
+            count: 1,
+            exclude: false,
+          },
+        ],
+        anno_source: 'all',
+
+        uuid: '',
+        program: '',
+        // page
+        currentPage: 1,
+        pageSize: 10,
+        // order
+        field: 'cdd_nameCat',
+        order: 'descending',
+      },
       tableData: [],
       currentPage: 1, //默认显示页面为1
       pageSize: 10, //    每页的数据条数
