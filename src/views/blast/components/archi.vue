@@ -21,7 +21,7 @@
     <el-row>
       <el-col :span="16">
         <filter-from-archi
-          @filter_result="queue()"
+          @filter_result="getData()"
           :filterForm="filterForm"
           :refName="'filterForm'"
         ></filter-from-archi>
@@ -160,7 +160,6 @@ export default {
       order_toggle: false,
       program: this.$route.query.program,
       uuid: this.$route.query.uuid,
-      filterForm: JSON.parse(JSON.stringify(filterForm_ori)),
     }
   },
   mounted() {
@@ -181,17 +180,18 @@ export default {
     getData() {
       this.loading = true
       this.isgenebody = false
+      this.filterForm['program'] = this.$route.query.program
+      this.filterForm['uuid'] = this.$route.query.uuid
+
+      // // page
+      this.filterForm['currentPage'] = this.currentPage
+      this.filterForm['pageSize'] = this.pageSize
+      // // order
+      this.filterForm['field'] = this.field
+      this.filterForm['order'] = this.order
+      this.filterForm['dataset'] = ''
       this.$http
-        .get('protein/api/blast/res/architecture/', {
-          params: {
-            pageSize: this.pageSize,
-            currentPage: this.currentPage,
-            program: this.$route.query.program,
-            uuid: this.$route.query.uuid,
-            field: this.field,
-            order: this.order,
-          },
-        })
+        .post('protein/api/blast/res/architecture/', this.filterForm)
         .then((response) => {
           //   console.log(response.data)
           this.tableData = response.data.data

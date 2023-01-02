@@ -31,14 +31,14 @@
                         label="CD Name"
                         value="cdd_nameCat"
                       ></el-option>
-                      <el-option
+                      <!-- <el-option
                         label="CD Description"
                         value="cdd_noteCat"
                       ></el-option>
                       <el-option
                         label="Protein Description"
                         value="desc"
-                      ></el-option>
+                      ></el-option> -->
                     </el-select>
 
                     <el-input-number
@@ -68,51 +68,8 @@
               </el-row>
             </el-form-item>
 
-            <el-form-item>
-              <el-row :gutter="10">
-                <el-col :span="8" class="center"
-                  ><span> Target Length </span></el-col
-                >
-                <!-- <el-col :span="8" class="center"><span>RMSD</span></el-col> -->
-
-                <el-col :span="8" class="center"
-                  ><span>Sequence Identity</span></el-col
-                >
-              </el-row>
-              <el-row :gutter="10">
-                <!-- Target Length -->
-                <el-col :span="8">
-                  <el-col :span="10"
-                    ><el-input
-                      type="number"
-                      v-model="filterForm.target_len.min"
-                    >
-                    </el-input
-                  ></el-col>
-                  <el-col :span="1" class="inline"><span>-</span></el-col>
-                  <el-col :span="10"
-                    ><el-input
-                      type="number"
-                      v-model="filterForm.target_len.max"
-                    >
-                    </el-input></el-col
-                ></el-col>
-
-                <!-- SEQID ident -->
-                <el-col :span="8">
-                  <el-col :span="10"
-                    ><el-input type="number" v-model="filterForm.ident.min">
-                    </el-input
-                  ></el-col>
-                  <el-col :span="1" class="inline"><span>-</span></el-col>
-                  <el-col :span="10"
-                    ><el-input type="number" v-model="filterForm.ident.max">
-                    </el-input></el-col
-                ></el-col>
-              </el-row>
-            </el-form-item>
             <!-- source -->
-            <el-form-item
+            <!-- <el-form-item
               label-width="120px"
               label="CD Source:"
               props="filterForm.anno_source"
@@ -124,7 +81,7 @@
                   value="ncbi"
                 ></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
 
             <el-form-item>
               <el-button type="primary" @click="Submit()"
