@@ -47,6 +47,12 @@ const routes = [
           require(['../views/structure/Prediction.vue'], resolve)
       },
       {
+        // 结构预测
+        path: '/predict/structure/2',
+        component: resolve =>
+          require(['../views/structure/prediction/Prediction.vue'], resolve)
+      },
+      {
         path: '/predict/structure/result/',
         component: resolve =>
           require(['../views/structure/Results.vue'], resolve)

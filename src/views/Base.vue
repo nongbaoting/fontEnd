@@ -117,6 +117,14 @@ export default {
               order: null,
             },
             {
+              // 二级菜单
+              id: 111,
+              name: 'Sumbit2',
+              path: 'predict/structure/2',
+              children: [],
+              order: null,
+            },
+            {
               id: 12,
               name: 'Queue',
               path: 'predict/structure/queue/',
