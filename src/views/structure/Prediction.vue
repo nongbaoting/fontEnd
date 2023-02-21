@@ -1,13 +1,13 @@
 <template>
   <div style="padding-top: 40px">
     <el-row id="app_form_predict">
-      <el-col :span="12" :offset="6">
+      <el-col :span="18" :offset="3">
         <h2 class="title">Structure Prediction</h2>
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
-          label-width="120px"
+          label-width="200px"
           class="demo-ruleForm"
           label-position="right"
         >
@@ -50,19 +50,39 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="Platform" prop="platform">
-            <el-checkbox-group v-model="ruleForm.platform">
+          <el-form-item label="Platform" prop="type">
+           <div class="block">
+  
+  <el-cascader
+    :options="options"
+    :props="props"
+    v-model="ruleForm.platform"
+    collapse-tags
+    size = "median"
+    clearable></el-cascader>
+</div>
+          </el-form-item>
+
+          <!-- <el-form-item label="Monomer platform" prop="platform">
+            <el-checkbox-group v-model="ruleForm.monomer_platform">
               <el-checkbox label="AlphaFold 2" checked></el-checkbox>
               <el-checkbox v-show="false" label="RoseTTAFold"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
+
+           <el-form-item  label="Multimer Platform" prop="polyplatform">
+            <el-checkbox-group v-model="ruleForm.multimer_platform">
+              <el-checkbox label="AlphaFold multimer" checked></el-checkbox>
+              <el-checkbox v-show="false" label="RoseTTAFold"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item> -->
 
           <el-form-item
             class="toggle_box"
             label-width="180px"
             label="RoseTTAFold Mode:"
             prop="RoseTTAFold_mode"
-            v-show="ruleForm.platform.indexOf('RoseTTAFold') !== -1"
+            v-show="ruleForm.monomer_platform.indexOf('RoseTTAFold') !== -1"
           >
             <el-radio v-model="ruleForm.RoseTTAFold_mode" label="pyrosetta"
               >pyrosetta</el-radio
@@ -89,7 +109,8 @@
               >Summit</el-button
             >
             <el-button @click="resetForm('ruleForm')">Reset</el-button>
-            <el-button @click="ExampleFrom()">Example</el-button>
+            <el-button @click="ExampleFrom_mono()">Example(mono)</el-button>
+            <el-button @click="ExampleFrom_multi()">Example(multi)</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -180,10 +201,31 @@ export default {
     return {
       dialogVisible: false,
       newseq: '',
+      type: 'Monomer',
+      props: { multiple: false },
+      options: [{
+          value: 'Monomer',
+          label: 'Monomer',
+          children: [{
+            value: "AlphaFold 2",
+            label: "AlphaFold 2",
+           
+          }, ]
+        }, {
+          value: 'Multimer',
+          label: 'Multimer',
+          children: [{
+            value: 'AlphaFold multimer',
+            label: 'AlphaFold multimer',
+          
+          }]
+        }],
       ruleForm: {
         proj_name: '',
         email: '',
-        platform: [],
+        platform:[],
+        multimer_platform: [],
+        monomer_platform:[],
         protein_seq: '',
         RoseTTAFold_mode: 'pyrosetta',
       },
@@ -196,8 +238,8 @@ export default {
           },
           {
             min: 3,
-            max: 40,
-            message: 'length 3 to 40 characters',
+            max: 100,
+            message: 'length 3 to 100 characters',
             trigger: 'blur',
           },
           { validator: this.checkProName, trigger: 'blur' },
@@ -209,7 +251,7 @@ export default {
             message: 'Please input protein sequence!',
             trigger: 'blur',
           },
-          { validator: this.checkStar, trigger: 'blur' },
+          // { validator: this.checkStar, trigger: 'blur' },
         ],
 
         email: [
@@ -295,12 +337,30 @@ export default {
       this.$refs[formName].resetFields()
     },
 
-    ExampleFrom() {
+    ExampleFrom_multi() {
+      console.log(this.ruleForm.platform)
+      console.log(this.props)
       this.ruleForm.proj_name = 'Job_1'
       this.ruleForm.email = 'HelloWorld@gmail.com'
-      this.ruleForm.platform = ['AlphaFold 2']
+  
+      this.ruleForm.platform = ["Multimer", "AlphaFold multimer"]
+
       this.ruleForm.protein_seq =
-        'MAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH'
+        '>seqA_1\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
+        '>seqA_2\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
+        '>seqA_3\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
+        '>seqB_1\nMAAPTPADKSMMAAVPEGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
+        '>seqB_2\nMAAPTPADKSMMAAVPEGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' 
+        
+    },
+
+      ExampleFrom_mono() {
+      this.ruleForm.proj_name = 'Job_1'
+      this.ruleForm.email = 'HelloWorld@gmail.com'
+      this.ruleForm.platform = ['Monomer', 'AlphaFold 2']
+      
+      this.ruleForm.protein_seq =
+        '>seqA\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH'
     },
 
     async checkProName(rule, value, callback) {

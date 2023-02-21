@@ -71,7 +71,7 @@
           <el-form-item label="Platform" prop="platform">
             <el-checkbox-group v-model="ruleForm.platform">
               <el-checkbox label="AlphaFold 2" checked></el-checkbox>
-              <el-checkbox v-show="false" label="RoseTTAFold"></el-checkbox>
+              <el-checkbox  label="alphafold2-multimer"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
 
@@ -220,7 +220,7 @@ export default {
           {
             min: 3,
             max: 40,
-            message: 'length 3 to 40 characters',
+            message: 'length 3 to 100 characters',
             trigger: 'blur',
           },
           { validator: this.checkProName, trigger: 'blur' },
