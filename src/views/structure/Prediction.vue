@@ -250,6 +250,7 @@ export default {
             required: true,
             message: 'Please input protein sequence!',
             trigger: 'blur',
+            // type:'text',
           },
           // { validator: this.checkStar, trigger: 'blur' },
         ],
@@ -301,6 +302,7 @@ export default {
     openSeq() {},
 
     submitForm(formName) {
+      console.log(this.ruleForm.protein_seq)
       this.ruleForm.protein_seq = this.ruleForm.protein_seq.toString().trim()
       this.ruleForm.proj_name = this.ruleForm.proj_name.toString().trim()
 
