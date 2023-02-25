@@ -10,7 +10,7 @@
     </el-row>
 
     <alphafold-view
-      v-if="tools.indexOf('AlphaFold 2') !== -1"
+      v-if="tools.indexOf('AlphaFold 2') !== -1 || tools.indexOf('AlphaFold multimer') !==-1"
       :proj_name="proj_name"
       title="AlphaFold 2"
       molstar_id="molstar_alphafold"

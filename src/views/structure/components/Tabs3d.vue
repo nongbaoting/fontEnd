@@ -71,7 +71,7 @@
                 target="_blank"
                 type="primary"
                 style="font-size: 18px"
-                >{{ scope.row.CODEID }}</el-link
+                >{{ scope.row.CODEID }} {{scope.row.Chain}}</el-link
               >
             </template>
           </el-table-column>

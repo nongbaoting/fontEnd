@@ -14,30 +14,6 @@
           <el-form-item prop="protein_seq">
             <span slot="label">
               <span class="span-box">
-                <!-- <el-popover placement="left" :width="300" trigger="click">
-                  <template #reference>
-                    <i class="el-icon-question ico-pre"></i>
-                  </template>
-                  <div>
-                    <span>
-                      Fasta Format:<br />
-                      >id<br />MAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCT
-                    </span>
-                    <el-divider></el-divider>
-                    <span>
-                      Plain Sequence:<br />
-                      MAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCT
-                    </span>
-                    <el-divider></el-divider>
-
-                    <span
-                      >GeneBank Format:<br /><code
-                        >1 MAWTKYQLFL AGLMLVTGSI <br />21 CLAAFYLLRC
-                        RAAGQSDSSV</code
-                      >
-                    </span>
-                  </div>
-                </el-popover> -->
                 <span>Input Sequence</span>
               </span>
             </span>
@@ -50,7 +26,7 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="Platform" prop="type">
+          <el-form-item label="Platform" prop="platform">
            <div class="block">
   
   <el-cascader
