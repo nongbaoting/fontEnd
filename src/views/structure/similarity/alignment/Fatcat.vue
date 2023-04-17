@@ -4,58 +4,7 @@
       <el-col :span="12">
         <div>
           <el-descriptions class="margin-top box" :column="3" border>
-            <!-- <el-descriptions-item>
-              <template slot="label"> AlphaFold </template>
-              {{ input_pdb}}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> PDB </template>
-              {{ db_pdbid + ':' + db_pdbChain }}
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-              <template slot="label"> Length 1 </template>
-              
-                {{ item.len_1 }}
-              </el-link>
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> Length 2 </template>
-                {{ item.len_2 }}
-            </el-descriptions-item>
-
-                 <el-descriptions-item>
-              <template slot="label"> SPa  </template>
-              {{ item.SPa }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> SPb </template>
-              {{ item.SPb }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> SPe </template>
-              {{ item.SPb }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> RMSD </template>
-              {{ item.RMSD }}
-            </el-descriptions-item> -->
-            <!-- <el-descriptions-item>
-              <template slot="label"> Coverage 1 </template>
-              {{ item.cov_1 }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label"> Coverage 2 </template>
-              {{ item.cov_2 }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <template slot="label">Align Length</template>
-              {{ item.align_len }}
-            </el-descriptions-item> -->
-            <!-- <el-descriptions-item>
-              <template slot="label">Sequence Identity </template>
-              {{ item.ali_ident }}
-            </el-descriptions-item> -->
+           
           </el-descriptions>
         </div>
         <!-- <div class="box">

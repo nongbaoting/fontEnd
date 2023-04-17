@@ -162,7 +162,7 @@ export default {
 <style>
 .code {
   font-family: 'Courier New', monospace;
-  font-size: 18px;
+  font-size: 16px;
   border: 1px;
 }
 .box {
