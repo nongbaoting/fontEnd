@@ -39,7 +39,7 @@ mounted(){
         
         length: this.sequence.length,
         trackWidth: 600,
-        rowTitleWidth: 100,
+        rowTitleWidth: 140,
         includeAxis: true,
         //This function is called when a Feature is clicked.
         //It is also called on dblclick. This will clear the highlighted region and pass an undefined parameter to the function

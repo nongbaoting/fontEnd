@@ -100,13 +100,17 @@ export default {
    
     focus_color_domain(e) {
       console.log('focus'+ e )
+      let color = e.color
+      if (! e.color){
+        color = e.sourceId
+      }
       viewerInstance.visual.select({
         data: [
           {
             struct_asym_id: 'C',
             start_residue_number: e.begin,
             end_residue_number: e.end,
-            color: e.sourceId,
+            color: color,
             focus: true,
           },
         ],
@@ -160,10 +164,10 @@ export default {
   padding: 0px;
 }
 .mycolor {
-  /* color:rgb(39, 163, 180); #27A3B4 */
-  /* color:rgb(192, 132, 35);#C08423 */
-  /* color:{r:216,g:62,b:124} ;#D83E7C */
-  /* color:rgb(27, 158, 119);#1B9E77 */
+  color: #27A3B4 ;
+  color:#C08423;
+  color:#D83E7C;
+color:#1B9E77;
   color: rgb(117, 112, 179);
   color: rgb(231, 41, 138);
   color: rgb(152, 78, 163);
