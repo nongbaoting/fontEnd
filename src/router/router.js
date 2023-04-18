@@ -112,7 +112,8 @@ const routes = [
       //phylogenetics
       { path: "/phylogenetic/plot/", component: resolve => require(['../views/blast/phylogenetic.vue'], resolve) },
 
-
+      //test
+      {path: "/test/", component:resovle => require(['../views/test/test.vue'], resovle)},
       { path: "/test/pdbe-molstar", component: pdbeMolstar },
       {
         path: "/test/svg-msa", component: t_query
@@ -163,6 +164,12 @@ const routes = [
 
     ]
   },
+  //molstar
+  {
+    path: '/pdbe-rcsb-domain',
+    component: resolve => require(['../views/structure/domain/domain_pdbe.vue'], resolve)
+  },
+
   {
     path: '/molstar',
     component: resolve => require(['../views/structure/Molstar.vue'], resolve)

@@ -8,20 +8,7 @@
       class="head_row"
     >
       <el-col class="c_text" :offset="1">
-        <!-- <span>{{ input_name }}: </span>
-        <el-color-picker
-          class="demonstration"
-          v-model="input_color"
-          size="small"
-        ></el-color-picker>
-      </el-col>
-      <el-col class="c_text">
-        <span>{{ target_name }}: </span
-        ><el-color-picker
-          class="demonstration"
-          v-model="target_color"
-          size="small"
-        ></el-color-picker> -->
+       
         <div style="height: 600px; margin-top: 10px; padding: 0">
           <div :id="molstar_id" style="width: 100%; height: 100%"></div>
         </div>

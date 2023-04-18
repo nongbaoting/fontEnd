@@ -169,8 +169,6 @@
   },
     methods: {
       rcsb() {
-        console.log('sword')
-        console.log(this.rowConfigData)
           let rowConfigData = this.rowConfigData
         const boardConfigData = {
           

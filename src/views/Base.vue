@@ -74,6 +74,12 @@
             <span class="header">Help</span>
           </template>
         </el-menu-item>
+        <el-menu-item index="/test">
+          <template slot="title">
+            <!-- 文本 -->
+            <span class="header">Test</span>
+          </template>
+        </el-menu-item>
       </el-menu>
 
       <el-button class="header" type="text" @click="logout">Logout</el-button>
@@ -225,36 +231,36 @@ export default {
           ],
         },
 
-        {
-          //test，// 一级菜单
-          id: 30,
-          name: 'Test',
-          path: 'test/',
-          children: [
-            // 二级菜单
-            {
-              id: 31,
-              name: 'svg-msa',
-              path: 'test/svg-msa',
-              children: [],
-              order: 1,
-            },
-            {
-              id: 32,
-              name: 'pdbeMolstar',
-              path: 'test/pdbe-molstar',
-              children: [],
-              order: 1,
-            },
-            {
-              id: 33,
-              name: 'phylotree',
-              path: 'test/phylotree',
-              children: [],
-            },
-          ],
-          order: 2,
-        },
+        // {
+        //   //test，// 一级菜单
+        //   id: 30,
+        //   name: 'Test',
+        //   path: 'test/',
+        //   children: [
+        //     // 二级菜单
+        //     {
+        //       id: 31,
+        //       name: 'svg-msa',
+        //       path: 'test/svg-msa',
+        //       children: [],
+        //       order: 1,
+        //     },
+        //     {
+        //       id: 32,
+        //       name: 'pdbeMolstar',
+        //       path: 'test/pdbe-molstar',
+        //       children: [],
+        //       order: 1,
+        //     },
+        //     {
+        //       id: 33,
+        //       name: 'phylotree',
+        //       path: 'test/phylotree',
+        //       children: [],
+        //     },
+        //   ],
+        //   order: 2,
+        // },
       ],
       iconObj: {
         10: 'el-icon-s-opportunity',

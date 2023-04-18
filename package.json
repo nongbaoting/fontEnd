@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@rcsb/rcsb-saguaro": "^2.5.8",
     "core-js": "^3.21.1",
     "d3": "^7.4.4",
     "element-ui": "^2.15.6",

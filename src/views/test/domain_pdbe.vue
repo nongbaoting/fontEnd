@@ -82,7 +82,7 @@ export default {
 },
   data() {
     return {
-      activeName: 'InterproScan',
+      activeName: 'Sword',
       activeRight: 'first',
     }
   },
