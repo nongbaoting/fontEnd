@@ -9,7 +9,7 @@ import { RcsbFv } from '@rcsb/rcsb-saguaro'
 
 export default {
 
-  props:['viewkey',"protein_id"],
+  props:['viewkey'],
   data() {
     return {
       sequence:'',
@@ -23,13 +23,8 @@ mounted(){
   methods: {
 
     getData(){
-      this.$http.get("protein/api/results/tada_like/",{
-        params: {
-          'protein_id':this.protein_id,
-          'request_type':'interpro'
-        }
-      }).then((res)=>{
-        console.log(res.data)
+      this.$http.get("protein/api/pdbe/interpro/").then((res)=>{
+        // console.log(JSON.parse(res.data))
         // let data = JSON.parse(res.data)
         this.rowConfigData = res.data.rowConfigData
         this.sequence = res.data.sequence

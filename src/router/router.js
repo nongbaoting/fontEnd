@@ -146,7 +146,6 @@ const routes = [
         component: resolve => require(['../views/crispr/Browse.vue'], resolve)
       },
 
-      // Score page
       {
         path: '/crispr/alginScore',
         component: resolve => require(['../views/crispr/AlignScore.vue'], resolve)
@@ -161,6 +160,12 @@ const routes = [
         component: resolve =>
           require(['../views/crispr/AlignScore/aligment_res.vue'], resolve)
       },
+
+      //results
+      {
+        path: '/results/tada_like/',
+        component: resolve => require(['../views/results/tada_like.vue'],resolve)
+      }
 
     ]
   },

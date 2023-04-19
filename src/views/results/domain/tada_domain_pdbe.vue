@@ -7,7 +7,7 @@
             <sword-view  key="swordView" viewkey="swordView" @clickOnRcsb="focus_color_domain"></sword-view>  
           </el-tab-pane>
           <el-tab-pane label="InterproScan" name="InterproScan">
-            <interproscan-view key="interproscan" viewkey="interproscan" :protein_id="protein_id"  @clickOnRcsb="focus_color_domain"></interproscan-view>
+            <interproscan-view key="interproscan" viewkey="interproscan" @clickOnRcsb="focus_color_domain"></interproscan-view>
           </el-tab-pane>
           <el-tab-pane label="..." name="third">...</el-tab-pane>
         </el-tabs></el-col
@@ -84,13 +84,12 @@ export default {
     return {
       activeName: 'InterproScan',
       activeRight: 'first',
-      protein_id: this.$route.query.protein_id,
     }
   },
   mounted() {
     window.viewerInstance = viewerInstance
 
-    this.getPDB()
+    this.pdbe()
    
   },
   methods: {
@@ -108,7 +107,7 @@ export default {
       viewerInstance.visual.select({
         data: [
           {
-            struct_asym_id: 'A',
+            struct_asym_id: 'C',
             start_residue_number: e.begin,
             end_residue_number: e.end,
             color: color,
@@ -117,30 +116,15 @@ export default {
         ],
       })
     },
-
-  getPDB() {
-      this.$http({
-        url: '/protein/api/results/get_pdbFile/',
-        params: {
-          protein_id: this.$route.query.protein_id,
-        },
-        method: 'GET',
-        responseType: 'blob',
-      }).then((response) => {
-        console.log(response)
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-        this.pdbe(url)
-      })
-    },
     
-    pdbe(url) {
+    pdbe() {
       //Set options (Checkout available options list in the documentation)
       var options = {
-        customData: {
-          url: url,
-          format: 'pdb',
-        },
-        // moleculeId: '1jx4',
+        // customData: {
+        //   url: 'https://alphafold.ebi.ac.uk/files/AF-O15552-F1-model_v1.cif',
+        //   format: 'cif',
+        // },
+        moleculeId: '1jx4',
         alphafoldView: true,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [

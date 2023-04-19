@@ -216,6 +216,7 @@ export default {
         {
           //CRISPR/CAS
           name: 'CRISPR/CAS',
+          path: 'crispr',
           children: [
             { id: 41, name: 'Browse', path: 'crispr/browse' },
             {
@@ -230,37 +231,17 @@ export default {
             },
           ],
         },
+        {
+          //Results
+          id:50,
+          name: 'Results',
+          path: 'results/',
+          children: [
+            { id: 51, name: 'TadA-like', path: 'results/tada_like/', },
+            
+          ],
+        },
 
-        // {
-        //   //test，// 一级菜单
-        //   id: 30,
-        //   name: 'Test',
-        //   path: 'test/',
-        //   children: [
-        //     // 二级菜单
-        //     {
-        //       id: 31,
-        //       name: 'svg-msa',
-        //       path: 'test/svg-msa',
-        //       children: [],
-        //       order: 1,
-        //     },
-        //     {
-        //       id: 32,
-        //       name: 'pdbeMolstar',
-        //       path: 'test/pdbe-molstar',
-        //       children: [],
-        //       order: 1,
-        //     },
-        //     {
-        //       id: 33,
-        //       name: 'phylotree',
-        //       path: 'test/phylotree',
-        //       children: [],
-        //     },
-        //   ],
-        //   order: 2,
-        // },
       ],
       iconObj: {
         10: 'el-icon-s-opportunity',
