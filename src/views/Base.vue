@@ -238,6 +238,7 @@ export default {
           path: 'results/',
           children: [
             { id: 51, name: 'TadA-like', path: 'results/tada_like/', },
+             { id: 52, name: 'CSR', path: 'results/csr/', },
             
           ],
         },

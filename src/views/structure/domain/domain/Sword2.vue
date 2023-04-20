@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :key="viewkey" :id="'mypfv'+ viewkey" style="margin-top: 10px"></div>
+    <div :key="viewkey" :id="'Sword2'+ viewkey" style="margin-top: 10px"></div>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import { RcsbFv } from '@rcsb/rcsb-saguaro'
 
 export default {
 
-  props:['viewkey',"protein_id","request_Data_url"],
+  props:['viewkey', "protein_id", "request_Data_url"],
   data() {
     return {
       sequence:'',
@@ -26,7 +26,7 @@ mounted(){
       this.$http.get( this.request_Data_url,{
         params: {
           'protein_id':this.protein_id,
-          'request_type':'interpro'
+          'request_type':'Sword2'
         }
       }).then((res)=>{
         // console.log(res.data)
@@ -53,7 +53,7 @@ mounted(){
           this.$emit('clickOnRcsb',e)
         },
       }
-      const elementId = 'mypfv'+ this.viewkey
+      const elementId = 'Sword2'+ this.viewkey
       let thispfv = new RcsbFv({
         boardConfigData,
         rowConfigData,

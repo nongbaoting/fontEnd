@@ -19,27 +19,16 @@
         >
           <!-- 列 -->
           <el-table-column type="index"></el-table-column>
-          <el-table-column   sortable="custom" prop="chain_2" label="chain_2">
+          <el-table-column   sortable="custom" prop="seq_id" label="seq_id">
            <template slot-scope="scope">
            
-               <el-link  type="success"  @click="toResult(scope.row.chain_2)">{{scope.row.chain_2}}</el-link>
+               <el-link  type="success"  @click="toResult(scope.row.seq_id)">{{scope.row.seq_id}}</el-link>
             
            </template>
           </el-table-column>
-          <el-table-column   sortable="custom" prop="chain_2_len" label="chain_2_len"></el-table-column>
-          <el-table-column   sortable="custom" prop="TMalign_cov_1" label="cov_1"></el-table-column>
-          
-          <el-table-column   sortable="custom" prop="DNAdomian_Location" label="DNA domain"></el-table-column>
-          
-          <el-table-column   sortable="custom" prop="TMalign_TMscore_1" label="TMscore 1">
-          </el-table-column>
-            <el-table-column   sortable="custom" prop="Seq_ID" label="identity"></el-table-column>
-          <el-table-column   sortable="custom" prop="RMSD" label="RMSD"></el-table-column>
+          <el-table-column   sortable="custom" prop="length" label="length"></el-table-column>
+            
          
-          <el-table-column   sortable="custom" prop="isDNAdomain" label="isDNAdomain"></el-table-column>
-          <el-table-column   sortable="custom" width="340" prop="interPro_description" label="interPro"></el-table-column>
-          <el-table-column   sortable="custom"  width="340"  prop="description" label="description"></el-table-column>
-          <el-table-column   sortable="custom" prop="Analysis" label="Analysis"></el-table-column>
           
         </el-table>
       </el-col>
@@ -78,9 +67,9 @@ export default {
       tableData: [],
       currentPage: 1, //默认显示页面为1
       pageSize: 10, //    每页的数据条数
-      tableKey: 'tableTadA_like',
+      tableKey: 'scrtable',
       order: 'descending',
-      field: 'TMalign_TMscore_1',
+      field: 'length',
       totalCount: 0,
     }
   },
@@ -97,8 +86,8 @@ export default {
         query: { 
           protein_id: protein_id, 
           request_type: 'interpro',
-          request_Data_url: 'protein/api/results/tada_like/',
-          request_PDB_url:'protein/api/results/get_pdbFile/'
+          request_Data_url: 'protein/api/results/csr_like/',
+          request_PDB_url:'protein/api/results/csr_pdbFile/'
         },
       })
       window.open(routeData.href, '_blank')
@@ -107,7 +96,7 @@ export default {
       this.loading = true
       console.log(this.$route.path)
       this.$http
-        .get('protein/api/results/tada_like/', {
+        .get('protein/api/results/csr_like/', {
           params: {
             request_type: 'info_table',
             pageSize: this.pageSize,

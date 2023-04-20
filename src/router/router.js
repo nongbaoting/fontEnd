@@ -165,6 +165,10 @@ const routes = [
       {
         path: '/results/tada_like/',
         component: resolve => require(['../views/results/tada_like.vue'],resolve)
+      },
+      {
+        path: '/results/csr/',
+        component: resolve => require(['../views/results/csr.vue'],resolve)
       }
 
     ]
