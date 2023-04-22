@@ -137,6 +137,8 @@ export default {
             start_residue_number:  parseInt(unit[0]),
             end_residue_number: parseInt(unit[1]),
             color: color,
+            
+            focus: true,
           })
         });
         viewerInstance.visual.select({
