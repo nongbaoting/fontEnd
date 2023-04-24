@@ -156,8 +156,8 @@ export default {
           },
         ],
       });
-      }
-     
+      };
+     viewerInstance.visual.reset({ camera: true});
      
     },
 
@@ -211,7 +211,7 @@ export default {
 #myViewer {
   float: left;
   width: 100%;
-  height: 560px;
+  height: 80vh;
   position: relative;
 }
 .viewerHead {
@@ -224,22 +224,6 @@ export default {
 }
 .mycolor {
   color: #479c06 ;
-  color:#C08423;
-  color:#D83E7C;
-color:#1B9E77;
-  color: rgb(117, 112, 179);
-  color: rgb(231, 41, 138);
-  color: rgb(152, 78, 163);
-  color: rgb(217, 95, 95);
-  color: rgb(102, 102, 30);
-  color: rgb(230, 171, 2);
-  color: rgb(166, 118, 29);
-  color: rgb(228, 26, 28);
-  color: rgb(55, 126, 184);
-  color: rgb(77, 175, 74);
-  color: rgb(166, 216, 84);
-  color: rgb(104, 188, 0);
-  color: rgb(102, 194, 165);
-  color: rgb(102, 102, 102);
+  
 }
 </style>

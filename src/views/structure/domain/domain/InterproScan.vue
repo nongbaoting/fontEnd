@@ -13,12 +13,20 @@ export default {
   data() {
     return {
       sequence:'',
-      rowConfigData :[]
+      rowConfigData :[],
+      rscbWidth :document.documentElement.clientWidth * .38 
     }
   },
+ watch: {
+    proj_name: function (newProjName, oldProjName) {
+      this.rcsb( this.rowConfigData)
+    },
+  },
+
 mounted(){
     
     this.getData()
+
 },
   methods: {
 
@@ -43,7 +51,7 @@ mounted(){
       const boardConfigData = {
         
         length: this.sequence.length,
-        trackWidth: 400,
+        trackWidth: this.rscbWidth,
         rowTitleWidth: 140,
         includeAxis: true,
         //This function is called when a Feature is clicked.

@@ -43,7 +43,7 @@ mounted(){
       const boardConfigData = {
         
         length: this.sequence.length,
-        trackWidth: 400,
+        trackWidth:  document.documentElement.clientWidth * .38,
         rowTitleWidth: 140,
         includeAxis: true,
         //This function is called when a Feature is clicked.
