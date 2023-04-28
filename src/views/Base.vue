@@ -13,9 +13,9 @@
         :collapse-transition="false"
         :router="true"
         :default-active="activePath"
-        background-color="#333744"
+        background-color="#029d94"
         text-color="#fff"
-        active-text-color="#409EFF"
+        active-text-color="#0d7973"
         mode="horizontal"
         popper-class="popper"
       >
@@ -299,12 +299,13 @@ export default {
 .header {
   // font-size: 20px;
   font-size: calc(12px + 1vmin);
+  color: #fff;
   // font-family: Arial, Helvetica, sans-serif;
 }
 .el-menu {
   // background-color: #333744;
   width: 80%;
-  background-color: #333744;
+  background-color: #029d94;
   display: flex;
   justify-self: flex-end;
   margin: 0;
@@ -314,7 +315,7 @@ export default {
   font-size: 20px;
 
   .toggle-button {
-    background-color: #4a5064;
+    background-color: #0d7973;
 
     line-height: 25px;
     color: #fff;
@@ -329,7 +330,8 @@ export default {
 }
 
 .el-header {
-  background-color: #333744;
+  // background-color: #333744;
+  background:#029d94;
   display: flex;
   justify-content: space-between;
   padding: 0px 20px;
@@ -338,7 +340,7 @@ export default {
 
   .logo {
     color: #fff;
-    background-color: #333744;
+    background-color: #029d94;
     text-decoration: none;
     font-size: 24px;
   }
