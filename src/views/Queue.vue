@@ -160,10 +160,11 @@
 
 <script>
 const pathDt = {
-  blast: '/sequence/blast/res/',
+  'blast': '/sequence/blast/res/',
   'Phylogenetic Analysis': '/phylogenetic/plot/',
   'CD Search': '/sequence/blast/cdd_searchSave_result',
   'Structure Comparison': '/structure_similarity/results',
+  'PDB Domain Annotations': '/domain_annotation/annotationsResult',
 }
 export default {
   name: 'Structure_queue',

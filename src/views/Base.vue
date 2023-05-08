@@ -176,6 +176,26 @@ export default {
           ],
           order: 3,
         },
+
+        {
+          //结构相似，// 一级菜单
+          id: 23,
+          name: 'Domain Annotation',
+          path: 'domain_annotation/',
+          children: [
+            // 二级菜单
+            {
+              id: 231,
+              name: 'Submit',
+              path: 'domain_annotation/pdb_annotations',
+              children: [],
+              order: 1,
+            },
+            
+          ],
+          order: 4,
+        },
+
         // 序列相似
         {
           name: 'BLAST',

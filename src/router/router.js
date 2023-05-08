@@ -95,6 +95,13 @@ const routes = [
         component: resolve => require(['../views/structure/similarity/plot.vue'], resolve)
       },
 
+      //pdb  domain annotations
+      {
+        name: 'pdb_annotations',
+        path: "/domain_annotation/pdb_annotations",
+        component: resolve => require(['../views/structure/annotations/DomainAnnotations.vue'], resolve)
+      },
+
       // 序列相似性 blast
       { path: "/sequence/blast", component: Blast },
       {
@@ -173,7 +180,15 @@ const routes = [
 
     ]
   },
-  //molstar
+
+   //pdb  domain annotations #1
+   {
+    name: 'annotationsResult',
+    path: "/domain_annotation/annotationsResult",
+    component: resolve => require(['../views/structure/annotations/domain/annotationResult.vue'], resolve)
+  },
+
+  //molstar #1
   {
     path: '/pdbe-rcsb-domain',
     component: resolve => require(['../views/structure/domain/domain_pdbe.vue'], resolve)
