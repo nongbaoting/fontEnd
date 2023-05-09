@@ -22,8 +22,9 @@
         <!-- 画图区 -->
         <el-row>
           <el-col></el-col>
-          <div :key="molstar_id" class="view_3d" :id="molstar_id"></div
-        ></el-row>
+          <div :key="molstar_id" class="view_3d" :id="molstar_id"></div>
+         <!-- <div key="molstar_pdbe" class="view_3d" id="molstar_pdbe"></div> -->
+         </el-row>
         <el-row :gutter="20" class="view_link">
           <!-- 下载区 -->
           <el-col :span="3">
@@ -100,7 +101,8 @@
 <script>
 import { Viewer } from 'molstar/build/viewer/molstar'
 import 'molstar/build/viewer/molstar.css'
-
+require('pdbe-molstar/build/pdbe-molstar-plugin-1.2.1')
+var viewerInstance = new PDBeMolstarPlugin()
 export default {
   props: [
     'title',
@@ -182,7 +184,8 @@ export default {
       }).then((response) => {
         console.log(response)
         const url = window.URL.createObjectURL(new Blob([response.data]))
-        this.molstar(url)
+        // this.molstar(url)
+        this.pdbe(url)
       })
     },
     Download(filename) {
@@ -215,6 +218,29 @@ export default {
         duration: 20 * 1000,
       })
     },
+    pdbe(url) {
+      //Set options (Checkout available options list in the documentation)
+      var options = {
+        customData: {
+          url: url,
+          format: 'pdb',
+        },
+        // moleculeId: '1jx4',
+        alphafoldView: true,
+        bgColor: { r: 255, g: 255, b: 255 },
+        hideCanvasControls: [
+          'selection',
+          'animation',
+          'controlToggle',
+          'controlInfo',
+        ],
+      }
+      //Get element from HTML/Template to place the viewer
+      var viewerContainer = document.getElementById('molstar_pdbe')
+      //Call render method to display the 3D view
+      viewerInstance.render(viewerContainer, options)
+    },
+
     molstar(url) {
       if (this.viewer) {
         this.viewer.plugin.clear()

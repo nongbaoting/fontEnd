@@ -91,7 +91,6 @@ import { RcsbFv } from '@rcsb/rcsb-saguaro'
 import Interproscan from "./domain/InterproScan.vue"
 import Sword2 from "./domain/Sword2.vue"
 import Unidoc from "./domain/Unidoc.vue"
-// require("https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.js")
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
     components:{
@@ -192,12 +191,9 @@ export default {
         },
         // moleculeId: '1jx4',
         alphafoldView: true,
-        bgColor: { r: 255, g: 255, b: 255 },
+        // bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [
-          'selection',
-          'animation',
-          'controlToggle',
-          'controlInfo',
+         
         ],
       }
       //Get element from HTML/Template to place the viewer
