@@ -17,14 +17,14 @@
               :key="item"
               v-for="(item, index) in models"
             >
-            </el-tab-pane> </el-tabs
+            </el-tab-pane> 
+            <!-- 画图区 -->
+             <div style="margin-top: 10px" :key="molstar_id" class="view_3d" :id="molstar_id "></div>
+         
+            </el-tabs
         ></el-row>
-        <!-- 画图区 -->
-        <el-row>
-          <el-col></el-col>
-          <div :key="molstar_id" class="view_3d" :id="molstar_id"></div>
-         <!-- <div key="molstar_pdbe" class="view_3d" id="molstar_pdbe"></div> -->
-         </el-row>
+        
+     
         <el-row :gutter="20" class="view_link">
           <!-- 下载区 -->
           <el-col :span="3">
@@ -118,7 +118,7 @@ export default {
       tools: [],
       viewer: '',
       templates: [],
-      model_af_unrelaxed: ['unrelaxed_model_1.pdb'],
+      model_af_unrelaxed: ['unrelaxed_model_1.cif'],
       template_data: [],
     }
   },
@@ -223,7 +223,7 @@ export default {
       var options = {
         customData: {
           url: url,
-          format: 'pdb',
+          format: 'cif',
         },
         // moleculeId: '1jx4',
         alphafoldView: true,
@@ -236,7 +236,7 @@ export default {
         ],
       }
       //Get element from HTML/Template to place the viewer
-      var viewerContainer = document.getElementById('molstar_pdbe')
+      let viewerContainer = document.getElementById(this.molstar_id)
       //Call render method to display the 3D view
       viewerInstance.render(viewerContainer, options)
     },
@@ -324,10 +324,10 @@ export default {
 .view_3d {
   width: 100%;
   height: 600px;
-  display: flex;
+ 
   justify-content: center;
-  padding: 0;
-  margin: 0;
+  padding-top: 100px;
+  margin: 10px;
 }
 
 .el-dropdown-link {

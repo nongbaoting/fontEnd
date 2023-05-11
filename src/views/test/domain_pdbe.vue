@@ -89,7 +89,7 @@ export default {
   mounted() {
     window.viewerInstance = viewerInstance
 
-    this.pdbe()
+    this.getPDB()
    
   },
   methods: {
@@ -112,15 +112,32 @@ export default {
         ],
       })
     },
-    
-    pdbe() {
+      getPDB(filename) {
+      this.$http({
+        url: '/protein/api/test/get_pdbFile/',
+        params: {
+          filetype: 'file',
+          program: this.program,
+          job_name: this.proj_name,
+          filename: filename,
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        console.log(response)
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        // this.molstar(url)
+        this.pdbe(url)
+      })
+    },
+    pdbe(url) {
       //Set options (Checkout available options list in the documentation)
       var options = {
-        // customData: {
-        //   url: 'https://alphafold.ebi.ac.uk/files/AF-O15552-F1-model_v1.cif',
-        //   format: 'cif',
-        // },
-        moleculeId: '1jx4',
+        customData: {
+          url: url,
+          format: 'cif',
+        },
+        // moleculeId: '1jx4',
         alphafoldView: true,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [

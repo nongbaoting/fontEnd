@@ -43,19 +43,19 @@ export default {
       proj_name: proj_name,
       tools: [],
       model_af: [
-        'ranked_0.pdb',
-        'ranked_1.pdb',
-        'ranked_2.pdb',
-        'ranked_3.pdb',
-        'ranked_4.pdb',
+        'ranked_0.cif',
+        // 'ranked_1.cif',
+        // 'ranked_2.cif',
+        // 'ranked_3.cif',
+        // 'ranked_4.cif',
       ],
 
       model_rt: [
-        'model/model_1.pdb',
-        'model/model_2.pdb',
-        'model/model_3.pdb',
-        'model/model_4.pdb',
-        'model/model_5.pdb',
+        'model/model_1.cif',
+        'model/model_2.cif',
+        'model/model_3.cif',
+        'model/model_4.cif',
+        'model/model_5.cif',
       ],
     }
   },
@@ -97,7 +97,7 @@ export default {
           let params = JSON.parse(data[0].fields.params)
           // console.log(params.RoseTTAFold_mode)
           if (params.RoseTTAFold_mode === 'e2e') {
-            this.model_rt = ['/t000_.e2e.pdb']
+            this.model_rt = ['/t000_.e2e.cif']
           }
         })
     },
