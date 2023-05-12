@@ -191,7 +191,7 @@ export default {
         },
         // moleculeId: '1jx4',
         alphafoldView: true,
-        // bgColor: { r: 255, g: 255, b: 255 },
+        bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [
          
         ],
