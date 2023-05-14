@@ -234,6 +234,7 @@ export default {
           'controlToggle',
           'controlInfo',
         ],
+        sequencePanel:true,
       }
       //Get element from HTML/Template to place the viewer
       let viewerContainer = document.getElementById(this.molstar_id)

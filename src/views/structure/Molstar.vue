@@ -71,11 +71,12 @@ export default {
       //Set options (Checkout available options list in the documentation)
       var options = {
         expanded:false,
+        sequencePanel:true,
         customData: {
           url: url,
           format: 'cif',
         },
-        // moleculeId: '1jx4',
+        moleculeId: this.job_name,
         alphafoldView: true,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [
