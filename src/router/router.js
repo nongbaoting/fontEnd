@@ -193,6 +193,11 @@ const routes = [
     path: '/pdbe-rcsb-domain',
     component: resolve => require(['../views/structure/domain/domain_pdbe.vue'], resolve)
   },
+ //viewer local #1
+ {
+  path: '/pdb-viewer-local',
+  component: resolve => require(['../views/structure/Viewer_local.vue'], resolve)
+},
 
   {
     path: '/molstar',

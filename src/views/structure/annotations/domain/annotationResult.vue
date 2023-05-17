@@ -85,7 +85,7 @@
   </div>
 </template>
 <script>
-require('pdbe-molstar/build/pdbe-molstar-plugin-1.2.1')
+require('pdbe-molstar/build/pdbe-molstar-plugin-3.1.0')
 require('molstar/build/viewer/molstar.css')
 import { RcsbFv } from '@rcsb/rcsb-saguaro'
 import Interproscan from "./domain/InterproScan.vue"

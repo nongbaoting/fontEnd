@@ -19,7 +19,7 @@
 </template>
 
 <script>
-require('pdbe-molstar/build/pdbe-molstar-plugin-1.2.1')
+require('pdbe-molstar/build/pdbe-molstar-plugin-3.1.0')
 require('molstar/build/viewer/molstar.css')
 import * as d3 from 'd3'
 

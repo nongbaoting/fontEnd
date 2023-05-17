@@ -262,6 +262,16 @@ export default {
             
           ],
         },
+        {
+          //Results
+          id:60,
+          name: 'Tools',
+          path: '',
+          children: [
+            { id: 61, name: 'pdb-viewer', path: 'pdb-viewer-local', },
+            
+          ],
+        },
 
       ],
       iconObj: {

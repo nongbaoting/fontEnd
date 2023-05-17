@@ -101,7 +101,7 @@
 <script>
 import { Viewer } from 'molstar/build/viewer/molstar'
 import 'molstar/build/viewer/molstar.css'
-require('pdbe-molstar/build/pdbe-molstar-plugin-1.2.1')
+require('pdbe-molstar/build/pdbe-molstar-plugin-3.1.0')
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
   props: [
