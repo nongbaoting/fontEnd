@@ -5,12 +5,19 @@
  <el-row :gutter="10">
       <el-col  :offset="1" :span="11">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-           <!-- <el-tab-pane label="InterproScan" name="interproScan">
+           <el-tab-pane label="InterproScan" name="interproScan">
             <interproscan-view 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
              key="interproscan" :viewkey="'interpro'+viewkey"   @clickOnRcsb="focus_color_domain"></interproscan-view>
+          </el-tab-pane>
+          <!-- <el-tab-pane label="Protvista" name="protvista">
+            <protvista-custom  key="protvista" :viewkey="'protvista'+viewkey" 
+            :request_Data_url="request_Data_url"
+            :protein_id="protein_id"
+            @clickOnRcsb="focus_color_domain"></protvista-custom>  
           </el-tab-pane> -->
+
           <el-tab-pane label="Sword2" name="sword2">
             <sword2-view  key="sword2View" :viewkey="'sword2View'+viewkey" 
             :request_Data_url="request_Data_url"
@@ -91,12 +98,14 @@ import { RcsbFv } from '@rcsb/rcsb-saguaro'
 import Interproscan from "./domain/InterproScan.vue"
 import Sword2 from "./domain/Sword2.vue"
 import Unidoc from "./domain/Unidoc.vue"
+// import Protvista from "./Protvista-pdb.vue"
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
     components:{
     "interproscan-view":Interproscan,
     "sword2-view":Sword2,
     "unidoc-view":Unidoc,
+    // "protvista-custom":Protvista,
 
 },
   data() {
