@@ -3,20 +3,20 @@
     <div id="domain_fix_header"><h5>Job Name: {{job_name}}</h5></div>
     <div class="container-big">
  <el-row :gutter="10">
-      <el-col  :offset="1" :span="11">
+      <el-col :span="12">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-           <el-tab-pane label="InterproScan" name="interproScan">
+           <!-- <el-tab-pane label="InterproScan" name="interproScan">
             <interproscan-view 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
              key="interproscan" :viewkey="'interpro'+viewkey"   @clickOnRcsb="focus_color_domain"></interproscan-view>
-          </el-tab-pane>
-          <!-- <el-tab-pane label="Protvista" name="protvista">
+          </el-tab-pane> -->
+          <el-tab-pane label="Protvista" name="protvista">
             <protvista-custom  key="protvista" :viewkey="'protvista'+viewkey" 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
-            @clickOnRcsb="focus_color_domain"></protvista-custom>  
-          </el-tab-pane> -->
+            @clickOnRcsb="handleProtvistClick"></protvista-custom>  
+          </el-tab-pane>
 
           <el-tab-pane label="Sword2" name="sword2">
             <sword2-view  key="sword2View" :viewkey="'sword2View'+viewkey" 
@@ -98,19 +98,19 @@ import { RcsbFv } from '@rcsb/rcsb-saguaro'
 import Interproscan from "./domain/InterproScan.vue"
 import Sword2 from "./domain/Sword2.vue"
 import Unidoc from "./domain/Unidoc.vue"
-// import Protvista from "./Protvista-pdb.vue"
+import Protvista from "./Protvista-pdb.vue"
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
     components:{
     "interproscan-view":Interproscan,
     "sword2-view":Sword2,
     "unidoc-view":Unidoc,
-    // "protvista-custom":Protvista,
+    "protvista-custom":Protvista,
 
 },
   data() {
     return {
-      activeName: 'sword2',
+      activeName: 'protvista',
       activeRight: 'first',
       job_name: this.$route.query.job_name,
       uuid: this.$route.query.uuid,
@@ -133,9 +133,40 @@ export default {
       console.log(tab, event)
     },
 
+    handleProtvistClick(data){
+      let focusFragment = data.focus
+      let fragments = data.fragments
+      let domain_data = []
+      fragments.forEach(dm => {
+          domain_data.push({
+            struct_asym_id: this.chain,
+            start_residue_number:  dm.start,
+            end_residue_number:dm.end,
+            color: dm.color,
+            focus: false,
+          })
+        });
+        viewerInstance.visual.select({
+        data: domain_data,
+        })
+      // focus
+
+      viewerInstance.visual.select({
+        data: [
+          {
+            struct_asym_id: this.chain,
+            start_residue_number: focusFragment.start,
+            end_residue_number: focusFragment.end,
+            color: focusFragment.color,
+            focus: true,
+          },
+        ],
+      });
+
+    },
    
     focus_color_domain(e) {
-      console.log('focus'+ e )
+      console.log(e )
       console.log('focus'+ e.featureId )
       let color = e.color
        if (! e.color){
@@ -199,7 +230,8 @@ export default {
           format: 'pdb',
         },
         // moleculeId: '1jx4',
-        alphafoldView: true,
+        // alphafoldView: true,
+        sequencePanel: true,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [
          

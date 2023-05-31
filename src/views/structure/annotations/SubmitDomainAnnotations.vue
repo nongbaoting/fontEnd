@@ -103,6 +103,7 @@ export default {
       // children: similarityTable
       tableData: [],
 
+
       // children: ngl
       input: '',
       target: '',
@@ -226,7 +227,7 @@ export default {
               },
             })
             window.open(routeData.href, '_blank')
-          }, 2500)
+          }, 250)
         }
       })
     },

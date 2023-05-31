@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Base.vue'
+// import Home from '../views/Base.vue'
 import Login from '../views/Login.vue'
 import Welcome from '../views/Home.vue'
-import t_query from '../views/test/t_jquery.vue'
+// import t_query from '../views/test/t_jquery.vue'
 
 import DUF from "../views/structure/similarity/DUF.vue"
 
 import Blast from "../views/blast/Blast.vue"
 import BlastQueue from "../views/blast/Blast_Queue.vue"
 import BlastRes from "../views/blast/Result.vue"
-import PSIBlastRes from "../views/blast/PSIBlast_Result.vue"
-import JackhmmerRes from "../views/blast/Jackhmmer_Result.vue"
+// import PSIBlastRes from "../views/blast/PSIBlast_Result.vue"
+// import JackhmmerRes from "../views/blast/Jackhmmer_Result.vue"
 
-import pdbeMolstar from "../views/test/pdbeMolstar.vue"
+// import pdbeMolstar from "../views/test/pdbeMolstar.vue"
 
 import About from "../views/About.vue"
 import Help from "../views/Help.vue"
@@ -35,7 +35,7 @@ const routes = [
 
   {
     path: '/home',
-    component: Home,
+    component: resolve => require(['../views/Base.vue'], resolve),
     redirect: '/welcome',
     children: [
       // 嵌套再Home <router-view></router-view>
@@ -99,7 +99,7 @@ const routes = [
       {
         name: 'pdb_annotations',
         path: "/domain_annotation/pdb_annotations",
-        component: resolve => require(['../views/structure/annotations/DomainAnnotations.vue'], resolve)
+        component: resolve => require(['../views/structure/annotations/SubmitDomainAnnotations.vue'], resolve)
       },
 
       // 序列相似性 blast
@@ -109,8 +109,8 @@ const routes = [
 
       },
       { path: "/sequence/blast/res/", component: BlastRes },
-      { path: "/sequence/blast/res/psiblast", component: PSIBlastRes },
-      { path: "/sequence/blast/res/jackhmmer", component: JackhmmerRes },
+      { path: "/sequence/blast/res/psiblast", component: resovle => require(["../views/blast/PSIBlast_Result.vue"], resolve) },
+      { path: "/sequence/blast/res/jackhmmer", component: resovle => require(["../views/blast/Jackhmmer_Result.vue"], resolve) },
       { path: "/sequence/blast/res/architectures", component: resolve => require(['../views/blast/components/archi.vue'], resolve) },
 
       { path: "/sequence/blast/cdd_submit", component: CDD },
@@ -121,9 +121,9 @@ const routes = [
 
       //test
       {path: "/test/", component:resovle => require(['../views/test/test.vue'], resovle)},
-      { path: "/test/pdbe-molstar", component: pdbeMolstar },
+      { path: "/test/pdbe-molstar", component: resovle => require(['../views/test/pdbeMolstar.vue'], resovle)},
       {
-        path: "/test/svg-msa", component: t_query
+        path: "/test/svg-msa", component:resovle => require(['../views/test/t_jquery.vue'], resolve)
       },
       // 列队
       {

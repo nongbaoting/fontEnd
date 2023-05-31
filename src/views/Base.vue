@@ -74,12 +74,12 @@
             <span class="header">Help</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="/test">
+        <!-- <el-menu-item index="/test">
           <template slot="title">
-            <!-- 文本 -->
+           
             <span class="header">Test</span>
           </template>
-        </el-menu-item>
+        </el-menu-item> -->
       </el-menu>
 
       <el-button class="header" type="text" @click="logout">Logout</el-button>
