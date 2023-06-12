@@ -16,7 +16,7 @@ npm run serve
 
 ### Compiles and minifies for production 编译发布
 
-更改链接Django: /training/nong/web/Dev/prot/src/plugins/element.js
+更改链接Django: /training/nong/web/Dev/prot/src/main.js
 
 确定发布vue放在那台机: vue.config.js
 
