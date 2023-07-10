@@ -60,6 +60,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log("protvista")
           console.log(res.data)
           // let data = JSON.parse(res.data)
           this.customData = res.data
