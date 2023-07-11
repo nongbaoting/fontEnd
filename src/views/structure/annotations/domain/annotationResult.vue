@@ -1,24 +1,24 @@
 <template>
-  <div >
+  <div class="container-big">
     <div id="domain_fix_header"><h5>Job Name: {{job_name}}</h5></div>
     <div class="container-big">
  <el-row :gutter="10">
       <el-col :span="12">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-           <!-- <el-tab-pane label="InterproScan" name="interproScan">
+           <el-tab-pane label="Sequence" name="interproScan">
             <interproscan-view 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
              key="interproscan" :viewkey="'interpro'+viewkey"   @clickOnRcsb="focus_color_domain"></interproscan-view>
-          </el-tab-pane> -->
-          <el-tab-pane label="Protvista" name="protvista">
+          </el-tab-pane> 
+          <el-tab-pane label="Structure" name="protvista">
             <protvista-custom  key="protvista" :viewkey="'protvista'+viewkey" 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
             @clickOnRcsb="handleProtvistClick"></protvista-custom>  
           </el-tab-pane>
 
-          <el-tab-pane label="Sword2" name="sword2">
+          <!-- <el-tab-pane label="Sword2" name="sword2">
             <sword2-view  key="sword2View" :viewkey="'sword2View'+viewkey" 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
@@ -30,7 +30,8 @@
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
              key="unidoc" :viewkey="'unidoc' + viewkey"   @clickOnRcsb="focus_color_domain"></unidoc-view>
-          </el-tab-pane>
+          </el-tab-pane> -->
+
           <el-tab-pane label="..." name="third">...</el-tab-pane>
         </el-tabs></el-col
       >
@@ -249,7 +250,9 @@ export default {
 </script>
 <style scoped>
 .container-big {
-  padding-top:15px
+  padding-top:5px;
+  padding-left:10px;;
+  padding-right: 5px;
 }
 #mypfv {
   padding: 0;
@@ -275,7 +278,8 @@ export default {
 }
 #domain_fix_header{
   position: fixed;
-    top: 10px;
+  padding:0;
+    top: -15px;
     left: 40%;
     transform: translateX(-50%);
 }
