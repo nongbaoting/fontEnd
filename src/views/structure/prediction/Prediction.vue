@@ -4,24 +4,40 @@
       <el-col :span="4">
         <h5 class="subhead">Algorithms</h5>
         <el-menu :default-active="activePath" @select="chooseScore">
-          <el-menu-item index="AlphaFold2">
+          <el-menu-item index="Protein">
             <i class="el-icon-location"></i>
-            <span class="headtext" slot="title" align="center">AlphaFold2</span>
+            <span class="headtext" slot="title" align="center">Protein</span>
+          </el-menu-item>
+          <el-menu-item index="RNP">
+            <i class="el-icon-location"></i>
+            <span class="headtext" slot="title" align="center">RNP</span>
           </el-menu-item>
 
           <el-menu-item index="AlphaFold2_multimer">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">AlphaFold2-multimer</span>
           </el-menu-item>
-
-          <!-- <el-menu-item index="FATCAT">
+           <el-menu-item index="AlphaFold2">
             <i class="el-icon-location"></i>
-            <span class="headtext" slot="title">FATCAT</span>
-          </el-menu-item> -->
+            <span class="headtext" slot="title">AlphaFold2</span>
+          </el-menu-item>
+
+        
         </el-menu>
       </el-col>
 
       <el-col :span="16">
+        <Protein
+          v-if="activePath === 'Protein'"
+          :filters="formInline"
+          :isfilter="isfilter"
+        ></Protein>
+         <RNP
+          v-if="activePath === 'RNP'"
+          :filters="formInline"
+          :isfilter="isfilter"
+        ></RNP>
+
         <AlphaFold2
           v-if="activePath === 'AlphaFold2'"
           :filters="formInline"
@@ -53,12 +69,14 @@
 
 <script>
 import AlphaFold2 from './alphafold2.vue'
+import Protein from "./protein.vue"
+import RNP from './rnp.vue'
 import AlphaFold2_multimer from './alphafold2-multimer.vue'
 export default {
   data() {
     return {
-      activePath: 'AlphaFold2',
-      showTools: 'AlphaFold2',
+      activePath: 'RNP',
+      showTools: 'RNP',
 
       isfilter: false,
       formInline: {
@@ -105,6 +123,8 @@ export default {
   components: {
     AlphaFold2,
     'AlphaFold2-multimer': AlphaFold2_multimer,
+    Protein,
+    RNP,
   },
 }
 </script>
