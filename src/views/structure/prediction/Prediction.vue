@@ -13,7 +13,7 @@
             <span class="headtext" slot="title" align="center">RNP</span>
           </el-menu-item>
 
-          <el-menu-item index="AlphaFold2_multimer">
+          <!-- <el-menu-item index="AlphaFold2_multimer">
             <i class="el-icon-location"></i>
             <span class="headtext" slot="title">AlphaFold2-multimer</span>
           </el-menu-item>
@@ -22,7 +22,7 @@
             <span class="headtext" slot="title">AlphaFold2</span>
           </el-menu-item>
 
-        
+         -->
         </el-menu>
       </el-col>
 

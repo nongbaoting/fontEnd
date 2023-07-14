@@ -182,6 +182,7 @@ export default {
         protein_seq: '',
         nucleic_seq: '',
         project_type: 'RNP',
+        proj_type:'Structure Prediction',
        
       },
       rules: {
@@ -286,7 +287,7 @@ nucleic_seq:[ {
         )
         .then((res) => {
           console.log(res)
-          if (res.status==200) {
+          if (res.data.status==200) {
             
           this.$message.success('Uploads Success!')
           setTimeout(() => {
@@ -294,7 +295,7 @@ nucleic_seq:[ {
               path: '/queue',
               query: {
                 job_name: this.job_name,
-                program: 'PDB Domain Annotations',
+                 program: "Structure Prediction",
               },
             })
             window.open(routeData.href, '_blank')

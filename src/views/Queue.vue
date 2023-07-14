@@ -165,6 +165,7 @@ const pathDt = {
   'CD Search': '/sequence/blast/cdd_searchSave_result',
   'Structure Comparison': '/structure_similarity/results',
   'PDB Domain Annotations': '/domain_annotation/annotationsResult',
+  'Structure Prediction':"/predict/structure/result_new/",
 }
 export default {
   name: 'Structure_queue',

@@ -203,8 +203,10 @@ export default {
         multimer_platform: [],
         monomer_platform:[],
         protein_seq: '',
+        project_type: 'Protein',
+
         RoseTTAFold_mode: 'pyrosetta',
-        project_type: 'protein',
+       
       },
       rules: {
         proj_name: [
@@ -219,7 +221,7 @@ export default {
             message: 'length 3 to 100 characters',
             trigger: 'blur',
           },
-          { validator: this.checkProName, trigger: 'blur' },
+          // { validator: this.checkProName, trigger: 'blur' },
         ],
 
         protein_seq: [
@@ -296,14 +298,26 @@ export default {
     getFormResponse() {
       this.$http
         .post(
-          '/protein/predict/structure_submit/',
+          '/protein/predict/structure_submit_new/',
           //headers: { 'X-CSRFToken': window.sessionStorage.getItem('X-CSRFToken') },
           this.ruleForm
         )
         .then((res) => {
           console.log(res)
-          if (res.data.uploadOk) {
-            this.$router.push('/predict/structure/queue/')
+          if (res.data.status==200) {
+            
+          this.$message.success('Uploads Success!')
+          setTimeout(() => {
+            let routeData = this.$router.resolve({
+              path: '/queue',
+              query: {
+                job_name: this.job_name,
+                program: "Structure Prediction",
+              },
+            })
+            window.open(routeData.href, '_blank')
+          }, 250)
+        
           } else {
             this.$message.error(
               'Your input Sequence may be wrong, please try check and try again!'

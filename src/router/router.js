@@ -68,6 +68,14 @@ const routes = [
           require(['../views/structure/Queue.vue'], resolve)
       },
 
+      // new structure prediction
+      {
+        path: '/predict/structure/result_new/',
+        component: resolve =>
+          require(['../views/structure/prediction/Results.vue'], resolve)
+      },
+     
+
       {
         // 结构相似性
         path: '/structure_similarity/submit',
@@ -198,7 +206,11 @@ const routes = [
   path: '/pdb-viewer-local',
   component: resolve => require(['../views/structure/Viewer_local.vue'], resolve)
 },
-
+{
+  path: '/predict/molstar/',
+  component: resolve =>
+    require(['../views/structure/prediction/Molstar.vue'], resolve)
+},
   {
     path: '/molstar',
     component: resolve => require(['../views/structure/Molstar.vue'], resolve)
