@@ -27,21 +27,21 @@
           </el-form-item>
 
           <el-form-item label="Platform" prop="platform">
-           <div class="block">
-  
-  <el-cascader
-    :options="options"
-    :props="props"
-    v-model="ruleForm.platform"
-    collapse-tags
-    size = "median"
-    clearable></el-cascader>
-</div>
+            <div class="block">
+              <el-cascader
+                :options="options"
+                :props="props"
+                v-model="ruleForm.platform"
+                collapse-tags
+                size="median"
+                clearable
+              ></el-cascader>
+            </div>
           </el-form-item>
 
           <!-- <el-form-item label="Monomer platform" prop="platform">
             <el-checkbox-group v-model="ruleForm.monomer_platform">
-              <el-checkbox label="AlphaFold 2" checked></el-checkbox>
+              <el-checkbox label="AlphaFold2" checked></el-checkbox>
               <el-checkbox v-show="false" label="RoseTTAFold"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
@@ -112,7 +112,6 @@
 </template>
 
 <script>
-
 const restypes = [
   'A',
   'R',
@@ -169,9 +168,7 @@ function colorSeq(seq) {
 
 export default {
   name: 'Structure_prediction',
-  components: {
-   
-  },
+  components: {},
 
   data() {
     return {
@@ -179,34 +176,38 @@ export default {
       newseq: '',
       type: 'Monomer',
       props: { multiple: false },
-      options: [{
+      options: [
+        {
           value: 'Monomer',
           label: 'Monomer',
-          children: [{
-            value: "AlphaFold 2",
-            label: "AlphaFold 2",
-           
-          }, ]
-        }, {
+          children: [
+            {
+              value: 'AlphaFold2',
+              label: 'AlphaFold2',
+            },
+          ],
+        },
+        {
           value: 'Multimer',
           label: 'Multimer',
-          children: [{
-            value: 'AlphaFold multimer',
-            label: 'AlphaFold multimer',
-          
-          }]
-        }],
+          children: [
+            {
+              value: 'AlphaFold multimer',
+              label: 'AlphaFold multimer',
+            },
+          ],
+        },
+      ],
       ruleForm: {
         proj_name: '',
         email: '',
-        platform:[],
+        platform: [],
         multimer_platform: [],
-        monomer_platform:[],
+        monomer_platform: [],
         protein_seq: '',
         project_type: 'Protein',
 
         RoseTTAFold_mode: 'pyrosetta',
-       
       },
       rules: {
         proj_name: [
@@ -304,20 +305,18 @@ export default {
         )
         .then((res) => {
           console.log(res)
-          if (res.data.status==200) {
-            
-          this.$message.success('Uploads Success!')
-          setTimeout(() => {
-            let routeData = this.$router.resolve({
-              path: '/queue',
-              query: {
-                job_name: this.job_name,
-                program: "Structure Prediction",
-              },
-            })
-            window.open(routeData.href, '_blank')
-          }, 250)
-        
+          if (res.data.status == 200) {
+            this.$message.success('Uploads Success!')
+            setTimeout(() => {
+              let routeData = this.$router.resolve({
+                path: '/queue',
+                query: {
+                  job_name: this.job_name,
+                  program: 'Structure Prediction',
+                },
+              })
+              window.open(routeData.href, '_blank')
+            }, 250)
           } else {
             this.$message.error(
               'Your input Sequence may be wrong, please try check and try again!'
@@ -335,23 +334,22 @@ export default {
       console.log(this.props)
       this.ruleForm.proj_name = 'Job_1'
       this.ruleForm.email = 'HelloWorld@gmail.com'
-  
-      this.ruleForm.platform = ["Multimer", "AlphaFold multimer"]
+
+      this.ruleForm.platform = ['Multimer', 'AlphaFold multimer']
 
       this.ruleForm.protein_seq =
         '>seqA_1\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
         '>seqA_2\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
         '>seqA_3\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
         '>seqB_1\nMAAPTPADKSMMAAVPEGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' +
-        '>seqB_2\nMAAPTPADKSMMAAVPEGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n' 
-        
+        '>seqB_2\nMAAPTPADKSMMAAVPEGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH\n'
     },
 
-      ExampleFrom_mono() {
+    ExampleFrom_mono() {
       this.ruleForm.proj_name = 'Job_1'
       this.ruleForm.email = 'HelloWorld@gmail.com'
-      this.ruleForm.platform = ['Monomer', 'AlphaFold 2']
-      
+      this.ruleForm.platform = ['Monomer', 'AlphaFold2']
+
       this.ruleForm.protein_seq =
         '>seqA\nMAAPTPADKSMMAAVPEWTITNLKRVCNAGNTSCTWTFGVDTHLATATSCTYVVKANANASQASGGPVTCGPYTITSSWSGQFGPNNGFTTFAVTDFSKKLIVWPAYTDVQVQAGKVVSPNQSYAPANLPLEHHHHHH'
     },

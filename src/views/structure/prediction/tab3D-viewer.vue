@@ -62,7 +62,7 @@
         </div>
       </el-col>
     </el-row>
-    <!-- <el-row :gutter="20" style="margin-top: 20px">
+    <el-row :gutter="20" style="margin-top: 20px" v-if="program=='AlphaFold2'">
       <h3>AlphaFold 2 Used templates!</h3>
       <el-col :span="20" style="padding: 30px">
         <el-table :data="template_data">
@@ -97,7 +97,7 @@
           </el-table-column>
         </el-table>
       </el-col>
-    </el-row> -->
+    </el-row>
   </div>
 </template>
 <script>
@@ -110,7 +110,7 @@ export default {
     'title',
     'job_name',
     'molstar_id',
-    ,
+    'models',
     'program',
     
     'uuid',
@@ -123,7 +123,7 @@ export default {
       templates: [],
       model_af_unrelaxed: ['unrelaxed_model_1.cif'],
       template_data: [],
-      models: ['ranked_0.cif'],
+      // models: ['ranked_0.cif'],
       tarFileName: this.job_name + '.' + this.program + '.tgz',
     }
   },
@@ -135,16 +135,19 @@ export default {
 
   mounted() {
     // this.notice_tmp()
-    // this.getTemplate()
+    this.getTemplate()
     this.$nextTick(function () {
-      this.getPDB('ranked_0.cif')
+      this.getPDB(this.models[0])
     })
   },
 
   watch: {
     models: function (newModel, oldModel) {
-      this.getPDB('ranked_0.cif')
+      this.getPDB(this.models[0])
     },
+    program:function(newProgram, oldProgram){
+      this.getPDB(this.models[0])
+    }
   },
 
   methods: {
@@ -163,10 +166,10 @@ export default {
 
     getTemplate() {
       this.$http({
-        url: '/protein/api/structure/getTemplate/',
+        url: '/protein/api/structure/getTemplate_new/',
         params: {
           program: this.program,
-          job_name: this.job_name,
+          uuid: this.uuid,
         },
         method: 'GET',
       }).then((response) => {
@@ -292,7 +295,8 @@ export default {
         query: {
           pdbid: pdbid,
           chain: chain,
-          proj_name: this.proj_name,
+          proj_name: this.uuid,
+          uuid: this.uuid
         },
       })
 
