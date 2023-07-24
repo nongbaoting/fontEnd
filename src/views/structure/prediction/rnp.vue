@@ -43,7 +43,8 @@
           <el-form-item label="Nucleic Acid Type" prop="nucleic_type">
             
             <el-radio v-model="ruleForm.nucleic_type" label="R">RNA</el-radio>
-          <el-radio v-model="ruleForm.nucleic_type" label="D">DNA</el-radio>
+          <el-radio v-model="ruleForm.nucleic_type" label="D">Double Strand DNA</el-radio>
+          <el-radio v-model="ruleForm.nucleic_type" label="S">Single Strand DNA</el-radio>
           </el-form-item>
 
 
