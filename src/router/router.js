@@ -193,7 +193,7 @@ const routes = [
    {
     name: 'annotationsResult',
     path: "/domain_annotation/annotationsResult",
-    component: resolve => require(['../views/structure/annotations/domain/annotationResult.vue'], resolve)
+    component: resolve => require(['../views/structure/annotations/AnnotationResult.vue'], resolve)
   },
 
   //molstar #1

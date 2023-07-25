@@ -6,16 +6,26 @@
       <el-col :span="12">
         <el-tabs v-model="activeName" @tab-click="handleClick">
            <el-tab-pane label="Sequence" name="interproScan">
-            <interproscan-view 
+            <interproscan-view
+            v-if="activeName=='interproScan'"
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
              key="interproscan" :viewkey="'interpro'+viewkey"   @clickOnRcsb="focus_color_domain"></interproscan-view>
           </el-tab-pane> 
           <el-tab-pane label="Structure" name="protvista">
-            <protvista-custom  key="protvista" :viewkey="'protvista'+viewkey" 
+            <protvista-custom  
+            v-if="activeName=='protvista'"
+            key="protvista" :viewkey="'protvista'+viewkey" 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
             @clickOnRcsb="handleProtvistClick"></protvista-custom>  
+          </el-tab-pane>
+
+          <el-tab-pane label="ECOD" name="ECOD">
+            <ecod-view  key="ECOD" :viewkey="'ECOD'+viewkey" 
+            :request_Data_url="request_Data_url"
+            :protein_id="protein_id"
+            @clickOnFoldseekMatch="handleFoldseekMatch"></ecod-view>  
           </el-tab-pane>
 
           <!-- <el-tab-pane label="Sword2" name="sword2">
@@ -96,10 +106,11 @@
 require('pdbe-molstar/build/pdbe-molstar-plugin-3.1.0')
 require('molstar/build/viewer/molstar.css')
 import { RcsbFv } from '@rcsb/rcsb-saguaro'
-import Interproscan from "./domain/InterproScan.vue"
-import Sword2 from "./domain/Sword2.vue"
-import Unidoc from "./domain/Unidoc.vue"
-import Protvista from "./Protvista-pdb.vue"
+import Interproscan from "./domain/domainParsing/InterproScan.vue"
+import Sword2 from "./domain/domainParsing/Sword2.vue"
+import Unidoc from "./domain/domainParsing/Unidoc.vue"
+import Protvista from "./domain/Protvista-pdb.vue"
+import Ecod from "./domain/foldseek/ECOD.vue"
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
     components:{
@@ -107,11 +118,12 @@ export default {
     "sword2-view":Sword2,
     "unidoc-view":Unidoc,
     "protvista-custom":Protvista,
+    "ecod-view": Ecod,
 
 },
   data() {
     return {
-      activeName: 'protvista',
+      activeName: 'ECOD',
       activeRight: 'first',
       job_name: this.$route.query.job_name,
       uuid: this.$route.query.uuid,
@@ -166,6 +178,24 @@ export default {
 
     },
    
+    handleFoldseekMatch(e){
+      // console.log(e)
+      
+      viewerInstance.visual.select({
+        data: [
+          {
+            struct_asym_id: e.chain,
+            start_residue_number: e.start,
+            end_residue_number: e.end,
+            color: e.color,
+            focus: true,
+          },
+        ],
+      });
+
+
+    },
+
     focus_color_domain(e) {
       console.log(e )
       console.log('focus'+ e.featureId )
