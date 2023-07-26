@@ -35,6 +35,9 @@ export default {
       let height = 80
       let box_height = 30
       let padding = { left: 10, right: 40, top: 20, bottom: 10 }
+
+      
+
       // console.log(d3)
       var linear = d3
         .scaleLinear()

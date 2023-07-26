@@ -71,7 +71,7 @@ export default {
     pdbe(url) {
       //Set options (Checkout available options list in the documentation)
       var options = {
-        expanded:false,
+        expanded:true,
         sequencePanel:true,
         customData: {
           url: url,
