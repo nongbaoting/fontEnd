@@ -25,23 +25,13 @@
             <ecod-view  key="ECOD" :viewkey="'ECOD'+viewkey" 
             :request_Data_url="request_Data_url"
             :protein_id="protein_id"
-            @clickOnFoldseekMatch="handleFoldseekMatch"></ecod-view>  
+            @clickOnFoldseekMatch="handleFoldseekMatch"
+             @emitAlign="handleAlign"
+            ></ecod-view>  
+           
           </el-tab-pane>
 
-          <!-- <el-tab-pane label="Sword2" name="sword2">
-            <sword2-view  key="sword2View" :viewkey="'sword2View'+viewkey" 
-            :request_Data_url="request_Data_url"
-            :protein_id="protein_id"
-            @clickOnRcsb="focus_color_domain"></sword2-view>  
-          </el-tab-pane>
-         
-          <el-tab-pane label="Unidoc" name="unidoc">
-            <unidoc-view
-            :request_Data_url="request_Data_url"
-            :protein_id="protein_id"
-             key="unidoc" :viewkey="'unidoc' + viewkey"   @clickOnRcsb="focus_color_domain"></unidoc-view>
-          </el-tab-pane> -->
-
+    
           <el-tab-pane label="..." name="third">...</el-tab-pane>
         </el-tabs></el-col
       >
@@ -253,6 +243,9 @@ export default {
       })
     },
     
+    handleAlign(url){
+      this.pdbe(url)
+    },
     pdbe(url) {
       //Set options (Checkout available options list in the documentation)
       var options = {
@@ -272,9 +265,9 @@ export default {
       var viewerContainer = document.getElementById('myViewer')
       //Call render method to display the 3D view
       viewerInstance.render(viewerContainer, options)
-    },
+    }
+    
 
-   
   },
 }
 </script>

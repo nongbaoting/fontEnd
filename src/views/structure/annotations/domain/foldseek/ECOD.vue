@@ -62,8 +62,14 @@
           </el-table-column>
 
           <el-table-column>
-            <template>
-              <el-button type="warning" size="small" round> Align </el-button>
+            <template slot-scope="scope">
+              <el-button
+                @click="alignDomin2Query(scope.row)"
+                type="warning"
+                size="small"
+                round>
+                Align
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -93,7 +99,11 @@
 
     <el-row>
       <h3>alignment</h3>
-      <protein-body-view :dataset="tableData"></protein-body-view>
+      <protein-body-view
+        @clickOnSegment="passEmit"
+        v-if="tableData.length > 0"
+        :dataset="tableData"
+      ></protein-body-view>
     </el-row>
   </div>
 </template>
@@ -182,9 +192,36 @@ export default {
       this.loading = false
     },
 
+    passEmit(e){
+        this.$emit('clickOnFoldseekMatch', e)
+    },
+
+ 
+    alignDomin2Query(row){
+        console.log(row)
+        this.$http({
+        url: 'protein/api/pdb_domain_annotations/align/',
+        params: {
+          uuid: this.$route.query.uuid,
+          db_pdbid: row.target,
+          db_name: 'ECOD',
+          chain:row.chain,
+          
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        console.log(response)
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        this.$emit('emitAlign', url)
+        // this.pdbe(url)
+      })
+    },
+   
+
     clickRow(row, column, event) {
-      console.log(row)
-      console.log(column)
+    //   console.log(row)
+    //   console.log(column)
       let e = {
         chain: 'A',
         color: '#d95f02',

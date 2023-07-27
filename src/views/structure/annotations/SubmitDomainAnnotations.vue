@@ -216,7 +216,7 @@ export default {
         data: formData,
       }).then((res) => {
         // console.log(res)
-        if (res.status == 200) {
+        if (res.status == 100) {
           this.$message.success('Uploads Success!')
           setTimeout(() => {
             let routeData = this.$router.resolve({

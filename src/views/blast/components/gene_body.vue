@@ -164,12 +164,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* gene body */
 .tooltip {
   position: absolute;
   padding: 1px 5px;
-  width: 600px;
+  width: 400px;
   height: auto;
   font-family: sans-serif;
   font-size: calc(9px + 1vmin);
@@ -179,8 +179,13 @@ export default {
   border-width: 2px solid rgb(255, 255, 255);
   border-radius: 2px;
   word-break: break-all;
+
 }
 
+.tooltip_p {
+   border: 1px;
+    padding: 2px;
+}
 .tooltip:after {
   content: '';
   position: absolute;
@@ -198,7 +203,7 @@ export default {
 
 .svg_text {
   font-family: sans-serif;
-  font-size: calc(9px + 1vmin);
+  /* font-size: calc(5px + 1vmin); */
 }
 
 .axis path,
@@ -209,8 +214,8 @@ export default {
   shape-rendering: crispEdges;
 }
 
-.axis {
-  font-size: calc(11px + 1vmin);
+/* .axis {
+  font-size: calc(14px + 1vmin);
   font-family: sans-serif;
-}
+} */
 </style>

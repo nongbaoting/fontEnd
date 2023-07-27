@@ -48,7 +48,7 @@ export default {
             fragments:e.detail.feature.locations[0].fragments
             
         }
-        this.$emit('clickOnRcsb',data)
+        this.$emit('clickOnRcsb', data)
     },
 
     getData() {
