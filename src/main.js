@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/router.js'
 import './plugins/element.js'
+import router from './router/router.js'
 
 // 全部导入element-ui
 // import ElementUI from 'element-ui'

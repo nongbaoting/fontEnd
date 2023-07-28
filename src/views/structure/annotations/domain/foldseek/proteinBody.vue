@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="chart-container">
     
-    <svg id="chart" width="800" :height="svgHeight" ref="chart"></svg>
+    <svg id="chart" :width="width" :height="height" ref="chart"></svg>
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
   props: ['dataset'],
   data(){
       return {
-       height:400
+       height: window.innerHeight * .8,
+       width: window.innerWidth * 0.4,
       }
   },
   mounted() {
@@ -20,6 +21,8 @@ export default {
       // Code that will run only after the
       // entire view has been re-rendered
       this.plot_protein_body(this.dataset)
+      console.log('width')
+      console.log(this.width)
     })
   },
 
@@ -30,7 +33,9 @@ export default {
 },
 computed: {
         svgWidth() {
-          return 600;
+           
+          return Math.min(this.width, 600);
+          
         },
         svgHeight() {
           return this.dataset.length * 50 + 50; // Adjust the height as needed
@@ -43,8 +48,7 @@ computed: {
       console.log("data")
 
       console.log(data)
-      let width = 800
-      let height = 30 * dataset.length + 30
+    
      d3.select(this.$refs.chart).selectAll("*").remove();
       let gene_svg = d3
         .select(this.$refs.chart)
@@ -52,16 +56,16 @@ computed: {
         // .attr('width', width)
         // .attr('height', height)
     
-
+    
     let maxLength = data[0].qlen
      // Define scales and layout
     const xScale = d3.scaleLinear()
       .domain([0, maxLength]) // Adjust the domain based on your genomic positions
-      .range([50, 550]); // Adjust the range to position the rectangles horizontally
+      .range([50, this.width]); // Adjust the range to position the rectangles horizontally
 
     const yScale = d3.scaleLinear()
       .domain([1, dataset.length]) // Adjust the domain based on the number of rows
-      .range([550, 20]); // Adjust the range to position the rows vertically
+      .range([this.height, 20]); // Adjust the range to position the rows vertically
      
     
      // rectangle
@@ -93,14 +97,14 @@ computed: {
     let that = this
     function handleClick(event,d){
         console.log(d)
-         let e = {
+      let e = {
         chain: 'A',
         color: '#d95f02',
         start: d.qstart,
         end: d.qend,
       }
       that.$emit('clickOnSegment', e)
-      console.log(e)
+      // console.log(e)
     }
 
     let  tooltip = d3

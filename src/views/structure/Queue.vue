@@ -212,10 +212,18 @@ export default {
       console.log(row)
     },
     toResult(proj_name) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: '/predict/structure/result/',
+      //   query: { proj_name: proj_name },
+      // })
+
+      let routeData = this.$router.resolve({
         path: '/predict/structure/result/',
-        query: { proj_name: proj_name },
+        query: {
+          proj_name: proj_name
+        },
       })
+      window.open(routeData.href, '_blank')
     },
     queue() {
       this.loading = true

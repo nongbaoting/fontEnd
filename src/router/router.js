@@ -18,7 +18,7 @@ import BlastRes from "../views/blast/Result.vue"
 import About from "../views/About.vue"
 import Help from "../views/Help.vue"
 import CDD from "../views/blast/cdd_submit.vue"
-import pairwiseAlignment from "../views/structure/similarity/pairwiseAlignment.vue"
+// import pairwiseAlignment from "../views/structure/similarity/pairwiseAlignment.vue"
 
 Vue.use(VueRouter)
 
@@ -87,7 +87,7 @@ const routes = [
         component: resolve =>
           require(['../views/structure/similarity/Search.vue'], resolve)
       },
-      { path: "/structure_similarity/pairwise_alignment", component: pairwiseAlignment },
+      { path: "/structure_similarity/pairwise_alignment", component: resovle => require(["../views/structure/similarity/pairwiseAlignment.vue"], resovle) },
 
       {
         path: '/structure_similarity/DUF',

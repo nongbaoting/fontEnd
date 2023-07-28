@@ -33,9 +33,16 @@ export default {
     },
 
     handle_protvistaMouseOver(e){
-        console.log('mouse_over')
-        console.log(e)
+        // console.log('mouse_over')
+        // console.log(e)
+        let highlight= {
+            'start':e.detail.start,
+            "end":e.detail.end,
+            "color":e.detail.color,
+            }
+        this.$emit('mouseOverPritvista', highlight)
     },
+
     handle_protvistaClick(e){
         console.log(e)
         console.log(e.detail)
@@ -45,10 +52,10 @@ export default {
             "end":e.detail.end,
             "color":e.detail.color,
             },
-            fragments:e.detail.feature.locations[0].fragments
-            
+            fragments:e.detail.feature.locations[0].fragments,
+            type: e.detail.feature.type
         }
-        this.$emit('clickOnRcsb', data)
+        this.$emit('clickOnPritvista', data)
     },
 
     getData() {
