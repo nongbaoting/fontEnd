@@ -72,10 +72,14 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm_domain_annotation')"
+            <el-button
+              type="primary"
+              @click="submitForm('ruleForm_domain_annotation')"
               >Summit</el-button
             >
-            <el-button @click="resetForm('ruleForm_domain_annotation')">Reset</el-button>
+            <el-button @click="resetForm('ruleForm_domain_annotation')"
+              >Reset</el-button
+            >
           </el-form-item>
         </el-form>
       </el-col>
@@ -102,7 +106,6 @@ export default {
       fileList: [],
       // children: similarityTable
       tableData: [],
-
 
       // children: ngl
       input: '',
@@ -216,18 +219,17 @@ export default {
         data: formData,
       }).then((res) => {
         // console.log(res)
-        if (res.status == 100) {
+        if (res.status == 200) {
           this.$message.success('Uploads Success!')
-          setTimeout(() => {
-            let routeData = this.$router.resolve({
-              path: '/queue',
-              query: {
-                job_name: this.job_name,
-                program: 'PDB Domain Annotations',
-              },
-            })
-            window.open(routeData.href, '_blank')
-          }, 250)
+
+          let routeData = this.$router.resolve({
+            path: '/queue',
+            query: {
+              job_name: this.job_name,
+              program: 'PDB Domain Annotations',
+            },
+          })
+          window.open(routeData.href, '_blank')
         }
       })
     },

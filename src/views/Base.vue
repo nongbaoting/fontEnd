@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import BugReport from './common/bugReport.vue'
+// import BugReport from './common/bugReport.vue'
 export default {
   data() {
     return {

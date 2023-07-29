@@ -305,7 +305,7 @@ export default {
         )
         .then((res) => {
           console.log(res)
-          if (res.data.status == 100) {
+          if (res.data.status == 200) {
             this.$message.success('Uploads Success!')
             setTimeout(() => {
               let routeData = this.$router.resolve({

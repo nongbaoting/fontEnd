@@ -80,7 +80,10 @@ computed: {
         .attr('height', bar_height)
         .attr('stroke', 'steelblue')
         .attr('fill', '#B3DE69')
-        .on('mouseover', showTooltip )
+        .on('mouseover', function(event,d){
+          showTooltip(event,d);
+          highlight(d)
+        } )
         .on('mouseout', hideTooltip)
         .on('click', handleClick)
  
@@ -102,9 +105,23 @@ computed: {
         color: '#d95f02',
         start: d.qstart,
         end: d.qend,
+        focus:true,
+        highlight:false
       }
       that.$emit('clickOnSegment', e)
       // console.log(e)
+    }
+
+    function highlight(d ){
+        let e = {
+        chain: 'A',
+        color: '#d95f02',
+        start: d.qstart,
+        end: d.qend,
+        focus:false,
+        highlight:true
+      }
+      that.$emit('clickOnSegment', e)
     }
 
     let  tooltip = d3

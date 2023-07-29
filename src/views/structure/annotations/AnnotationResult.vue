@@ -6,7 +6,7 @@
     <div class="container-big">
       <el-row :gutter="10">
         <el-col :span="12">
-          <el-tabs   v-model="activeName" @tab-click="handleClickTab">
+          <el-tabs v-model="activeName" @tab-click="handleClickTab">
             <el-tab-pane label="Sequence" name="interproScan">
               <interproscan-view
                 v-if="activeName == 'interproScan'"
@@ -29,13 +29,44 @@
               ></protvista-custom>
             </el-tab-pane>
 
-            <el-tab-pane  class="annotation" name="ECOD">
+            <el-tab-pane class="annotation" name="ECOD">
               <span slot="label" class="annotation"> ECOD</span>
 
               <ecod-view
-              v-if="activeName == 'ECOD'"
+                v-if="activeName == 'ECOD'"
                 key="ECOD"
+                annoDBName="ECOD"
                 :viewkey="'ECOD' + viewkey"
+                :request_Data_url="request_Data_url"
+                :protein_id="protein_id"
+                @clickOnFoldseekMatch="handleFoldseekMatch"
+                @emitAlign="handleAlign"
+              ></ecod-view>
+            </el-tab-pane>
+
+            <el-tab-pane class="annotation" name="SCOP">
+              <span slot="label" class="annotation"> SCOP</span>
+
+              <ecod-view
+                v-if="activeName == 'SCOP'"
+                key="SCOP"
+                annoDBName="SCOP"
+                :viewkey="'SCOP' + viewkey"
+                :request_Data_url="request_Data_url"
+                :protein_id="protein_id"
+                @clickOnFoldseekMatch="handleFoldseekMatch"
+                @emitAlign="handleAlign"
+              ></ecod-view>
+            </el-tab-pane>
+
+            <el-tab-pane class="annotation" name="CATH">
+              <span slot="label" class="annotation"> CATH</span>
+
+              <ecod-view
+                v-if="activeName == 'CATH'"
+                key="CATH"
+                annoDBName="CATH"
+                :viewkey="'CATH' + viewkey"
                 :request_Data_url="request_Data_url"
                 :protein_id="protein_id"
                 @clickOnFoldseekMatch="handleFoldseekMatch"
@@ -56,29 +87,58 @@
                 class="viewerHead"
               >
                 <el-col>
-                  <span style="align: left">Mol* Viewer</span>
+                  <span style="align: left"> PDBe Mol*</span>
                 </el-col>
-                <el-button
-                  type="primary"
-                  plain
-                  size="mini"
-                  onclick="viewerInstance.canvas.setBgColor({r:255, g:255, b:255})"
-                  >Background:White</el-button
-                >
-                <el-button
-                  type="primary"
-                  plain
-                  size="mini"
-                  onclick="viewerInstance.canvas.setBgColor({r:0, g:0, b:0})"
-                  >Background:Black</el-button
-                >
+               
+                  <el-dropdown @command="handleRepresentSelect">
+                    <el-button type="primary" plain size="mini">
+                      Representation<i
+                        class="el-icon-arrow-down el-icon--right"
+                      ></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="cartoon"
+                        >Cartoon</el-dropdown-item
+                      >
+                      <el-dropdown-item command="ball-and-stick"
+                        >ball-and-stick</el-dropdown-item
+                      >
+                      <el-dropdown-item command="gaussian-surface"
+                        >gaussian-surface</el-dropdown-item
+                      >
+                      <el-dropdown-item command="molecular-surface"
+                        >molecular-surface</el-dropdown-item
+                      >
+                      <el-dropdown-item command="spacefill"
+                        >spacefill</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                
+                <el-dropdown @command="handleBgColorSelect">
+                    <el-button type="primary" plain size="mini">
+                      Background<i
+                        class="el-icon-arrow-down el-icon--right"
+                      ></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="White"
+                        >White</el-dropdown-item
+                      >
+                      <el-dropdown-item command="Black"
+                        >Black</el-dropdown-item
+                      >
+                    
+                    </el-dropdown-menu>
+                  </el-dropdown>
+
+             
                 <el-button
                   type="primary"
                   plain
                   size="mini"
                   onclick="viewerInstance.visual.toggleSpin()"
-                  icon="el-icon-loading
-"
+                  icon="el-icon-loading"
                   >Toggle Spin</el-button
                 >
                 <el-button
@@ -133,6 +193,10 @@ export default {
       viewkey_interpro: 'interproscan' + this.$route.query.uuid,
       viewkey: this.$route.query.uuid,
       has_align: false,
+
+      // option
+      viewer_options: {},
+     
     }
   },
   mounted() {
@@ -141,6 +205,15 @@ export default {
     this.getPDB()
   },
   methods: {
+    handleRepresentSelect(representation) {
+      this.$message('click on item ' + representation)
+      this.viewer_options.visualStyle = representation
+       viewerInstance.visual.update(this.viewer_options)
+    },
+    handleBgColorSelect(command){
+      if(command=="White") viewerInstance.canvas.setBgColor({r:255, g:255, b:255})
+      if(command=="Black") viewerInstance.canvas.setBgColor({r:0, g:0, b:0})
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },
@@ -160,12 +233,15 @@ export default {
       })
 
       viewerInstance.visual.clearSelection()
+      if (data.type == 'PPI') {
+      }
+
       viewerInstance.visual.select({
         data: domain_data,
       })
 
       // focus
-      let is_focus = data.type !='PPI' ? true: false
+      let is_focus = data.type != 'PPI' ? true : false
       viewerInstance.visual.select({
         data: [
           {
@@ -179,28 +255,28 @@ export default {
       })
     },
 
-    handle_mouseOverPritvista(data){
-        this.viewer_highlight(data)
+    handle_mouseOverPritvista(data) {
+      this.viewer_highlight(data)
     },
 
-   viewer_highlight(e){
+    viewer_highlight(e) {
       viewerInstance.visual.highlight({
-          data: [
-            {
-              struct_asym_id: e.chain,
-              start_residue_number: e.start,
-              end_residue_number: e.end,
-            },
-          ],
-        })
-   },
+        data: [
+          {
+            struct_asym_id: e.chain,
+            start_residue_number: e.start,
+            end_residue_number: e.end,
+          },
+        ],
+      })
+    },
 
     handleFoldseekMatch(e) {
-      if (this.has_align) {
+      if (this.has_align || e.highlight) {
         this.viewer_highlight(e)
       } else {
-         this.viewer_highlight(e)
-         
+        this.viewer_highlight(e)
+
         viewerInstance.visual.select({
           data: [
             {
@@ -214,7 +290,7 @@ export default {
         })
       }
     },
- handleAlign(data) {
+    handleAlign(data) {
       // this.pdbe(url)
       this.has_align = true
       var options = {
@@ -222,25 +298,25 @@ export default {
           url: data.url,
           format: 'pdb',
         },
+        visualStyle: 'cartoon',
         // moleculeId: '1jx4',
         // alphafoldView: true,
         sequencePanel: true,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [],
       }
+      this.viewer_options = options
       viewerInstance.visual.update(options)
 
-      viewerInstance.visual.focus(
-        [
-          {
-            struct_asym_id: data.chain,
-            start_residue_number: data.start,
-            end_residue_number: data.end,
-          },
-        ]
-      )
+      viewerInstance.visual.focus([
+        {
+          struct_asym_id: data.chain,
+          start_residue_number: data.start,
+          end_residue_number: data.end,
+        },
+      ])
     },
-    
+
     focus_color_domain(e) {
       console.log(e)
       console.log('focus' + e.featureId)
@@ -297,7 +373,7 @@ export default {
       })
     },
 
-   handleClickTab(){},
+    handleClickTab() {},
     pdbe(url) {
       //Set options (Checkout available options list in the documentation)
       var options = {
@@ -305,6 +381,7 @@ export default {
           url: url,
           format: 'pdb',
         },
+        visualStyle: 'cartoon',
         // moleculeId: '1jx4',
         // alphafoldView: true,
         sequencePanel: true,
@@ -314,6 +391,7 @@ export default {
       //Get element from HTML/Template to place the viewer
       var viewerContainer = document.getElementById('myViewer')
       //Call render method to display the 3D view
+      this.viewer_options = options
       viewerInstance.render(viewerContainer, options)
     },
   },
@@ -354,14 +432,13 @@ export default {
   transform: translateX(-50%);
 }
 
-.annotation{
+.annotation {
   /* background-color:coral; */
   font-weight: bold;
   color: coral;
   padding: 0px;
 }
 
-.el-tab-pane{
-  
+.el-tab-pane {
 }
 </style>

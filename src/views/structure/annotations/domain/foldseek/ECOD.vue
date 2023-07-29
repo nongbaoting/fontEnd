@@ -2,14 +2,16 @@
   <div>
     <!-- <h1>Hello</h1> -->
     <el-row :gutter="20">
-      
-      <el-tabs v-model="activeName" type="border-card" @tab-click="handleClickTab">
+      <el-tabs
+        v-model="activeName"
+        type="border-card"
+        @tab-click="handleClickTab"
+      >
         <el-tab-pane label="Table" name="table">
           <!-- 表格 -->
 
           <el-table
             :data="tableData"
-           
             v-loading="loading"
             element-loading-text="loading"
             element-loading-spinner="el-icon-loading"
@@ -22,7 +24,7 @@
             <el-table-column
               sortable="custom"
               prop="ecod_domain_id"
-              label="ECOD"
+              :label="annoDBName"
             >
               <template slot-scope="scope">
                 <!-- 如果出现完completed_date就现实连接 -->
@@ -31,11 +33,11 @@
                   type="primary"
                   target="_blank"
                   :href="
-                    'http://prodata.swmed.edu/ecod/complete/domain/' +
+                    linkDB[annoDBName] +
                     scope.row.ecod_domain_id
                   "
                 >
-                  ECOD
+                  {{ annoDBName }}
                 </el-link>
 
                 <!-- 否者现实弹框 -->
@@ -76,7 +78,7 @@
               width="240"
               sortable="custom"
               prop="t_name"
-              label="Domain"
+              :label="domainOrSuper[annoDBName]"
             >
             </el-table-column>
 
@@ -92,21 +94,21 @@
             <!-- 分页 -->
             <!--分页条 -->
             <el-col>
-            <div  class="pagination">
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 20, 50, 100]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next"
-                :total="totalCount"
-                prev-text="Prev"
-                next-text="Next"
-                background
-              >
-              </el-pagination>
-            </div>
+              <div class="pagination">
+                <el-pagination
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :current-page="currentPage"
+                  :page-sizes="[5, 10, 20, 50, 100]"
+                  :page-size="pageSize"
+                  layout="total, sizes, prev, pager, next"
+                  :total="totalCount"
+                  prev-text="Prev"
+                  next-text="Next"
+                  background
+                >
+                </el-pagination>
+              </div>
             </el-col>
           </el-row>
         </el-tab-pane>
@@ -118,7 +120,7 @@
               :dataset="tableData"
             ></protein-body-view>
           </el-row>
-          <el-row  justify="space-around">
+          <el-row justify="space-around">
             <!-- 分页 -->
             <!--分页条 -->
 
@@ -153,7 +155,7 @@ export default {
   components: {
     'protein-body-view': proteinBodyVue,
   },
-  props: ['viewkey', 'protein_id', 'request_Data_url'],
+  props: ['annoDBName', 'viewkey', 'protein_id', 'request_Data_url'],
   data() {
     return {
       // for table
@@ -164,10 +166,17 @@ export default {
       order: 'descending',
       field: 'ttmscore',
       is_sort: false,
-      tableKey: 'ecod_table',
+      tableKey: this.viewkey,
       loading: true,
       // end table
-
+      linkDB: {
+        ECOD: 'http://prodata.swmed.edu/ecod/complete/domain/',
+        SCOP: 'https://scop.mrc-lmb.cam.ac.uk/term/',
+      },
+      domainOrSuper:{
+        ECOD: "Domain",
+        SCOP: "SuperFamily",
+      },
       activeName: 'alignment',
     }
   },
@@ -180,7 +189,7 @@ export default {
         .get(this.request_Data_url, {
           params: {
             uuid: this.protein_id,
-            request_type: 'ECOD',
+            request_type: this.annoDBName,
 
             // table
             currentPage: this.currentPage,
@@ -208,18 +217,6 @@ export default {
     },
     toResult(row) {
       console.log(row)
-      //   let mypath = pathDt[proj_type]
-      //   let routeData = this.$router.resolve({
-      //     path: mypath,
-      //     query: {
-      //       uuid: uuid,
-      //       job_name: job_name,
-      //       run_status: run_status,
-      //       program: proj_type,
-      //       datetime: datetime,
-      //     },
-      //   })
-      //   window.open(routeData.href, '_blank')
     },
 
     // sortchange
@@ -245,7 +242,7 @@ export default {
         params: {
           uuid: this.$route.query.uuid,
           db_pdbid: row.target,
-          db_name: 'ECOD',
+          db_name: this.annoDBName,
           chain: row.chain,
         },
         method: 'GET',
