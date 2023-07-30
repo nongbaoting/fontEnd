@@ -70,14 +70,14 @@ export default {
     pdbe(url) {
       //Set options (Checkout available options list in the documentation)
       var options = {
-        expanded:false,
+        expanded:true,
         sequencePanel:true,
         customData: {
           url: url,
           format: 'cif',
         },
         moleculeId: this.job_name,
-        alphafoldView: true,
+        alphafoldView: false,
         bgColor: { r: 255, g: 255, b: 255 },
         hideCanvasControls: [
          

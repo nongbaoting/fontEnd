@@ -61,7 +61,6 @@
 
             <el-tab-pane class="annotation" name="CATH">
               <span slot="label" class="annotation"> CATH</span>
-
               <ecod-view
                 v-if="activeName == 'CATH'"
                 key="CATH"
@@ -72,6 +71,34 @@
                 @clickOnFoldseekMatch="handleFoldseekMatch"
                 @emitAlign="handleAlign"
               ></ecod-view>
+            </el-tab-pane>
+
+            <el-tab-pane class="annotation" name="AFDB">
+              <span slot="label" class="annotationFull"> AlphaFoldDB</span>
+              <AF-PDB-DB-view
+                v-if="activeName == 'AFDB'"
+                key="AFDB"
+                annoDBName="AFDB"
+                :viewkey="'AFDB' + viewkey"
+                :request_Data_url="request_Data_url"
+                :protein_id="protein_id"
+                @clickOnFoldseekMatch="handleFoldseekMatch"
+                @emitAlign="handleAlign"
+              ></AF-PDB-DB-view>
+            </el-tab-pane>
+
+            <el-tab-pane class="annotation" name="pdbDB">
+              <span slot="label" class="annotationFull"> PDB-DB</span>
+              <AF-PDB-DB-view
+                v-if="activeName == 'pdbDB'"
+                key="pdbDB"
+                annoDBName="pdbDB"
+                :viewkey="'pdbDB' + viewkey"
+                :request_Data_url="request_Data_url"
+                :protein_id="protein_id"
+                @clickOnFoldseekMatch="handleFoldseekMatch"
+                @emitAlign="handleAlign"
+              ></AF-PDB-DB-view>
             </el-tab-pane>
 
             <el-tab-pane label="..." name="third">...</el-tab-pane>
@@ -171,6 +198,7 @@ import Sword2 from './domain/domainParsing/Sword2.vue'
 import Unidoc from './domain/domainParsing/Unidoc.vue'
 import Protvista from './domain/Protvista-pdb.vue'
 import Ecod from './domain/foldseek/ECOD.vue'
+import AF_PDB_DB from './domain/foldseek/AF-PDB_DB.vue'
 var viewerInstance = new PDBeMolstarPlugin()
 export default {
   components: {
@@ -179,6 +207,7 @@ export default {
     'unidoc-view': Unidoc,
     'protvista-custom': Protvista,
     'ecod-view': Ecod,
+    'AF-PDB-DB-view': AF_PDB_DB,
   },
   data() {
     return {
@@ -436,6 +465,12 @@ export default {
   /* background-color:coral; */
   font-weight: bold;
   color: coral;
+  padding: 0px;
+}
+
+.annotationFull{
+ font-weight: bold;
+  color: salmon;
   padding: 0px;
 }
 

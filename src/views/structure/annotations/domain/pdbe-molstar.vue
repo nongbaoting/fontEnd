@@ -54,8 +54,7 @@ export default {
     window.viewerInstance = viewerInstance
   },
   methods: {
-      
-      getPDB() {
+    getPDB() {
       this.$http({
         url: this.request_PDB_url,
         params: {
