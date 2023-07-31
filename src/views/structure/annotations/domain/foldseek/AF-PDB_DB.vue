@@ -18,6 +18,8 @@
             element-loading-background="rgba(0, 0, 0, 0.8)"
             :key="tableKey"
             @sort-change="sortChange"
+            class="alignTable"
+            :height="tableHeight"
           >
             <!-- 列 -->
             <!-- <el-table-column type="index"></el-table-column> -->
@@ -32,7 +34,7 @@
                 <el-link
                   type="primary"
                   target="_blank"
-                  :href="linkDB[annoDBName].link + scope.row.ecod_domain_id"
+                  :href="linkDB[annoDBName].link + scope.row.pdbid"
                 >
                   {{ linkDB[annoDBName].name }}
                 </el-link>
@@ -65,24 +67,18 @@
             </el-table-column>
 
             <el-table-column
-              width="240"
+              width="300"
               sortable="custom"
-              prop="f_name"
-              label="Family"
+              prop="desc"
+              label="Description"
             >
             </el-table-column>
-            <el-table-column
-              width="240"
-              sortable="custom"
-              prop="t_name"
-              :label="domainOrSuper[annoDBName]"
-            >
-            </el-table-column>
+          
 
             <el-table-column>
               <template slot-scope="scope">
                 <el-button @click="alignDomin2Query(scope.row)" type="warning">
-                  Align
+                  TMAlign
                 </el-button>
               </template>
             </el-table-column>
@@ -139,14 +135,14 @@
           </el-row>
         </el-tab-pane>
 
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+        <!-- <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane> -->
       </el-tabs>
     </el-row>
   </div>
 </template>
 
 <script>
-import proteinBodyVue from './proteinBody.vue'
+import proteinBodyVue from './proteinBody4AFDB.vue'
 
 export default {
   components: {
@@ -181,6 +177,7 @@ export default {
         SCOP: 'SuperFamily',
       },
       activeName: 'alignment',
+       tableHeight: window.innerHeight * .8,
     }
   },
   mounted() {
@@ -205,9 +202,6 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
-          // let data = JSON.parse(res.data)
-          // this.rowConfigData = res.data.rowConfigData
-          // this.sequence = res.data.sequence
           this.tableData = res.data.data
           this.totalCount = res.data.totalCount
           this.loading = false
@@ -294,7 +288,10 @@ export default {
 
 <style lang="less" scoped>
 .cell-button {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
+}
+.alignTable{
+  font-size:16px;
 }
 </style>

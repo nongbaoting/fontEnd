@@ -59,7 +59,7 @@
               ></ecod-view>
             </el-tab-pane>
 
-            <el-tab-pane class="annotation" name="CATH">
+            <!-- <el-tab-pane class="annotation" name="CATH">
               <span slot="label" class="annotation"> CATH</span>
               <ecod-view
                 v-if="activeName == 'CATH'"
@@ -71,7 +71,7 @@
                 @clickOnFoldseekMatch="handleFoldseekMatch"
                 @emitAlign="handleAlign"
               ></ecod-view>
-            </el-tab-pane>
+            </el-tab-pane> -->
 
             <el-tab-pane class="annotation" name="AFDB">
               <span slot="label" class="annotationFull"> AlphaFoldDB</span>
@@ -263,14 +263,20 @@ export default {
 
       viewerInstance.visual.clearSelection()
       if (data.type == 'PPI') {
-      }
-
-      viewerInstance.visual.select({
+       viewerInstance.visual.select({
         data: domain_data,
+        nonSelectedColor: '#D9D9D9'
+      })
+      
+      }else{
+        // #D9D9D9
+
+        viewerInstance.visual.select({
+        data: domain_data,
+       
       })
 
       // focus
-      let is_focus = data.type != 'PPI' ? true : false
       viewerInstance.visual.select({
         data: [
           {
@@ -282,6 +288,10 @@ export default {
           },
         ],
       })
+      
+      }
+
+      
     },
 
     handle_mouseOverPritvista(data) {
@@ -470,7 +480,7 @@ export default {
 
 .annotationFull{
  font-weight: bold;
-  color: salmon;
+  color: #27A3B4;
   padding: 0px;
 }
 

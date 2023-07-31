@@ -215,7 +215,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 /* gene body */
 .tooltip {
   position: absolute;

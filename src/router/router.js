@@ -117,8 +117,8 @@ const routes = [
 
       },
       { path: "/sequence/blast/res/", component: BlastRes },
-      { path: "/sequence/blast/res/psiblast", component: resovle => require(["../views/blast/PSIBlast_Result.vue"], resolve) },
-      { path: "/sequence/blast/res/jackhmmer", component: resovle => require(["../views/blast/Jackhmmer_Result.vue"], resolve) },
+      { path: "/sequence/blast/res/psiblast", component: resolve => require(["../views/blast/PSIBlast_Result.vue"], resolve) },
+      { path: "/sequence/blast/res/jackhmmer", component: resolve => require(["../views/blast/Jackhmmer_Result.vue"], resolve) },
       { path: "/sequence/blast/res/architectures", component: resolve => require(['../views/blast/components/archi.vue'], resolve) },
 
       { path: "/sequence/blast/cdd_submit", component: CDD },

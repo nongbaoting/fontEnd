@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h1>Hello</h1> -->
-    <el-row :gutter="20">
+    <el-row :gutter="10">
       <el-tabs
         v-model="activeName"
         type="border-card"
@@ -18,6 +18,7 @@
             element-loading-background="rgba(0, 0, 0, 0.8)"
             :key="tableKey"
             @sort-change="sortChange"
+            :height="tableHeight"
           >
             <!-- 列 -->
             <!-- <el-table-column type="index"></el-table-column> -->
@@ -84,8 +85,8 @@
 
             <el-table-column>
               <template slot-scope="scope">
-                <el-button @click="alignDomin2Query(scope.row)" type="warning">
-                  Align
+                <el-button @click="alignDomin2Query(scope.row)" type="warning" size="mini">
+                  TMAlign
                 </el-button>
               </template>
             </el-table-column>
@@ -142,7 +143,7 @@
           </el-row>
         </el-tab-pane>
 
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+        <!-- <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane> -->
       </el-tabs>
     </el-row>
   </div>
@@ -177,7 +178,8 @@ export default {
         ECOD: "Domain",
         SCOP: "SuperFamily",
       },
-      activeName: 'alignment',
+      activeName: 'table',
+      tableHeight: window.innerHeight * .8,
     }
   },
   mounted() {
