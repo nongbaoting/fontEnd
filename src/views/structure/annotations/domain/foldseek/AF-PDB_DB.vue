@@ -18,8 +18,10 @@
             element-loading-background="rgba(0, 0, 0, 0.8)"
             :key="tableKey"
             @sort-change="sortChange"
-            class="alignTable"
+           
             :height="tableHeight"
+            header-row-class-name="annoateTableHeaderRow"
+            row-class-name="annoateTableRow"
           >
             <!-- 列 -->
             <!-- <el-table-column type="index"></el-table-column> -->
@@ -176,7 +178,7 @@ export default {
         ECOD: 'Domain',
         SCOP: 'SuperFamily',
       },
-      activeName: 'alignment',
+      activeName: 'table',
        tableHeight: window.innerHeight * .8,
     }
   },
@@ -288,10 +290,27 @@ export default {
 
 <style lang="less" scoped>
 .cell-button {
-  font-size: 16px;
+  // font-size: 14px;
   font-weight: bold;
 }
-.alignTable{
-  font-size:16px;
+// .alignTable{
+//   font-size:16px;
+// }
+
+
+</style>
+
+<style >
+  .annoateTableHeaderRow{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight:  bold;
+}
+
+.annoateTableRow{
+   font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(10px + .5vmin);
+  font-weight:  bold;
+  text-align: center;
 }
 </style>

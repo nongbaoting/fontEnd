@@ -211,7 +211,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'ECOD',
+      activeName: 'pdbDB',
       activeRight: 'first',
       job_name: this.$route.query.job_name,
       uuid: this.$route.query.uuid,
