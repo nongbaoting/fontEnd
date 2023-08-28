@@ -9,7 +9,6 @@
       >
         <el-tab-pane label="Table" name="table">
           <!-- 表格 -->
-
           <el-table
             :data="tableData"
             v-loading="loading"

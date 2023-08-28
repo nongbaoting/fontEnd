@@ -211,7 +211,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'pdbDB',
+      activeName: 'ECOD',
       activeRight: 'first',
       job_name: this.$route.query.job_name,
       uuid: this.$route.query.uuid,
@@ -262,7 +262,7 @@ export default {
       })
 
       viewerInstance.visual.clearSelection()
-      if (data.type == 'PPI') {
+      if (data.type == 'site' || data.type =='PPI') {
        viewerInstance.visual.select({
         data: domain_data,
         nonSelectedColor: '#D9D9D9'
