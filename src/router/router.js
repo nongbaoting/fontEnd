@@ -184,7 +184,12 @@ const routes = [
       {
         path: '/results/csr/',
         component: resolve => require(['../views/results/csr.vue'],resolve)
+      },
+      {
+        path: '/results/RepeatDomain/',
+        component: resolve => require(['../views/results/RepeatDomain.vue'],resolve)
       }
+
 
     ]
   },
