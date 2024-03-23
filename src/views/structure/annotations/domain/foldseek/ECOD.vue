@@ -38,7 +38,7 @@
                     scope.row.ecod_domain_id
                   "
                 >
-                  {{ annoDBName }}
+                  {{ scope.row.ecod_domain_id }}
                 </el-link>
 
                 <!-- 否者现实弹框 -->
@@ -113,7 +113,7 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="Alignment" name="alignment">
+        <el-tab-pane label="Subject Distribution" name="alignment">
           <el-row>
             <protein-body-view
               @clickOnSegment="passEmit"
@@ -180,6 +180,7 @@ export default {
       },
       activeName: 'table',
       tableHeight: window.innerHeight * .8,
+      intervalId:null,
     }
   },
   mounted() {
@@ -237,7 +238,8 @@ export default {
       this.$emit('clickOnFoldseekMatch', e)
     },
 
-    alignDomin2Query(row) {
+     alignDomin2Query(row) {
+       this.loading =true
       console.log(row)
       this.$http({
         url: 'protein/api/pdb_domain_annotations/align/',
@@ -248,19 +250,74 @@ export default {
           chain: row.chain,
         },
         method: 'GET',
-        responseType: 'blob',
+        
       }).then((response) => {
         console.log(response)
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-        let data = {
-          url: url,
-          chain: row.chain,
-          start: row.start,
-          end: row.end,
-        }
+        let task_id = response.data.task_id
+        this.intervalId = setInterval(() => {
+          // 调用查询函数
+          this.checkAlign(task_id,row)
+        }, 5000)
 
-        this.$emit('emitAlign', data)
         // this.pdbe(url)
+      })
+
+
+    },
+
+    checkAlign(task_id,row) {
+      this.$http({
+        url: 'protein/api/pdb_domain_annotations/check_align/',
+        params: {
+          task_id: task_id,
+        },
+        method: 'GET',
+       
+      }).then((response) => {
+        console.log(response)
+        if (response.data.status=='SUCCESS'){
+            clearInterval(this.intervalId);
+            let pdbFile = response.data.result
+            this.get_alignPDB(pdbFile,row)
+            this.loading = false
+        }else if(response.data.status=="FAILURE"){
+          clearInterval(this.intervalId);
+          console.log('FAILURE')
+          this.loading = false
+          this.alignFailAlert(response.data.error)
+        }
+      })
+    },
+
+ alignFailAlert(msg) {
+        this.$alert(msg, 'Align Failure', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'error',
+              // message: `action: ${ action }`
+            });
+          }
+        });
+      },
+
+    get_alignPDB(pdbFile,row){
+      this.$http({
+        url: 'protein/api/pdb_domain_annotations/get_alignPDBfile/',
+        params: {
+          pdbFile: pdbFile,
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+            let data = {
+              url: url,
+              chain: row.chain,
+              start: row.start,
+              end: row.end,
+            }
+          this.$emit('emitAlign', data)
       })
     },
 

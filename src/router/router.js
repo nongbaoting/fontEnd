@@ -109,6 +109,11 @@ const routes = [
         path: "/domain_annotation/pdb_annotations",
         component: resolve => require(['../views/structure/annotations/SubmitDomainAnnotations.vue'], resolve)
       },
+      {
+        name: 'pdb_annotations_browse',
+        path: "/domain_annotation/browse",
+        component: resolve => require(['../views/structure/annotations/Browse.vue'], resolve)
+      },
 
       // 序列相似性 blast
       { path: "/sequence/blast", component: Blast },
@@ -184,12 +189,7 @@ const routes = [
       {
         path: '/results/csr/',
         component: resolve => require(['../views/results/csr.vue'],resolve)
-      },
-      {
-        path: '/results/RepeatDomain/',
-        component: resolve => require(['../views/results/RepeatDomain.vue'],resolve)
       }
-
 
     ]
   },
@@ -199,6 +199,11 @@ const routes = [
     name: 'annotationsResult',
     path: "/domain_annotation/annotationsResult",
     component: resolve => require(['../views/structure/annotations/AnnotationResult.vue'], resolve)
+  },
+  {
+    name: 'WaitAnnotationsResult',
+    path: "/domain_annotation/annotationsResult/wait",
+    component: resolve => require(['../views/structure/annotations/wait.vue'], resolve)
   },
 
   //molstar #1

@@ -26,6 +26,9 @@ rm -rf /training/nong/protein/db/web/protein
 cp -r /dat1/nbt2/server/PROTsim/prot/dist/ /training/nong/protein/db/web/protein
 ```
 
+### 发布aliyun
+cp -r /dat1/nbt2/server/PROTsim/annotatePDB 	/var/www/html/PISA
+
 ### Lints and fixes files
 
 ```

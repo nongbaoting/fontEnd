@@ -17,7 +17,6 @@
             element-loading-background="rgba(0, 0, 0, 0.8)"
             :key="tableKey"
             @sort-change="sortChange"
-           
             :height="tableHeight"
             header-row-class-name="annoateTableHeaderRow"
             row-class-name="annoateTableRow"
@@ -37,7 +36,7 @@
                   target="_blank"
                   :href="linkDB[annoDBName].link + scope.row.pdbid"
                 >
-                  {{ linkDB[annoDBName].name }}
+                  {{ scope.row.pdbid }}
                 </el-link>
 
                 <!-- 否者现实弹框 -->
@@ -74,7 +73,6 @@
               label="Description"
             >
             </el-table-column>
-          
 
             <el-table-column>
               <template slot-scope="scope">
@@ -106,7 +104,7 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="Alignment" name="alignment">
+        <el-tab-pane label="Subject Distribution" name="alignment">
           <el-row>
             <protein-body-view
               @clickOnSegment="passEmit"
@@ -178,7 +176,8 @@ export default {
         SCOP: 'SuperFamily',
       },
       activeName: 'table',
-       tableHeight: window.innerHeight * .8,
+      tableHeight: window.innerHeight * 0.8,
+      intervalId:null,
     }
   },
   mounted() {
@@ -234,6 +233,7 @@ export default {
     },
 
     alignDomin2Query(row) {
+       this.loading =true
       console.log(row)
       this.$http({
         url: 'protein/api/pdb_domain_annotations/align/',
@@ -244,19 +244,59 @@ export default {
           chain: row.chain,
         },
         method: 'GET',
-        responseType: 'blob',
+        
       }).then((response) => {
         console.log(response)
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-        let data = {
-          url: url,
-          chain: row.chain,
-          start: row.start,
-          end: row.end,
-        }
+        let task_id = response.data.task_id
 
-        this.$emit('emitAlign', data)
+        
+        this.intervalId = setInterval(() => {
+          // 调用查询函数
+          this.checkAlign(task_id,row)
+        }, 5000)
+ this.loading =false
         // this.pdbe(url)
+      })
+    },
+
+    checkAlign(task_id,row) {
+      this.$http({
+        url: 'protein/api/pdb_domain_annotations/check_align/',
+        params: {
+          task_id: task_id,
+        },
+        method: 'GET',
+       
+      }).then((response) => {
+
+        console.log(response)
+
+        if (response.data.status=='SUCCESS'){
+            clearInterval(this.intervalId);
+            let pdbFile = response.data.result
+            this.get_alignPDB(pdbFile,row)
+             this.loading = false
+        }
+      })
+    },
+
+    get_alignPDB(pdbFile,row){
+      this.$http({
+        url: 'protein/api/pdb_domain_annotations/get_alignPDBfile/',
+        params: {
+          pdbFile: pdbFile,
+        },
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+            let data = {
+              url: url,
+              chain: row.chain,
+              start: row.start,
+              end: row.end,
+            }
+          this.$emit('emitAlign', data)
       })
     },
 
@@ -295,21 +335,19 @@ export default {
 // .alignTable{
 //   font-size:16px;
 // }
-
-
 </style>
 
 <style >
-  .annoateTableHeaderRow{
+.annoateTableHeaderRow {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  font-weight:  bold;
+  font-weight: bold;
 }
 
-.annoateTableRow{
-   font-family: Arial, Helvetica, sans-serif;
-  font-size: calc(10px + .5vmin);
-  font-weight:  bold;
+.annoateTableRow {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(10px + 0.5vmin);
+  font-weight: bold;
   text-align: center;
 }
 </style>

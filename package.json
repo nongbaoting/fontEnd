@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --host 172.22.148.191 --port 9111",
+    "serve": "vue-cli-service serve --port 9112",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -23,7 +23,7 @@
     "@vue/cli-plugin-babel": "^4.5.17",
     "@vue/cli-plugin-eslint": "^4.5.17",
     "@vue/cli-plugin-router": "^4.5.17",
-    "@vue/cli-service": "^4.5.17",
+    "@vue/cli-service": "^4.5.19",
     "@vue/eslint-config-standard": "^5.1.2",
     "3dmol": "^1.8.0",
     "axios": "^0.21.4",

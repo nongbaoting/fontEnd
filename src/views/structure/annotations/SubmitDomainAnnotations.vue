@@ -13,7 +13,7 @@
           label-position="right"
         >
           <!-- 文件 -->
-          <el-form-item label="Upload Files" prop="upload_file">
+          <el-form-item label="Upload File" prop="upload_file">
             <el-upload
               class="upload-demo"
               ref="upload"
@@ -23,7 +23,7 @@
               :on-change="handleChange"
               :file-list="fileList"
               :auto-upload="false"
-              :multiple="multiple"
+              :multiple="false"
               :limit="limit"
               :accept="accept"
             >
@@ -35,19 +35,9 @@
                 >Select File</el-button
               >
 
-              <!-- <el-button
-                style="margin-left: 10px"
-                size="small"
-                type="success"
-                slot="trigger"
-                @click="selectZip"
-                >Select File (.zip)</el-button
-              > -->
               <div slot="tip" class="el-upload__tip" style="line-height: 1.3">
                 Protein structure files in
-                <span class="p_em">.bcif, .pdb, .cif</span> format ( compression
-                in <span class="p_em">.gz</span> is also supported ) <br />
-                or packaging in a single <span class="p_em">.zip</span> file.
+                <span class="p_em">pdb, cif</span> format file.
               </div>
             </el-upload>
           </el-form-item>
@@ -62,14 +52,15 @@
           <el-form-item label="Job Name">
             <el-input v-model="ruleForm.job_name"></el-input>
           </el-form-item>
+
           <!-- email -->
-          <el-form-item label="Email" prop="email">
+          <!-- <el-form-item label="Email" prop="email">
             <el-input
               v-model="ruleForm.email"
               type="email"
               auto-complete="on"
             ></el-input>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item>
             <el-button
@@ -82,6 +73,16 @@
             >
           </el-form-item>
         </el-form>
+      </el-col>
+    </el-row>
+    <el-row style="padding-top: 40px">
+      <el-col :span="10" :offset="8">
+        <el-button type="primary" plain @click="example_pdb()">
+          Example PDB File</el-button
+        >
+        <el-button type="primary" plain @click="example_result()"
+          >Example Result</el-button
+        >
       </el-col>
     </el-row>
   </div>
@@ -100,8 +101,8 @@ export default {
       checkedCities: ['TMalign'],
       cities: cityOptions,
       isIndeterminate: true,
-      accept: '.pdb,.cif,.bcif,.pdb.gz,.cif.gz,.bcif.gz,',
-      limit: 100,
+      accept: '.pdb,.cif',
+      limit: 1,
       multiple: false,
       fileList: [],
       // children: similarityTable
@@ -148,6 +149,35 @@ export default {
   },
 
   methods: {
+    example_pdb() {
+      this.$http({
+        url: 'protein/api/pdb_domain_annotations/example_pdb/',
+
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        console.log(response)
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        let link = document.createElement('a')
+        link.href = url
+        link.download = 'example.pdb'
+        link.click()
+        link.remove()
+        window.URL.revokeObjectURL(link.href) //释放blob对象
+      })
+    },
+    example_result() {
+      let mypath = '/domain_annotation/annotationsResult'
+      let routeData = this.$router.resolve({
+        path: mypath,
+        query: {
+          uuid: 'c186feca-6e53-44cd-b54c-7a50da92729e',
+          job_name: 'example',
+        },
+      })
+      window.open(routeData.href, '_blank')
+    },
+
     handleCheckAllChange(val) {
       this.checkedCities = val ? cityOptions : []
       this.isIndeterminate = false
@@ -223,10 +253,11 @@ export default {
           this.$message.success('Uploads Success!')
 
           let routeData = this.$router.resolve({
-            path: '/queue',
+            path: '/domain_annotation/annotationsResult/wait',
             query: {
-              job_name: this.job_name,
+              job_name: this.ruleForm.job_name,
               program: 'PDB Domain Annotations',
+              uuid: res.data.uuid,
             },
           })
           window.open(routeData.href, '_blank')
@@ -250,7 +281,7 @@ export default {
     selectPdbFiles() {
       this.multiple = true
       this.limit = 100
-      this.accept = '.pdb,.cif,.bcif,.pdb.gz,.cif.gz,.bcif.gz,'
+      this.accept = '.pdb,.cif'
     },
     async checkProName(rule, value, callback) {
       const { data: res } = await this.$http.get(

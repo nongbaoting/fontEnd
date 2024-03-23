@@ -7,7 +7,8 @@
       <el-row :gutter="10">
         <el-col :span="12">
           <el-tabs v-model="activeName" @tab-click="handleClickTab">
-            <el-tab-pane label="Sequence" name="interproScan">
+            <el-tab-pane  name="interproScan">
+               <span slot="label" class="interproScan"> InterproScan</span>
               <interproscan-view
                 v-if="activeName == 'interproScan'"
                 :request_Data_url="request_Data_url"
@@ -17,7 +18,8 @@
                 @clickOnRcsb="focus_color_domain"
               ></interproscan-view>
             </el-tab-pane>
-            <el-tab-pane label="Structure" name="protvista">
+            <el-tab-pane    label="AI" name="protvista">
+               <span slot="label" class="annotation"> AI</span>
               <protvista-custom
                 v-if="activeName == 'protvista'"
                 key="protvista"
@@ -30,7 +32,7 @@
             </el-tab-pane>
 
             <el-tab-pane class="annotation" name="ECOD">
-              <span slot="label" class="annotation"> ECOD</span>
+              <span slot="label" class="annotationFull"> ECOD</span>
 
               <ecod-view
                 v-if="activeName == 'ECOD'"
@@ -45,7 +47,7 @@
             </el-tab-pane>
 
             <el-tab-pane class="annotation" name="SCOP">
-              <span slot="label" class="annotation"> SCOP</span>
+              <span slot="label" class="annotationFull"> SCOP</span>
 
               <ecod-view
                 v-if="activeName == 'SCOP'"
@@ -101,7 +103,7 @@
               ></AF-PDB-DB-view>
             </el-tab-pane>
 
-            <el-tab-pane label="..." name="third">...</el-tab-pane>
+            <!-- <el-tab-pane label="..." name="third">...</el-tab-pane> -->
           </el-tabs></el-col
         >
         <el-col :span="12">
@@ -116,50 +118,42 @@
                 <el-col>
                   <span style="align: left"> PDBe Mol*</span>
                 </el-col>
-               
-                  <el-dropdown @command="handleRepresentSelect">
-                    <el-button type="primary" plain size="mini">
-                      Representation<i
-                        class="el-icon-arrow-down el-icon--right"
-                      ></i>
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item command="cartoon"
-                        >Cartoon</el-dropdown-item
-                      >
-                      <el-dropdown-item command="ball-and-stick"
-                        >ball-and-stick</el-dropdown-item
-                      >
-                      <el-dropdown-item command="gaussian-surface"
-                        >gaussian-surface</el-dropdown-item
-                      >
-                      <el-dropdown-item command="molecular-surface"
-                        >molecular-surface</el-dropdown-item
-                      >
-                      <el-dropdown-item command="spacefill"
-                        >spacefill</el-dropdown-item
-                      >
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                
-                <el-dropdown @command="handleBgColorSelect">
-                    <el-button type="primary" plain size="mini">
-                      Background<i
-                        class="el-icon-arrow-down el-icon--right"
-                      ></i>
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item command="White"
-                        >White</el-dropdown-item
-                      >
-                      <el-dropdown-item command="Black"
-                        >Black</el-dropdown-item
-                      >
-                    
-                    </el-dropdown-menu>
-                  </el-dropdown>
 
-             
+                <el-dropdown @command="handleRepresentSelect">
+                  <el-button type="primary" plain size="mini">
+                    Representation<i
+                      class="el-icon-arrow-down el-icon--right"
+                    ></i>
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="cartoon"
+                      >Cartoon</el-dropdown-item
+                    >
+                    <el-dropdown-item command="ball-and-stick"
+                      >ball-and-stick</el-dropdown-item
+                    >
+                    <el-dropdown-item command="gaussian-surface"
+                      >gaussian-surface</el-dropdown-item
+                    >
+                    <el-dropdown-item command="molecular-surface"
+                      >molecular-surface</el-dropdown-item
+                    >
+                    <el-dropdown-item command="spacefill"
+                      >spacefill</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </el-dropdown>
+
+                <el-dropdown @command="handleBgColorSelect">
+                  <el-button type="primary" plain size="mini">
+                    Background<i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="White">White</el-dropdown-item>
+                    <el-dropdown-item command="Black">Black</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+
                 <el-button
                   type="primary"
                   plain
@@ -180,9 +174,8 @@
                   <div id="myViewer"></div></div
               ></el-row>
             </el-tab-pane>
-            <el-tab-pane label="Contact Map" name="second"
-              >in development...</el-tab-pane
-            >
+            <!-- <el-tab-pane label="Contact Map" name="second"
+              >in development...</el-tab-pane> -->
           </el-tabs>
         </el-col>
       </el-row>
@@ -211,12 +204,12 @@ export default {
   },
   data() {
     return {
-      activeName: 'ECOD',
+      activeName: 'protvista',
       activeRight: 'first',
       job_name: this.$route.query.job_name,
       uuid: this.$route.query.uuid,
       protein_id: this.$route.query.uuid,
-      chain: 'A',
+      chain: '',
       request_Data_url: 'protein/api/pdb_domain_annotations/parser_results/',
       request_PDB_url: 'protein/api/pdb_domain_annotations/get_pdbFile/',
       viewkey_interpro: 'interproscan' + this.$route.query.uuid,
@@ -225,23 +218,25 @@ export default {
 
       // option
       viewer_options: {},
-     
     }
   },
   mounted() {
     window.viewerInstance = viewerInstance
 
     this.getPDB()
+    this.getData()
   },
   methods: {
     handleRepresentSelect(representation) {
       this.$message('click on item ' + representation)
       this.viewer_options.visualStyle = representation
-       viewerInstance.visual.update(this.viewer_options)
+      viewerInstance.visual.update(this.viewer_options)
     },
-    handleBgColorSelect(command){
-      if(command=="White") viewerInstance.canvas.setBgColor({r:255, g:255, b:255})
-      if(command=="Black") viewerInstance.canvas.setBgColor({r:0, g:0, b:0})
+    handleBgColorSelect(command) {
+      if (command == 'White')
+        viewerInstance.canvas.setBgColor({ r: 255, g: 255, b: 255 })
+      if (command == 'Black')
+        viewerInstance.canvas.setBgColor({ r: 0, g: 0, b: 0 })
     },
     handleClick(tab, event) {
       console.log(tab, event)
@@ -260,38 +255,39 @@ export default {
           focus: false,
         })
       })
-
+      console.log(domain_data)
       viewerInstance.visual.clearSelection()
-      if (data.type == 'site' || data.type =='PPI') {
-       viewerInstance.visual.select({
-        data: domain_data,
-        nonSelectedColor: '#D9D9D9'
-      })
-      
-      }else{
+      if (
+        data.type == 'site' ||
+        data.type == 'PPI' ||
+        data.type == 'Binding Site:'
+      ) {
+        console.log('click~~~~~~~~~~~~~~~')
+
+        viewerInstance.visual.select({
+          data: domain_data,
+          nonSelectedColor: '#D9D9D9',
+        })
+      } else {
         // #D9D9D9
 
         viewerInstance.visual.select({
-        data: domain_data,
-       
-      })
+          data: domain_data,
+        })
 
-      // focus
-      viewerInstance.visual.select({
-        data: [
-          {
-            struct_asym_id: this.chain,
-            start_residue_number: focusData.start,
-            end_residue_number: focusData.end,
-            color: focusData.color,
-            focus: is_focus,
-          },
-        ],
-      })
-      
+        // focus
+        viewerInstance.visual.select({
+          data: [
+            {
+              struct_asym_id: this.chain,
+              start_residue_number: focusData.start,
+              end_residue_number: focusData.end,
+              color: focusData.color,
+              // focus: is_focus,
+            },
+          ],
+        })
       }
-
-      
     },
 
     handle_mouseOverPritvista(data) {
@@ -412,6 +408,21 @@ export default {
       })
     },
 
+    getData() {
+      this.$http
+        .get(this.request_Data_url, {
+          params: {
+            uuid: this.protein_id,
+            request_type: 'datainfo',
+          },
+        })
+        .then((res) => {
+          console.log(res.data)
+          // let data = JSON.parse(res.data)
+          this.chain = res.data.chain
+        })
+    },
+
     handleClickTab() {},
     pdbe(url) {
       //Set options (Checkout available options list in the documentation)
@@ -477,10 +488,18 @@ export default {
   color: coral;
   padding: 0px;
 }
+.interproScan{
+  font-weight: bold;
+  color: blue;
+  padding: 0px;
+}
+.annotationFull {
+  font-weight: bold;
+  color: #27a3b4;
+  padding: 0px;
+}
 
-.annotationFull{
- font-weight: bold;
-  color: #27A3B4;
+.full_figure{
   padding: 0px;
 }
 

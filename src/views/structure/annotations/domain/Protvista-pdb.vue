@@ -72,9 +72,9 @@ export default {
           // let data = JSON.parse(res.data)
           this.customData = res.data
          this.handle_protvista(res.data)
-          return 
+           
         })
-    return 
+     
     },
   },
 }

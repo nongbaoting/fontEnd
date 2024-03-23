@@ -2,11 +2,7 @@
   <el-container class="home-container">
     <!-- 头部区域 -->
     <el-header class="header">
-      <router-link to="/home" class="logo">
-        <span> .logo. </span>
-        <span>蛋白质设计</span>
-      </router-link>
-      <!-- <bugReport-button></bugReport-button> -->
+     
       <el-menu
         unique-opened
         :collapse="isCollapsed"
@@ -22,45 +18,36 @@
         <el-menu-item index="/welcome">
           <template slot="title">
             <!-- 文本 -->
+             <span> PISA </span>
             <span class="header">Home</span>
           </template>
         </el-menu-item>
         <!-- 一级菜单 -->
-        <el-submenu
-          :index="item.path + ''"
-          v-for="item in menuList"
-          :key="item.id"
-        >
-          <!-- 一级菜单模板区域 -->
+
+      <el-menu-item index="/domain_annotation/pdb_annotations">
           <template slot="title">
             <!-- 文本 -->
-            <span class="header">{{ item.name }}</span>
+            <span class="header">Submit</span>
           </template>
+        </el-menu-item>
 
-          <!-- 二级菜单 -->
-          <el-menu-item
-            :index="'/' + subItem.path"
-            v-for="subItem in item.children"
-            :key="subItem.id"
-            @click="saveNavState('/' + subItem.path)"
-          >
-            <!-- 模板 -->
-            <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-s-opportunity"></i>
-              <!-- 文本 -->
-              <span>{{ subItem.name }}</span>
-            </template>
-          </el-menu-item>
-        </el-submenu>
+         <!-- Browse -->
+        <el-menu-item index="/domain_annotation/browse">
+          <template slot="title">
+      
+            <span class="header">Browse</span>
+          </template>
+        </el-menu-item>
 
-        <!-- about -->
+        <!-- Queue -->
+
         <el-menu-item index="/queue">
           <template slot="title">
-            <!-- 文本 -->
+            
             <span class="header">Queue</span>
           </template>
         </el-menu-item>
+
         <!-- about -->
         <el-menu-item index="/about">
           <template slot="title">
@@ -68,21 +55,10 @@
             <span class="header">About</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="/help">
-          <template slot="title">
-            <!-- 文本 -->
-            <span class="header">Help</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="/test">
-          <template slot="title">
-           
-            <span class="header">Test</span>
-          </template>
-        </el-menu-item> 
+      
       </el-menu>
 
-      <el-button class="header" type="text" @click="logout">Logout</el-button>
+      
     </el-header>
     <!-- 页面主体区域 -->
     <el-container>
@@ -93,10 +69,11 @@
         <el-main>
           <!-- 路由占位符 -->
           <router-view></router-view>
+          <!-- <div class="foot"></div> -->
         </el-main>
 
         <!-- 注脚 -->
-        <!-- <el-footer>Footer</el-footer> -->
+        <!-- <el-footer></el-footer> -->
       </el-container>
     </el-container>
   </el-container>
@@ -107,190 +84,7 @@
 export default {
   data() {
     return {
-      menuList: [
-        {
-          //结构预测，// 一级菜单
-          id: 10,
-          name: 'Structure Prediction',
-          path: 'predict/structure/',
-          children: [
-            {
-              // 二级菜单
-              id: 11,
-              name: 'Sumbit',
-              path: 'predict/structure/',
-              children: [],
-              order: null,
-            },
-            {
-              // 二级菜单
-              id: 111,
-              name: 'Sumbit2',
-              path: 'predict/structure/2',
-              children: [],
-              order: null,
-            },
-            {
-              id: 12,
-              name: 'Queue',
-              path: 'predict/structure/queue/',
-              children: [],
-              order: null,
-            },
-            {
-              id: 13,
-              name: 'Example',
-              path: 'predict/structure/result',
-              children: [],
-              order: null,
-            },
-          ],
-          order: 1,
-        },
-        {
-          //结构相似，// 一级菜单
-          id: 20,
-          name: 'Structure Similarly',
-          path: 'structure_similarity/',
-          children: [
-            // 二级菜单
-            {
-              id: 21,
-              name: 'Submit',
-              path: 'structure_similarity/submit',
-              children: [],
-              order: 1,
-            },
-            {
-              id: 221,
-              name: 'Pairwise Structure Alignment',
-              path: 'structure_similarity/pairwise_alignment',
-            },
-            {
-              id: 22,
-              name: 'DUF-SPalignNS',
-              path: 'structure_similarity/DUF',
-              children: [],
-              order: null,
-            },
-          ],
-          order: 3,
-        },
-
-        {
-          //结构相似，// 一级菜单
-          id: 23,
-          name: 'Domain Annotation',
-          path: 'domain_annotation/',
-          children: [
-            // 二级菜单
-            {
-              id: 231,
-              name: 'Submit',
-              path: 'domain_annotation/pdb_annotations',
-              children: [],
-              order: 1,
-            },
-            
-          ],
-          order: 4,
-        },
-
-        // 序列相似
-        {
-          name: 'BLAST',
-          path: '/sequence/blast',
-          children: [
-            // 二级菜单
-            {
-              id: 21,
-              name: 'Submit',
-              path: 'sequence/blast',
-
-              order: 1,
-            },
-            {
-              id: 32,
-              name: 'Queue',
-              path: 'sequence/blast/queue',
-
-              order: 1,
-            },
-            {
-              id: 33,
-              name: 'Conserved Domains',
-              path: 'sequence/blast/cdd_submit',
-
-              order: 1,
-            },
-            {
-              id: 34,
-              name: 'Conserved Domains(Queue)',
-              path: 'sequence/blast/cdd_searchSave',
-
-              order: 1,
-            },
-          ],
-        },
-
-        {
-          //CRISPR/CAS
-          name: 'CRISPR/CAS',
-          path: 'crispr',
-          children: [
-            { id: 41, name: 'Browse', path: 'crispr/browse' },
-            {
-              id: 42,
-              name: 'Aignment Score',
-              path: 'crispr/alginscore/',
-            },
-            {
-              id: 43,
-              name: 'Cas12f1',
-              path: 'crispr/cas12f1/',
-            },
-          ],
-        },
-        {
-          //Results
-          id:50,
-          name: 'Results',
-          path: 'results/',
-          children: [
-            { id: 51, name: 'TadA-like', path: 'results/tada_like/', },
-            { id: 52, name: 'CSR', path: 'results/csr/', },
-            { id: 53, name: 'RepeatDomain', path: 'results/RepeatDomain/', },
-            
-          ],
-        },
-        // {
-        //   //Results
-        //   id:60,
-        //   name: 'Tools',
-        //   path: '',
-        //   children: [
-        //     { id: 61, name: 'pdb-viewer', path: 'pdb-viewer-local', },
-            
-        //   ],
-        // },
-
-      ],
-      iconObj: {
-        10: 'el-icon-s-opportunity',
-        11: 'el-icon-edit',
-        12: 'el-icon-s-goods',
-        13: 'el-icon-present',
-
-        20: 'el-icon-s-opportunity',
-        21: 'el-icon-edit',
-        22: 'el-icon-edit',
-
-        125: 'el-icon-user-solid',
-        103: 'el-icon-s-goods',
-        101: 'el-icon-s-opportunity',
-        102: 'el-icon-present',
-        145: 'el-icon-orange',
-      },
+      
       isCollapsed: false,
       activePath: '/welcome',
     }
@@ -335,7 +129,7 @@ export default {
 }
 .el-menu {
   // background-color: #333744;
-  width: 80%;
+  width: 60%;
   background-color: #029d94;
   display: flex;
   justify-self: flex-end;
@@ -386,6 +180,10 @@ export default {
 
 .el-footer {
   background-color: white;
+
+.foot{
+  margin-top: 30px;
+}
 }
 </style>
 
